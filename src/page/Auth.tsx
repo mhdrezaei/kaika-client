@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { loginUser } from "../service/api";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler } from "react-hook-form/dist/types/form";
@@ -14,11 +15,16 @@ import {
 import Input from "../components/common/Input";
 import { Link } from "react-router-dom";
 import { FiLock, FiMail } from "react-icons/fi";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../redux/store";
+import { useMutation } from "react-query/types/react";
+import { IauthLoginRequest, IauthLoginResponse } from "../types/api/api-types";
+import useAuth from '../hooks/useAuth'
 const FormSchema = z.object({
   email: z.string().email("Please enter a valid email adress."),
   password: z
     .string()
-    .min(6, "Password must be atleast 6 characters.")
+    .min(3, "Password must be atleast 3 characters.")
     .max(52, "Password must be less than 52 characters."),
 });
 
@@ -26,6 +32,7 @@ type FormSchemaType = z.infer<typeof FormSchema>;
 
 
 const Auth = () => {
+  const dispatch = useDispatch<AppDispatch>();
 
   const {
     register,
@@ -34,11 +41,18 @@ const Auth = () => {
   } = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
   });
-  const onSubmit: SubmitHandler<FormSchemaType> = (values) => {
-    console.log(values);
-    
-  };
-  return (
+  const authMutation = useAuth({
+    onSuccess: () => {
+        console.log("success!!!!")
+    },
+});
+  const onSubmit: SubmitHandler<FormSchemaType> = (values:IauthLoginRequest) => {
+   authMutation.mutate(values)
+  } 
+  
+  
+
+   return (
     <>
       <img
         src="https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80"
