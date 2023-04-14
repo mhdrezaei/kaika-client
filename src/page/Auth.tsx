@@ -10,21 +10,22 @@ import {
   Checkbox,
   Typography,
   Alert,
+  Button,
 } from "@material-tailwind/react";
-import Input from "../components/common/Input";
+import { BeatLoader } from "react-spinners";
 import { Link } from "react-router-dom";
-import { FiLock, FiMail } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
-import { useQueryClient } from "react-query";
-import { IauthLoginRequest, IauthLoginResponse } from "../types/api/api-types";
-import useAuth from "../hooks/useAuth";
+import { useMutation, useQuery } from "react-query";
+import { IauthLoginRequest } from "../types/api/api-types";
 import { userAction } from "../redux/slice/user-slice";
-import SlideButton from "../components/common/SlideButton";
 import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
+import { getCurrentUser, loginUser } from "../service/api";
+import { AxiosResponseHeaders } from "axios";
+import InputBox from "../components/common/InputBox";
 
 const FormSchema = z.object({
   email: z.string().email("Please enter a valid email adress."),
@@ -38,27 +39,38 @@ type FormSchemaType = z.infer<typeof FormSchema>;
 
 const Auth = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const queryClient = useQueryClient();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isLoading },
+    formState: { errors, isSubmitting },
   } = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
   });
-  console.log(isSubmitting);
-  const authMutation = useAuth({
-    onSuccess: () => {
-      const user = queryClient.getQueryData("user");
-      dispatch(userAction.setUser(user));
+
+  const query = useQuery("user", getCurrentUser, {
+    enabled: false,
+    select: (data) => data.data,
+    retry: 1,
+    onSuccess: (data) => {
+      localStorage.setItem("user", JSON.stringify(data));
+      dispatch(userAction.setUser(data));
+    },
+  });
+
+  const { data, isError, error, isLoading, isSuccess, mutate } = useMutation({
+    mutationFn: loginUser,
+    onError(error: AxiosResponseHeaders) {},
+    onSuccess({ data }) {
+      localStorage.setItem("token", data.access_token);
+      query.refetch();
     },
   });
 
   const onSubmit: SubmitHandler<FormSchemaType> = (
     values: IauthLoginRequest
   ) => {
-    authMutation.mutate(values);
+    mutate(values);
   };
 
   return (
@@ -76,23 +88,19 @@ const Auth = () => {
               </Typography>
             </CardHeader>
             <CardBody className="flex flex-col gap-4">
-              <Input
+              <InputBox
                 name="email"
-                label="Email address"
+                label="Email"
                 type="text"
-                icon={<FiMail />}
-                placeholder="example@emaple.com"
                 register={register}
                 error={errors?.email?.message}
                 disabled={isSubmitting}
               />
 
-              <Input
+              <InputBox
                 name="password"
                 label="Password"
                 type="password"
-                icon={<FiLock />}
-                placeholder="***********"
                 register={register}
                 error={errors?.password?.message}
                 disabled={isSubmitting}
@@ -102,17 +110,19 @@ const Auth = () => {
               </div>
             </CardBody>
             <CardFooter className="pt-0">
-              <SlideButton
+              <Button
+                variant="gradient"
                 type="submit"
-                text="Sign in"
-                slide_text="Secure sign in"
-                icon={<FiLock />}
-                disabled={authMutation.isLoading}
-              />
+                ripple={true}
+                size="md"
+                fullWidth
+              >
+                {isLoading ? <BeatLoader color="#fff" size={13} /> : "Sign in"}
+              </Button>
 
               <Typography variant="small" className="mt-6 flex justify-center">
                 Forgot your password?
-                <Link to="/auth/sign-up">
+                <Link to="/auth/reset">
                   <Typography
                     as="span"
                     variant="small"
@@ -129,7 +139,7 @@ const Auth = () => {
       </div>
       <div className="absolute bottom-5 w-full flex flex-col items-center justify-center mx-auto">
         <Alert
-          show={authMutation.isSuccess}
+          show={isSuccess}
           color="green"
           className="max-w-screen-md"
           icon={<CheckCircleIcon className="mt-px h-6 w-6" />}
@@ -141,12 +151,12 @@ const Auth = () => {
             Success
           </Typography>
           <Typography color="white" className="mt-2 font-normal">
-            singin was successfully. wellcome
+            singin was successfully...
           </Typography>
         </Alert>
 
         <Alert
-          show={authMutation.isError}
+          show={isError}
           color="red"
           className="max-w-screen-md"
           icon={<ExclamationTriangleIcon className="mt-px h-6 w-6" />}
@@ -155,9 +165,7 @@ const Auth = () => {
             Failed
           </Typography>
           <Typography color="white" className="mt-2 font-normal">
-            {authMutation.isError
-              ? authMutation.error.response.data.message
-              : "somthing went wrong"}
+            {isError ? error.response.data.message : "somthing went wrong"}
           </Typography>
         </Alert>
       </div>
