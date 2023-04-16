@@ -30,6 +30,7 @@ export interface IAdminUserCreateResponse {
   registrationNumber: number;
   tel: number;
   address: string;
+  isAdmin: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -165,6 +166,7 @@ export interface IAdminUpdateAWorkerCurrentUserResponse {
   job: string;
   tel: string;
   email: string;
+  isAdmin: boolean;
   createdAt: string;
   updatedAt: string;
 }
