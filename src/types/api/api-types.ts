@@ -132,7 +132,7 @@ export interface IcreateWorkerCurrentUserRequest {
   lastName: string;
   birthDate: string;
   job: string;
-  tel: number;
+  tel: string;
   email: string;
 }
 export interface IcreateWorkerCurrentUserResponse
