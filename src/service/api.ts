@@ -75,14 +75,14 @@ export const updateSingleUsersByAdmin = async (userId: string) => {
 
 // get data current user
 
-export const getCurrentUsers = async () => {
+export const getCurrentUser = async () => {
   return axios.get<IuserInfo>("/user/", {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 // update data current user
-export const updateCurrentUsers = async () => {
+export const updateCurrentUser = async () => {
   return axios.patch<IAdminUpdateCurrentUserResponse>("/user/", {
     headers: { Authorization: `Bearer ${token}` },
   });
