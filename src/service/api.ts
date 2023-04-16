@@ -27,6 +27,8 @@ import {
   IgetHseCurrentUserInfoResponse,
   IdeleteHseUserInfoResponse,
   IAdminGetAllWorkerOfUserResponse,
+  ITop10LowCautios,
+  ITop10HighCautios,
 } from "../types/api/api-types";
 
 const token: string = "";
@@ -234,4 +236,13 @@ export const RegisterUser = async (userId: string) => {
   return axios.post<IregisterUserResponse>(`/registration/create/`, userId, {
     headers: { Authorization: `Bearer ${token}` },
   });
+};
+
+// ------------------chart------------------
+export const top10lowCaution = async () => {
+  return axios.get<ITop10LowCautios[]>("/chart/top10LowCautionOfUser");
+};
+
+export const top10highCaution = async () => {
+  return axios.get<ITop10HighCautios[]>("/chart/top10highCautionOfUser");
 };

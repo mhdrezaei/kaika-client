@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { colors } from "@material-tailwind/react/types/generic";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Chart from "react-apexcharts";
 
 interface ITop10Chart {
@@ -19,7 +19,6 @@ const Top10Chart: React.FC<ITop10Chart> = ({
   title,
   description,
   footer,
-  isSuccess,
 }) => {
   return (
     <Card className="h-fit w-full">
