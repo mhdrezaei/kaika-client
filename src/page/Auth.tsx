@@ -26,14 +26,9 @@ import {
 import { getCurrentUser, loginUser } from "../service/api";
 import { AxiosResponseHeaders } from "axios";
 import InputBox from "../components/common/InputBox";
+import { FormSchema } from "../schema/authFormSchema";
 
-const FormSchema = z.object({
-  email: z.string().email("Please enter a valid email adress."),
-  password: z
-    .string()
-    .min(3, "Password must be atleast 3 characters.")
-    .max(52, "Password must be less than 52 characters."),
-});
+
 
 type FormSchemaType = z.infer<typeof FormSchema>;
 
@@ -115,9 +110,11 @@ const Auth = () => {
                 variant="gradient"
                 color="orange"
                 type="submit"
+                color="orange"
                 ripple={true}
                 className="relative  inline-flex items-center justify-center px-8 py-3 mt-4 overflow-hidden font-semibold text-base bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
                 size="md"
+                className="relative w-full inline-flex items-center justify-center px-8 py-3 mt-4 overflow-hidden font-medium bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
                 fullWidth
               >
                 {isLoading ? <BeatLoader color="#fff" size={13} /> : "Sign in"}
