@@ -27,6 +27,7 @@ import {
   IgetHseCurrentUserInfoResponse,
   IdeleteHseUserInfoResponse,
   IAdminGetAllWorkerOfUserResponse,
+  IuploadImageWorker,
 } from "../types/api/api-types";
 
 const token: string = "";
@@ -185,9 +186,14 @@ export const updateAWorkerCurrentUserAdmin = async (
 // Upload worker image
 
 export const uploadImageWorker = async (workerId: string, file: string) => {
-  return axios.patch<IworkerInfo>(`/worker/upload-file/${workerId}`, file, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  console.log(file);
+  return axios.patch<IuploadImageWorker>(
+    `/worker/upload-file/${workerId}`,
+    file,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
 };
 
 // ******** HSE Info **********
