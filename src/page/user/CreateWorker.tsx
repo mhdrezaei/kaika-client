@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import InputBox from "../../components/common/InputBox";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -7,8 +7,11 @@ import { SubmitHandler } from "react-hook-form/dist/types/form";
 import { BeatLoader } from "react-spinners";
 import { useMutation, useQuery } from "react-query";
 import { WorkerFormSchema } from "../../schema/newWorkerFormSchema";
-import { IcreateWorkerCurrentUserRequest } from "../../types/api/api-types";
-import { AxiosResponseHeaders } from "axios";
+import {
+  IcreateWorkerCurrentUserRequest,
+  IuploadImageWorker,
+} from "../../types/api/api-types";
+import { AxiosResponse, AxiosResponseHeaders } from "axios";
 import {
   Alert,
   Button,
@@ -16,15 +19,32 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Input,
   Typography,
 } from "@material-tailwind/react";
-import { createWorkerCurrentUser } from "../../service/api";
+import { createWorkerCurrentUser, uploadImageWorker } from "../../service/api";
 import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 type WorkerFormSchemaType = z.infer<typeof WorkerFormSchema>;
 const CreateWorker = () => {
+  let workerImg = new FormData();
+  const [image, setImage] = useState<FormData>(workerImg);
+  const [preview, setPreview] = useState("");
+  const [workerId, setWorkerId] = useState("");
+
+  const imgFilehandler: React.ChangeEventHandler<HTMLInputElement> = async (
+    event
+  ) => {
+    const target = event.target as HTMLInputElement;
+    if (target.files) {
+      workerImg.append("file", target.files[0] as Blob);
+      setPreview(URL.createObjectURL(target.files[0]));
+      setImage(workerImg);
+    }
+  };
+
   const {
     register,
     reset,
@@ -34,10 +54,22 @@ const CreateWorker = () => {
     resolver: zodResolver(WorkerFormSchema),
   });
 
+  const uploadImg = useMutation(
+    (workerId: string) => uploadImageWorker(workerId, preview),
+    {
+      onSuccess(response: AxiosResponse<IuploadImageWorker>) {
+        console.log("success!!!!");
+      },
+    }
+  );
   const { data, isError, error, isLoading, isSuccess, mutate } = useMutation({
     mutationFn: createWorkerCurrentUser,
     onError(error: AxiosResponseHeaders) {},
-    onSuccess() {
+    onSuccess(data) {
+      console.log(data.data);
+      setWorkerId(data.data._id);
+      uploadImg.mutate(data.data._id);
+
       reset();
     },
   });
@@ -54,9 +86,10 @@ const CreateWorker = () => {
           <Card className=" border border-1 border-gray-200 rounded-md mt-6 bg-kaika-black shadow-sm  shadow-gray-300 hover:shadow-md hover:shadow-kaika-yellow">
             <CardHeader
               variant="gradient"
-              className="mb-8 grid h-28 place-items-center  bg-kaika-yellow shadow-kaika-yellow/50 shadow-md"
+              color="orange"
+              className="mb-8 p-6 text-center"
             >
-              <Typography variant="h3" color="white">
+              <Typography variant="h6" color="white">
                 Create new Worker
               </Typography>
             </CardHeader>
@@ -88,7 +121,7 @@ const CreateWorker = () => {
                   </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full px-3">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <InputBox
                       name="email"
                       label="Email"
@@ -97,6 +130,23 @@ const CreateWorker = () => {
                       error={errors?.email?.message}
                       disabled={isSubmitting}
                     />
+                  </div>
+                  <div className="w-full relative md:w-1/2 px-3 mb-6 md:mb-0">
+                    <Input
+                      name="file"
+                      label="Choose Avatar"
+                      type="file"
+                      disabled={isSubmitting}
+                      onChange={imgFilehandler}
+                    />
+                    {preview ? (
+                      <img
+                        src={preview}
+                        className="absolute top-1 right-5 rounded-full w-8 h-8"
+                      />
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-2">
