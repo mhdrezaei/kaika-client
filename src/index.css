@@ -93,3 +93,6 @@ select:-webkit-autofill:focus {
   border-top: none;
   outline: 0;
 }
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
