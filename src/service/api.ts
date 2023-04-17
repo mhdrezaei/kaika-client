@@ -188,7 +188,6 @@ export const updateAWorkerCurrentUserAdmin = async (
 // Upload worker image
 
 export const uploadImageWorker = async (workerId: string, file: string) => {
-  console.log(file);
   return axios.patch<IuploadImageWorker>(
     `/worker/upload-file/${workerId}`,
     file,

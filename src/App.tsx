@@ -32,7 +32,6 @@ function App() {
 
   const userState = useAppSelector(selectUser);
 
-  console.log("done");
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" errorElement={<Navigate to="/user/home" />}>

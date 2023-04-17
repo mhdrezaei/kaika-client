@@ -73,7 +73,7 @@ button:focus-visible {
 } */
 
 /* Change Autocomplete styles in Chrome*/
-input:-webkit-autofill,
+/* input:-webkit-autofill,
 input:-webkit-autofill:active,
 input:-webkit-autofill:enabled,
 input:-webkit-autofill:hover,
@@ -95,4 +95,4 @@ select:-webkit-autofill:focus {
 }
 ::-webkit-calendar-picker-indicator {
   filter: invert(1);
-}
+} */

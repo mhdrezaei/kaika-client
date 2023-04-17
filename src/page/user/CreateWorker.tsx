@@ -66,7 +66,6 @@ const CreateWorker = () => {
     mutationFn: createWorkerCurrentUser,
     onError(error: AxiosError) {},
     onSuccess(data) {
-      console.log(data.data);
       setWorkerId(data.data._id);
       uploadImg.mutate(data.data._id);
 

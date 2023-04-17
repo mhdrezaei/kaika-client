@@ -15,7 +15,6 @@ const WorkerInfo: React.FunctionComponent<IworkerInfoProps> = ({
       select: (data) => data.data,
     }
   );
-  console.log(workerInfo);
   return (
     <div className="flex items-center gap-4">
       <Avatar
