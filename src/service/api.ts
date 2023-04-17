@@ -29,6 +29,7 @@ import {
   IAdminGetAllWorkerOfUserResponse,
   ITop10LowCautios,
   ITop10HighCautios,
+  IuploadImageWorker,
 } from "../types/api/api-types";
 
 const token: string = "";
@@ -187,9 +188,14 @@ export const updateAWorkerCurrentUserAdmin = async (
 // Upload worker image
 
 export const uploadImageWorker = async (workerId: string, file: string) => {
-  return axios.patch<IworkerInfo>(`/worker/upload-file/${workerId}`, file, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  console.log(file);
+  return axios.patch<IuploadImageWorker>(
+    `/worker/upload-file/${workerId}`,
+    file,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
 };
 
 // ******** HSE Info **********
@@ -217,7 +223,7 @@ export const createHseInfo = async (
 // get all information of current user
 
 export const getHseCurrentUserInfo = async () => {
-  return axios.get<IgetHseCurrentUserInfoResponse>("/hse-info/", {
+  return axios.get<IgetHseCurrentUserInfoResponse[]>("/hse-info/", {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
