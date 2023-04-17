@@ -215,7 +215,7 @@ export const createHseInfo = async (
 // get all information of current user
 
 export const getHseCurrentUserInfo = async () => {
-  return axios.get<IgetHseCurrentUserInfoResponse>("/hse-info/", {
+  return axios.get<IgetHseCurrentUserInfoResponse[]>("/hse-info/", {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
