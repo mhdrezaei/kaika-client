@@ -81,7 +81,8 @@ const Auth = () => {
           <form method="post" onSubmit={handleSubmit(onSubmit)}>
             <CardHeader
               variant="gradient"
-              className="mb-4 grid h-28 place-items-center  bg-kaika-yellow shadow-xl"
+              color="orange"
+              className="mb-4 grid h-28 place-items-center"
             >
               <Typography variant="h3" color="white">
                 Sign In
@@ -112,8 +113,10 @@ const Auth = () => {
             <CardFooter className="pt-0">
               <Button
                 variant="gradient"
+                color="orange"
                 type="submit"
                 ripple={true}
+                className="relative  inline-flex items-center justify-center px-8 py-3 mt-4 overflow-hidden font-semibold text-base bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
                 size="md"
                 fullWidth
               >
