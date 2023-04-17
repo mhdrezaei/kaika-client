@@ -28,8 +28,6 @@ import { AxiosResponseHeaders } from "axios";
 import InputBox from "../components/common/InputBox";
 import { FormSchema } from "../schema/authFormSchema";
 
-
-
 type FormSchemaType = z.infer<typeof FormSchema>;
 
 const Auth = () => {
@@ -108,11 +106,9 @@ const Auth = () => {
             <CardFooter className="pt-0">
               <Button
                 variant="gradient"
-                color="orange"
                 type="submit"
                 color="orange"
                 ripple={true}
-                className="relative  inline-flex items-center justify-center px-8 py-3 mt-4 overflow-hidden font-semibold text-base bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
                 size="md"
                 className="relative w-full inline-flex items-center justify-center px-8 py-3 mt-4 overflow-hidden font-medium bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
                 fullWidth
