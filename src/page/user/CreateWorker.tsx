@@ -1,14 +1,12 @@
-import React from "react";
 import InputBox from "../../components/common/InputBox";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler } from "react-hook-form/dist/types/form";
 import { BeatLoader } from "react-spinners";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { WorkerFormSchema } from "../../schema/newWorkerFormSchema";
 import { IcreateWorkerCurrentUserRequest } from "../../types/api/api-types";
-import { AxiosResponseHeaders } from "axios";
+import { AxiosError } from "axios";
 import {
   Alert,
   Button,
@@ -36,17 +34,14 @@ const CreateWorker = () => {
 
   const { data, isError, error, isLoading, isSuccess, mutate } = useMutation({
     mutationFn: createWorkerCurrentUser,
-    onError(error: AxiosResponseHeaders) {},
-    onSuccess() {
-      reset();
-    },
   });
 
-  const onSubmit: SubmitHandler<WorkerFormSchemaType> = (
-    values: IcreateWorkerCurrentUserRequest
-  ) => {
+  isSuccess && reset();
+
+  const onSubmit = (values: IcreateWorkerCurrentUserRequest) => {
     mutate(values);
   };
+
   return (
     <>
       <div className="w-full  flex justify-center  p-0 sm:p-12 md:px-0 md:pt-12   rounded-md">
@@ -177,7 +172,9 @@ const CreateWorker = () => {
             Failed
           </Typography>
           <Typography color="white" className="mt-2 font-normal">
-            {isError ? error.response.data.message : "somthing went wrong"}
+            {isError
+              ? error instanceof AxiosError && error.response?.data.message
+              : "somthing went wrong"}
           </Typography>
         </Alert>
       </div>

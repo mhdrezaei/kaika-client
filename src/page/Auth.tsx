@@ -14,8 +14,6 @@ import {
 } from "@material-tailwind/react";
 import { BeatLoader } from "react-spinners";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../redux/store";
 import { useMutation, useQuery } from "react-query";
 import { IauthLoginRequest } from "../types/api/api-types";
 import { userAction } from "../redux/slice/user-slice";
@@ -24,16 +22,17 @@ import {
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import { getCurrentUser, loginUser } from "../service/api";
-import { AxiosResponseHeaders } from "axios";
+import { AxiosError, AxiosResponseHeaders } from "axios";
 import InputBox from "../components/common/InputBox";
 import { FormSchema } from "../schema/authFormSchema";
-
-
+import { useAppDispatch } from "../redux/hooks";
+import { alertAction } from "../redux/slice/alert-slice";
+import { useEffect } from "react";
 
 type FormSchemaType = z.infer<typeof FormSchema>;
 
 const Auth = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -53,9 +52,15 @@ const Auth = () => {
     },
   });
 
-  const { data, isError, error, isLoading, isSuccess, mutate } = useMutation({
+  const { isError, error, isLoading, mutate } = useMutation({
     mutationFn: loginUser,
-    onError(error: AxiosResponseHeaders) {},
+    onError: (error: AxiosError<any>) => {
+      const message = error.response?.data.message
+        ? error.response?.data.message
+        : "Somthing went wrong.";
+      dispatch(alertAction.open({ message, color: "red" }));
+      setTimeout(() => dispatch(alertAction.close()), 2000);
+    },
     onSuccess({ data }) {
       localStorage.setItem("token", data.access_token);
       query.refetch();
@@ -69,8 +74,7 @@ const Auth = () => {
   };
 
   return (
-    <>
-      <div className="absolute inset-0 z-0 h-full w-full  bg-kaika-gray" />
+    <div className="absolute inset-0 z-0 h-full w-full  bg-kaika-gray">
       <div className="container mx-auto p-4 ">
         <Card className="absolute top-2/4 left-2/4 w-full max-w-[24rem] -translate-y-2/4 -translate-x-2/4 bg-kaika-black shadow-sm  shadow-kaika-yellow hover:shadow-md hover:shadow-kaika-yellow">
           <form method="post" onSubmit={handleSubmit(onSubmit)}>
@@ -134,39 +138,7 @@ const Auth = () => {
           </form>
         </Card>
       </div>
-      <div className="absolute bottom-5 w-full flex flex-col items-center justify-center mx-auto">
-        <Alert
-          show={isSuccess}
-          color="green"
-          className="max-w-screen-md"
-          icon={<CheckCircleIcon className="mt-px h-6 w-6" />}
-          dismissible={{
-            onClose: () => console.log("close"),
-          }}
-        >
-          <Typography variant="h5" color="white">
-            Success
-          </Typography>
-          <Typography color="white" className="mt-2 font-normal">
-            singin was successfully...
-          </Typography>
-        </Alert>
-
-        <Alert
-          show={isError}
-          color="red"
-          className="max-w-screen-md"
-          icon={<ExclamationTriangleIcon className="mt-px h-6 w-6" />}
-        >
-          <Typography variant="h5" color="white">
-            Failed
-          </Typography>
-          <Typography color="white" className="mt-2 font-normal">
-            {isError ? error.response.data.message : "somthing went wrong"}
-          </Typography>
-        </Alert>
-      </div>
-    </>
+    </div>
   );
 };
 

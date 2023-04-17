@@ -24,13 +24,15 @@ import { adminRoutes } from "./data/adminRoutes";
 import RegisterUser from "./page/admin/RegisterUser";
 import { userRoutes } from "./data/userRoutes";
 import { useAppSelector } from "./redux/hooks";
-import { useEffect } from "react";
-import { getAllUsersByAdmin } from "./service/api";
+import { selectUser } from "./redux/slice/user-slice";
+import AlertMessage from "./components/AlertMessage";
 
 function App() {
   // const { t } = useTranslation();
-  const userState = useAppSelector((state) => state.user);
 
+  const userState = useAppSelector(selectUser);
+
+  console.log("done");
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" errorElement={<Navigate to="/user/home" />}>
@@ -87,7 +89,13 @@ function App() {
       </Route>
     )
   );
-  return <RouterProvider router={router} />;
+
+  return (
+    <div className="h-screen">
+      <RouterProvider router={router} />
+      <AlertMessage />
+    </div>
+  );
 }
 
 export default App;

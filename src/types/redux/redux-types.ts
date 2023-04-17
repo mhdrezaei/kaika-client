@@ -1,5 +1,11 @@
-export interface sidebarState {
+import { colors } from "@material-tailwind/react/types/generic";
+export interface ISidebarState {
   isOpen: boolean;
+}
+export interface IAlertState {
+  isOpen: boolean;
+  message: string;
+  color: colors;
 }
 
 export interface IUserState {

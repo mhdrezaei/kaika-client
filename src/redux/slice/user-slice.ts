@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
+import { RootState } from "../store";
 import { IUserState } from "../../types/redux/redux-types";
 
 // Define the initial state using that type
@@ -10,7 +10,7 @@ const initialState: IUserState =
     : null;
 
 export const userSlice = createSlice({
-  name: "counter",
+  name: "user",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
@@ -23,6 +23,6 @@ export const userSlice = createSlice({
 export const userAction = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectCount = (state: RootState) => state.user;
+export const selectUser = (state: RootState) => state.user;
 
 export default userSlice.reducer;

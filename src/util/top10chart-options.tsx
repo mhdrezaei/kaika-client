@@ -1,6 +1,8 @@
 import { renderToString } from "react-dom/server";
 import { ITop10LowCautios } from "../types/api/api-types";
 import { ApexOptions } from "apexcharts";
+import { Props } from "react-apexcharts";
+import { colors } from "@material-tailwind/react/types/generic";
 
 const chartsConfig = {
   chart: {
@@ -8,9 +10,7 @@ const chartsConfig = {
       show: false,
     },
   },
-  title: {
-    show: "",
-  },
+
   dataLabels: {
     enabled: false,
   },
@@ -67,27 +67,11 @@ export const top10chartOptions = ({
   color,
 }: {
   data: ITop10LowCautios[] | undefined;
-  color: string;
+  color: colors;
 }) => {
   let x: any = [],
     y: any = [],
-    time: any = [],
-    config: any = {
-      grid: { show: false },
-      xaxis: {},
-      noData: {
-        text: "Chart is Loading...",
-        align: "center",
-        verticalAlign: "middle",
-        offsetX: 0,
-        offsetY: 0,
-        style: {
-          color: "#fff",
-          fontSize: "22px",
-          fontFamily: "snad-serif",
-        },
-      },
-    };
+    time: any = [];
 
   if (data) {
     x = data.map(
@@ -95,10 +79,9 @@ export const top10chartOptions = ({
     );
     y = data.map((hseInfo) => 100 - hseInfo.kss);
     time = data.map((hseIfdo) => new Date(hseIfdo.createdAt).toLocaleString());
-    config = chartsConfig;
   }
 
-  const top10: { options: ApexOptions; [key: string]: any } = {
+  const top10: Props = {
     type: "bar",
     height: 500,
     series: [
@@ -108,7 +91,7 @@ export const top10chartOptions = ({
       },
     ],
     options: {
-      ...config,
+      ...chartsConfig,
       colors: [
         function (props: any) {
           return (
@@ -121,15 +104,15 @@ export const top10chartOptions = ({
       plotOptions: {
         bar: {
           columnWidth: "21%",
-          borderRadius: 3,
+          borderRadius: 7,
         },
       },
       xaxis: {
-        ...config.xaxis,
+        ...chartsConfig.xaxis,
         categories: x,
       },
       tooltip: {
-        theme: false,
+        theme: "",
         custom: function ({ series, seriesIndex, dataPointIndex, w }) {
           return renderToString(
             <div className="bg-black p-2 flex flex-col bg-opacity-20 backdrop-blur-lg rounded drop-shadow-lg">
@@ -144,8 +127,6 @@ export const top10chartOptions = ({
 
   return {
     color: color,
-    title: "Last Test Top 10 Low Caution",
-    description: "Persons whose test was low than other.",
     chart: top10,
   };
 };
