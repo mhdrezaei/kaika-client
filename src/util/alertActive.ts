@@ -1,15 +1,14 @@
-import { AxiosError } from "axios";
+import { colors } from "@material-tailwind/react/types/generic";
 import { alertAction } from "../redux/slice/alert-slice";
 import { store } from "../redux/store";
 
-export const alertActive = (error) => {
+export const alertActive = ({
+  message,
+  color,
+}: {
+  message: string;
+  color: colors;
+}) => {
   const dispatch = store.dispatch;
-  error instanceof AxiosError
-    ? dispatch(alertAction.open({ color: "red", message: error.message }))
-    : dispatch(
-        alertAction.open({
-          color: "red",
-          message: "Something went wrong.",
-        })
-      );
+  dispatch(alertAction.open({ color, message }));
 };

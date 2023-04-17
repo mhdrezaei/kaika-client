@@ -10,6 +10,7 @@ import { useQuery } from "react-query";
 import React from "react";
 import { ITop10Chart } from "../types/components/top10chart-types";
 import { alertActive } from "../util/alertActive";
+import { AxiosError } from "axios";
 
 const Top10Chart: React.FC<ITop10Chart> = ({
   requestFunc,
@@ -21,8 +22,8 @@ const Top10Chart: React.FC<ITop10Chart> = ({
     title,
     requestFunc,
     {
-      onError: (error) => {
-        alertActive(error);
+      onError: (error: AxiosError<any>) => {
+        alertActive({ message: error.response?.data.message, color: "red" });
       },
     }
   );
