@@ -13,7 +13,7 @@ import WorkerInfo from "./worker/WorkerInfo";
 import TestTable from "./table/TestTable";
 
 const Top10Table = () => {
-  const heaeders = ["Worker", "job" , "date", "KSS"]
+  const heaeders = ["Worker", "job", "date", "KSS"];
   const { data: workersInfo, isSuccess } = useQuery(
     "workersInfo",
     getHseCurrentUserInfo,
@@ -29,11 +29,9 @@ const Top10Table = () => {
           variant="gradient"
           className=" grid py-4 place-items-center  bg-kaika-yellow shadow-kaika-yellow/50 shadow-md"
         >
-          <Typography  color="white">
-            Last Tests Workers
-          </Typography>
+          <Typography color="white">Last Tests Workers</Typography>
         </CardHeader>
-        <CardBody className="w-full md:overflow-auto overflow-x-scroll px-0 pt-0 pb-2">
+        <CardBody className="relative w-full md:overflow-auto overflow-x-scroll px-0 pt-0 pb-2">
           {/* <table className="w-full table-auto  ">
             <thead>
               <tr>
@@ -114,10 +112,15 @@ const Top10Table = () => {
               )}
             </tbody>
           </table> */}
-          <TestTable headers={heaeders} data={workersInfo} />
+          {!isSuccess ? (
+            <div className="absolute h-6 top-1/2 right-1/2 translate-x-1/3">
+              <BeatLoader color="orange" size={25} />
+            </div>
+          ) : (
+            <TestTable headers={heaeders} data={workersInfo} />
+          )}
         </CardBody>
       </Card>
-      
     </div>
   );
 };
