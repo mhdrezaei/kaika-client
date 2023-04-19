@@ -23,10 +23,8 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { createWorkerCurrentUser, uploadImageWorker } from "../../service/api";
-import {
-  CheckCircleIcon,
-  ExclamationTriangleIcon,
-} from "@heroicons/react/24/outline";
+
+import { DocumentIcon } from "@heroicons/react/24/solid";
 type WorkerFormSchemaType = z.infer<typeof WorkerFormSchema>;
 const CreateWorker = () => {
   let workerImg = new FormData();
@@ -128,25 +126,39 @@ const CreateWorker = () => {
                   />
                 </div>
                 <div className="w-full relative md:w-1/2 px-3 mb-6 md:mb-0">
-                  <Input
-                    name="file"
-                    label="Choose Avatar"
-                    type="file"
-                    disabled={isSubmitting}
-                    onChange={imgFilehandler}
-                  />
-                  {preview ? (
-                    <img
-                      src={preview}
-                      className="absolute top-1 right-5 rounded-full w-8 h-8"
+                  <div className="w-full  border border-gray-300 rounded-[8px] p-2">
+                    <label
+                      htmlFor="upload"
+                      className="flex justify-start gap-4 items-center"
+                    >
+                      <DocumentIcon
+                        color="white"
+                        strokeWidth={3}
+                        className="h-6 w-6 text-blue-gray-500"
+                      />
+                      <span>Choose an image</span>
+                    </label>
+                    <input
+                      id="upload"
+                      name="file"
+                      type="file"
+                      className="hidden"
+                      disabled={isSubmitting}
+                      onChange={imgFilehandler}
                     />
-                  ) : (
-                    ""
-                  )}
+                    {preview ? (
+                      <img
+                        src={preview}
+                        className="absolute top-1 right-5 rounded-full w-8 h-8"
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="flex flex-wrap -mx-3 mb-2">
-                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 ">
                   <InputBox
                     name="birthDate"
                     label="Birth Date"
