@@ -50,6 +50,16 @@ export interface IAdminDeleteOneUser extends IuserInfo {}
 
 // Update a specific user by ID types
 
+export interface IAdminUpdateUserRequest {
+  email: string;
+  password?: string;
+  firstName: string;
+  lastName: string;
+  officialName: string;
+  registrationNumber?: number;
+  tel: string;
+  address: string;
+}
 export interface IAdminUpdateUserResponse {
   email: string;
   password: string;

@@ -30,6 +30,7 @@ import {
   ITop10LowCautios,
   ITop10HighCautios,
   IuploadImageWorker,
+  IAdminUpdateUserRequest,
 } from "../types/api/api-types";
 
 const token: string = "";
@@ -85,15 +86,15 @@ export const getCurrentUser = async () => {
 };
 
 // update data current user
-export const updateCurrentUser = async () => {
-  return axios.patch<IAdminUpdateCurrentUserResponse>("/user/", {
+export const updateCurrentUser = async (userData: IAdminUpdateUserRequest) => {
+  return axios.patch<IAdminUpdateCurrentUserResponse>("/user/", userData, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 //  Upload logo file
 
-export const updateFile = async (file: string) => {
+export const updateUserFile = async (file: string) => {
   return axios.patch<IuploadFileResponse>("/user/upload-file", file, {
     headers: { Authorization: `Bearer ${token}` },
   });
