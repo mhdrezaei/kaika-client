@@ -93,6 +93,30 @@ select:-webkit-autofill:focus {
   border-top: none;
   outline: 0;
 }
+
+} */
 ::-webkit-calendar-picker-indicator {
   filter: invert(1);
-} */
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: rgba(0, 0, 0, 0);
+  opacity: 1;
+  display: block;
+  background-repeat: no-repeat;
+  width: 15px;
+  height: 15px;
+  border-width: thin;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 5%;
+  color: #fff;
+}
+input::-webkit-datetime-edit-fields-wrapper {
+  position: relative;
+  left: 10%;
+}
+input::-webkit-datetime-edit {
+  position: relative;
+  left: 10%;
+}
