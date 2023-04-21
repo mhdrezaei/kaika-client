@@ -27,6 +27,7 @@ import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
+import { alertActive } from "../../util/alertActive";
 type WorkerFormSchemaType = z.infer<typeof WorkerFormSchema>;
 const CreateWorker = () => {
   let workerImg = new FormData();
@@ -60,17 +61,20 @@ const CreateWorker = () => {
       onSuccess(response) {
         console.log("success!!!!");
       },
+      onError: (err: AxiosError) =>
+        alertActive({ message: err.message, color: "red" }),
     }
   );
   const { data, isError, error, isLoading, isSuccess, mutate } = useMutation({
     mutationFn: createWorkerCurrentUser,
-    onError(error: AxiosError) {},
     onSuccess(data) {
       setWorkerId(data.data._id);
       uploadImg.mutate(data.data._id);
 
       reset();
     },
+    onError: (err: AxiosError) =>
+      alertActive({ message: err.message, color: "red" }),
   });
 
   isSuccess && reset();

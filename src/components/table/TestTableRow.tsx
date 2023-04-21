@@ -11,7 +11,7 @@ const TestTableRow: FC<ItestTableRowProps> = ({ rows }) => {
   return (
     // Rtable-row
     <div className="w-full md:flex flex-wrap mb-4 ">
-      <WorkerInfo workerId={rows?.workerId} />
+      <WorkerInfo workerId={rows.workerId} />
       <div className="md:w-1/4 flex items-center gap-3 bg-transparent text-kaika-black text-center pl-4 ">
         <div className="md:hidden text-kaika-yellow">Date </div>
         <Typography

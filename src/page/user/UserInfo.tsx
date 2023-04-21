@@ -25,6 +25,7 @@ import { UserInfoSchema } from "../../schema/userInfoSchema";
 import { alertAction } from "../../redux/slice/alert-slice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { userAction } from "../../redux/slice/user-slice";
+import { alertActive } from "../../util/alertActive";
 
 type UserFormSchemaType = z.infer<typeof UserInfoSchema>;
 
@@ -58,32 +59,34 @@ const UserInfo = () => {
     onSuccess(response) {
       console.log("success!!!!");
     },
+    onError: (err: AxiosError) =>
+      alertActive({ message: err.message, color: "red" }),
   });
   const { data, isError, error, isLoading, isSuccess, mutate } = useMutation({
     mutationFn: updateCurrentUser,
-    onError(error: AxiosError) {},
+
     onSuccess(data) {
       uploadImg.mutate();
       localStorage.setItem("user", JSON.stringify(data.data));
       dispatch(userAction.setUser(data.data));
-      dispatch(
-        alertAction.open({
-          message: "user information updated successfully",
-          color: "green",
-        })
-      );
-      setTimeout(() => dispatch(alertAction.close()), 2000);
+      alertActive({
+        message: "user information updated successfully",
+        color: "green",
+      });
     },
+    onError: (err: AxiosError) =>
+      alertActive({ message: err.message, color: "red" }),
   });
 
-  const {
-    data: userInfo,
-    isSuccess: successData,
-    isStale,
-  } = useQuery("userInfo", getCurrentUser, {
-    select: (data) => data.data,
-    onSuccess(data) {},
-  });
+  const { data: userInfo, isSuccess: successData } = useQuery(
+    "userInfo",
+    getCurrentUser,
+    {
+      select: (data) => data.data,
+      onError: (err: AxiosError) =>
+        alertActive({ message: err.message, color: "red" }),
+    }
+  );
   const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     console.log(e.target.value);
     setFetchData((prevState) => {

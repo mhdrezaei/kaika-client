@@ -15,6 +15,8 @@ import React, { LegacyRef, useEffect, useRef, useState } from "react";
 import { ITop10Chart } from "../types/components/top10chart-types";
 import { ClockLoader } from "react-spinners";
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
+import { AxiosError } from "axios";
+import { alertActive } from "../util/alertActive";
 
 const Top10Chart: React.FC<ITop10Chart> = ({
   requestFunc,
@@ -32,6 +34,8 @@ const Top10Chart: React.FC<ITop10Chart> = ({
   const mutation = useMutation({
     mutationFn: requestFunc,
     mutationKey: title,
+    onError: (err: AxiosError) =>
+      alertActive({ message: err.message, color: "red" }),
   });
 
   useEffect(() => {

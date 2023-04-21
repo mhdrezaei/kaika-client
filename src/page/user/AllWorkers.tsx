@@ -10,6 +10,8 @@ import { useQuery } from "react-query";
 import { getAllWorkerofCurrentUser } from "../../service/api";
 import { BeatLoader } from "react-spinners";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { AxiosError } from "axios";
+import { alertActive } from "../../util/alertActive";
 
 const AllWorkers = () => {
   const { data: workersInfo, isSuccess } = useQuery(
@@ -17,6 +19,8 @@ const AllWorkers = () => {
     getAllWorkerofCurrentUser,
     {
       select: (data) => data.data,
+      onError: (err: AxiosError) =>
+        alertActive({ message: err.message, color: "red" }),
     }
   );
   return (

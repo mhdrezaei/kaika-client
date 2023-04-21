@@ -16,6 +16,8 @@ import { ClockLoader } from "react-spinners";
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
 import { ICompareChart } from "../types/components/compareChart-types";
 import { compareWorkersOptions } from "../util/compareChart-options";
+import { AxiosError } from "axios";
+import { alertActive } from "../util/alertActive";
 
 let period: string = "day";
 
@@ -35,6 +37,8 @@ const CompareChart: React.FC<ICompareChart> = ({
   const mutation = useMutation({
     mutationFn: requestFunc,
     mutationKey: title,
+    onError: (err: AxiosError) =>
+      alertActive({ message: err.message, color: "red" }),
   });
 
   useEffect(() => {
@@ -74,6 +78,7 @@ const CompareChart: React.FC<ICompareChart> = ({
         </div>
         <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
           <span className="bg-kaika-gray w-24 text-center p-2 rounded">
+            {/* {new Date(date).toLocaleDateString("fr")} */}
             {date}
           </span>
           <div className="relative w-12">

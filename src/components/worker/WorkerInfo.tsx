@@ -2,6 +2,8 @@ import { Avatar, Typography } from "@material-tailwind/react";
 import * as React from "react";
 import { useQuery } from "react-query";
 import { getAWorkerCurrentUserAdmin } from "../../service/api";
+import { AxiosError } from "axios";
+import { alertActive } from "../../util/alertActive";
 export interface IworkerInfoProps {
   workerId: string;
 }
@@ -13,6 +15,8 @@ const WorkerInfo: React.FunctionComponent<IworkerInfoProps> = ({
     () => getAWorkerCurrentUserAdmin(workerId),
     {
       select: (data) => data.data,
+      onError: (err: AxiosError) =>
+        alertActive({ message: err.message, color: "red" }),
     }
   );
   return (
