@@ -26,7 +26,7 @@ const Layout: React.FC<PropsWithChildren<ILayout>> = ({ children, routes }) => {
         <Sidebar routes={routes} />
         <div className="xl:ml-[19rem]">
           <Navbar routes={routes} />
-          <div className="p-4">
+          <div className="lg:p-4 p-1">
             {children}
             <Outlet />
           </div>

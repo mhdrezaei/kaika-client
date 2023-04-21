@@ -8,13 +8,13 @@ import {
 import React from "react";
 import { useQuery } from "react-query";
 import { BeatLoader } from "react-spinners";
-import { getHseCurrentUserInfo } from "../service/api";
+import { last10Caution } from "../service/api";
 import WorkerInfo from "./worker/WorkerInfo";
 
 const Top10Table = () => {
   const { data: workersInfo, isSuccess } = useQuery(
     "workersInfo",
-    getHseCurrentUserInfo,
+    last10Caution,
     {
       select: (data) => data.data,
     }

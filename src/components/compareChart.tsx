@@ -12,18 +12,21 @@ import Chart from "react-apexcharts";
 import { top10chartOptions } from "../util/top10chart-options";
 import { useMutation } from "react-query";
 import React, { LegacyRef, useEffect, useRef, useState } from "react";
-import { ITop10Chart } from "../types/components/top10chart-types";
 import { ClockLoader } from "react-spinners";
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
+import { ICompareChart } from "../types/components/compareChart-types";
+import { compareWorkersOptions } from "../util/compareChart-options";
 
-const Top10Chart: React.FC<ITop10Chart> = ({
+let period: string = "day";
+
+const CompareChart: React.FC<ICompareChart> = ({
   requestFunc,
   color,
   description,
   title,
 }) => {
   const [date, setDate] = useState(new Date().toLocaleDateString());
-  const [period, setPeriod] = useState("day");
+  // const [period, setPeriod] = useState("day");
   const dateRef = useRef<HTMLInputElement>();
   const handleInterviewDateClick = () => {
     dateRef.current?.showPicker();
@@ -35,16 +38,22 @@ const Top10Chart: React.FC<ITop10Chart> = ({
   });
 
   useEffect(() => {
-    mutation.mutateAsync(`date=${date}&period=${period}`);
+    mutation.mutateAsync({
+      data: {
+        workerIdList: ["6437a48946680faad10eeea0", "6437e465ae2d619e6f9136bd"],
+      },
+      query: `date=${date}&period=${period}`,
+    });
   }, []);
 
-  const options = top10chartOptions({
+  const options = compareWorkersOptions({
     data: mutation.data?.data,
     color,
+    period,
   });
 
   return (
-    <Card className="h-fit w-full bg-kaika-black">
+    <Card className="h-fit w-full bg-kaika-black mt-10">
       <CardHeader
         variant="gradient"
         color={options.color}
@@ -90,7 +99,9 @@ const Top10Chart: React.FC<ITop10Chart> = ({
               className=""
               label="Period"
               value={period}
-              onChange={(e) => e && setPeriod(e)}
+              onChange={(e) => {
+                if (e) period = e;
+              }}
             >
               <Option value="day">Daily</Option>
               <Option value="week">Weekly</Option>
@@ -99,7 +110,17 @@ const Top10Chart: React.FC<ITop10Chart> = ({
             </Select>
           </div>
           <Button
-            onClick={() => mutation.mutate(`date=${date}&period=${period}`)}
+            onClick={() =>
+              mutation.mutate({
+                data: {
+                  workerIdList: [
+                    "6437a48946680faad10eeea0",
+                    "6437e465ae2d619e6f9136bd",
+                  ],
+                },
+                query: `date=${date}&period=${period}`,
+              })
+            }
             className="py-3 px-12 w-20 text-base flex justify-center items-stretch"
           >
             {mutation.isLoading ? (
@@ -116,4 +137,4 @@ const Top10Chart: React.FC<ITop10Chart> = ({
   );
 };
 
-export default Top10Chart;
+export default CompareChart;

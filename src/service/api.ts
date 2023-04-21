@@ -30,6 +30,8 @@ import {
   ITop10LowCautios,
   ITop10HighCautios,
   IuploadImageWorker,
+  IAverageWorkersListReq,
+  IAverageWorkersListRes,
 } from "../types/api/api-types";
 
 const token: string = "";
@@ -244,10 +246,29 @@ export const RegisterUser = async (userId: string) => {
 };
 
 // ------------------chart------------------
-export const top10lowCaution = async () => {
-  return axios.get<ITop10LowCautios[]>("/chart/top10LowCautionOfUser");
+export const last10Caution = async () => {
+  return axios.get<IgetHseCurrentUserInfoResponse[]>("/chart/last10caution");
 };
 
-export const top10highCaution = async () => {
-  return axios.get<ITop10HighCautios[]>("/chart/top10highCautionOfUser");
+export const top10lowCaution = async (query: string) => {
+  return axios.get<ITop10LowCautios[]>("/chart/top10LowCautionOfUser?" + query);
+};
+
+export const top10highCaution = async (query: string) => {
+  return axios.get<ITop10HighCautios[]>(
+    "/chart/top10highCautionOfUser?" + query
+  );
+};
+
+export const averageWorkersList = async ({
+  data,
+  query,
+}: {
+  data: IAverageWorkersListReq;
+  query: string;
+}) => {
+  return axios.post<IAverageWorkersListRes[]>(
+    "/chart/workers-avg?" + query,
+    data
+  );
 };
