@@ -58,7 +58,7 @@ const AllWorkers = () => {
             All Workers Information
           </Typography>
         </CardHeader>
-        <CardBody className=" px-0 pt-0 pb-2">
+        <CardBody className=" px-0 pt-0 pb-2 overflow-x-scroll">
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
@@ -118,7 +118,7 @@ const AllWorkers = () => {
                                 color="blue-gray"
                                 className="font-semibold text-blue-gray-50"
                               >
-                                {firstName + lastName}
+                                {firstName}  {lastName}
                               </Typography>
                               {/* <Typography className="text-xs font-normal text-blue-gray-500">
                                 {email}
@@ -170,7 +170,7 @@ const AllWorkers = () => {
                   }
                 )
               ) : (
-                !isSearch && !filter.length && <tr className="absolute top-1/2 left-1/2 -translate-x-1/2 ">
+                !isSearch && !filter.length && <tr className="absolute top-1/2 left-1/4 md:left-1/2 -translate-x-1/2 ">
                   <td>
                   <BeatLoader color="orange" size={25} className="" />
                   </td>
@@ -178,7 +178,7 @@ const AllWorkers = () => {
                 
               )}
               {isSearch && filter.length === 0 ? 
-              <tr className="absolute top-1/2 left-1/2 -translate-x-1/2 ">
+              <tr className="absolute top-1/2 left-1/4 md:left-1/2 -translate-x-1/2 ">
                   <td>
                   <p className="text-lg text-red-600">No Items Founded !</p>
                   </td>
@@ -189,12 +189,12 @@ const AllWorkers = () => {
       </Card>
       {/* Toolbar */}
       <div className="w-full bg-kaika-black py-2 rounded-md hover:shadow-md hover:shadow-kaika-yellow ">
-        <div className="flex justify-between items-center" >
-          <div className="relative p-2 flex items-center" >
+        <div className="flex flex-col md:flex-row justify-between items-center" >
+          <div className="w-full relative p-2 flex items-center" >
             <Input name="search" label="Search" type="text" disabled={false} onChange={serchHandler} className="w-full rounded-md border border-gray-300"  />
             <MagnifyingGlassIcon color="white" className="absolute right-4 w-5 h-5"/>
           </div>
-          <div className="flex gap-3 ml-auto p-2" >
+          <div className="flex  justify-center md:flex-row gap-3 md:ml-auto p-2" >
             <Button type="button" >
               resoult
             </Button>
