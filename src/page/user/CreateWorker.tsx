@@ -79,7 +79,7 @@ const CreateWorker = () => {
             </Typography>
           </CardHeader>
           <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-full">
-            <CardBody className="flex flex-col gap-5">
+            <CardBody className="flex flex-col md:gap-5 pb- md:pb-6">
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <InputBox
@@ -113,7 +113,7 @@ const CreateWorker = () => {
                     disabled={isSubmitting}
                   />
                 </div>
-                <div className="w-full relative md:w-1/2 px-3 mb-6 md:mb-0">
+                <div className="w-full relative md:w-1/2 px-3 md:mb-0">
                   <div className="w-full  border border-gray-300 rounded-[8px] p-2">
                     <label
                       htmlFor="upload"
@@ -185,7 +185,7 @@ const CreateWorker = () => {
                 color="orange"
                 ripple={true}
                 size="md"
-                className="relative  inline-flex items-center justify-center px-8 py-3 mt-4 overflow-hidden font-semibold text-base bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
+                className="relative  inline-flex items-center justify-center px-8 py-3 md:mt-4 overflow-hidden font-semibold text-base bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
                 fullWidth
               >
                 {isLoading ? <BeatLoader color="#fff" size={17} /> : "Submit"}

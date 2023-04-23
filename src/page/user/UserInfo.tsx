@@ -26,6 +26,7 @@ import { alertAction } from "../../redux/slice/alert-slice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { userAction } from "../../redux/slice/user-slice";
 import { alertActive } from "../../util/alertActive";
+import { DocumentIcon } from "@heroicons/react/24/outline";
 
 type UserFormSchemaType = z.infer<typeof UserInfoSchema>;
 
@@ -122,7 +123,7 @@ const UserInfo = () => {
               onSubmit={handleSubmit(onSubmit)}
               className="w-full max-w-full"
             >
-              <CardBody className="flex flex-col gap-5">
+              <CardBody className="flex flex-col md:gap-5 pb-0 md:pb-6">
                 <div className="flex flex-wrap -mx-3 mb-6">
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <InputBox
@@ -165,25 +166,37 @@ const UserInfo = () => {
                       onChange={onChangeHandler}
                     />
                   </div>
-                  <div className="w-full relative md:w-1/2 px-3 mb-6 md:mb-0">
-                    <InputBox
-                      name="file"
-                      id="file"
-                      label="Choose Avatar"
-                      type="file"
-                      disabled={isSubmitting}
-                      onChange={imgFilehandler}
-                      register={register}
-                    />
 
-                    {preview ? (
-                      <img
-                        src={preview}
-                        className="absolute top-1 right-5 rounded-full w-8 h-8"
+                  <div className="w-full relative md:w-1/2 px-3 md:mb-0">
+                    <div className="w-full  border border-gray-300 rounded-[8px] p-2">
+                      <label
+                        htmlFor="file"
+                        className="flex justify-start gap-4 items-center"
+                      >
+                        <DocumentIcon
+                          color="white"
+                          strokeWidth={3}
+                          className="h-6 w-6 text-blue-gray-500"
+                        />
+                        <span>Choose an image</span>
+                      </label>
+                      <input
+                        id="file"
+                        name="file"
+                        type="file"
+                        className="hidden"
+                        disabled={isSubmitting}
+                        onChange={imgFilehandler}
                       />
-                    ) : (
-                      ""
-                    )}
+                      {preview ? (
+                        <img
+                          src={preview}
+                          className="absolute top-1 right-5 rounded-full w-8 h-8"
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-2">
@@ -202,7 +215,7 @@ const UserInfo = () => {
                   </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-2">
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <InputBox
                       name="officialName"
                       id="officialName"
@@ -215,17 +228,7 @@ const UserInfo = () => {
                       onChange={onChangeHandler}
                     />
                   </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    {/* <InputBox
-                      name="job"
-                      label="Job"
-                      type="text"
-                      register={register}
-                      error={errors?.job?.message}
-                      disabled={isSubmitting}
-                    /> */}
-                  </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <InputBox
                       name="tel"
                       id="tel"
@@ -239,6 +242,32 @@ const UserInfo = () => {
                     />
                   </div>
                 </div>
+                <div className="flex flex-wrap -mx-3 mb-2">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <InputBox
+                      name="password"
+                      id="password"
+                      label="Current Password"
+                      type="password"
+                      register={register}
+                      error={errors?.password?.message}
+                      disabled={isSubmitting}
+                      onChange={onChangeHandler}
+                    />
+                  </div>
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <InputBox
+                      name="newPassword"
+                      id="newPassword"
+                      label="New Password"
+                      type="password"
+                      register={register}
+                      error={errors?.newPassword?.message}
+                      disabled={isSubmitting}
+                      onChange={onChangeHandler}
+                    />
+                  </div>
+                </div>
               </CardBody>
               <CardFooter className="pt-0 pb-8 text-center">
                 <Button
@@ -247,7 +276,7 @@ const UserInfo = () => {
                   color="orange"
                   ripple={true}
                   size="md"
-                  className="relative  inline-flex items-center justify-center px-8 py-3 mt-4 overflow-hidden font-semibold text-base bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
+                  className="relative  inline-flex items-center justify-center px-8 py-3 md:mt-4 overflow-hidden font-semibold text-base bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
                   fullWidth
                 >
                   {isLoading ? <BeatLoader color="#fff" size={17} /> : "Submit"}
