@@ -42,7 +42,7 @@ const Sidebar: React.FC<ISidebar> = ({ routes }) => {
         {routes.map(({ icon, name, path }) => (
           <ul key={name} className="mb-4 flex flex-col gap-1">
             <li key={name}>
-              <NavLink to={`${path}`} end>
+              <NavLink to={`${path}`}>
                 {({ isActive }) => (
                   <Button
                     variant={isActive ? "gradient" : "text"}

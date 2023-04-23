@@ -4,82 +4,62 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BeatLoader } from "react-spinners";
-import { useMutation } from "react-query";
 import { WorkerFormSchema } from "../../schema/newWorkerFormSchema";
 import { AxiosError } from "axios";
+import { IcreateWorkerCurrentUserRequest } from "../../types/api/api-types";
 import {
-  IcreateWorkerCurrentUserRequest,
-  IuploadImageWorker,
-} from "../../types/api/api-types";
-import { AxiosResponse, AxiosResponseHeaders } from "axios";
-import {
-  Alert,
   Button,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
-  Input,
   Typography,
 } from "@material-tailwind/react";
 import { createWorkerCurrentUser, uploadImageWorker } from "../../service/api";
-import {
-  CheckCircleIcon,
-  ExclamationTriangleIcon,
-} from "@heroicons/react/24/outline";
 import { alertActive } from "../../util/alertActive";
-
 import { DocumentIcon } from "@heroicons/react/24/solid";
-type WorkerFormSchemaType = z.infer<typeof WorkerFormSchema>;
-const CreateWorker = () => {
-  let workerImg = new FormData();
-  const [image, setImage] = useState<FormData>(workerImg);
-  const [preview, setPreview] = useState("");
-  const [workerId, setWorkerId] = useState("");
+import { useMutation } from "react-query";
 
-  const imgFilehandler: React.ChangeEventHandler<HTMLInputElement> = async (
-    event
-  ) => {
-    const target = event.target as HTMLInputElement;
-    if (target.files) {
-      workerImg.append("file", target.files[0] as Blob);
-      setPreview(URL.createObjectURL(target.files[0]));
-      setImage(workerImg);
-    }
-  };
+type WorkerFormSchemaType = z.infer<typeof WorkerFormSchema>;
+
+const CreateWorker = () => {
+  const [image, setImage] = useState<File>();
+  // const [preview, setPreview] = useState<string>();
 
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<WorkerFormSchemaType>({
     resolver: zodResolver(WorkerFormSchema),
   });
 
-  const uploadImg = useMutation(
-    (workerId: string) => uploadImageWorker(workerId, preview),
-    {
-      onSuccess(response) {
-        console.log("success!!!!");
-      },
-      onError: (err: AxiosError) =>
-        alertActive({ message: err.message, color: "red" }),
+  const imgFilehandler: React.ChangeEventHandler<HTMLInputElement> = async (
+    event
+  ) => {
+    if (event.target.files) {
+      setImage(event.target.files[0]);
     }
-  );
-  const { data, isError, error, isLoading, isSuccess, mutate } = useMutation({
-    mutationFn: createWorkerCurrentUser,
-    onSuccess(data) {
-      setWorkerId(data.data._id);
-      uploadImg.mutate(data.data._id);
+  };
 
-      reset();
-    },
+  const uploadImg = useMutation({
+    mutationKey: "worker upload image",
+    mutationFn: uploadImageWorker,
     onError: (err: AxiosError) =>
       alertActive({ message: err.message, color: "red" }),
   });
 
-  isSuccess && reset();
+  const { isLoading, mutate } = useMutation({
+    mutationFn: createWorkerCurrentUser,
+    onSuccess(data) {
+      const formData = new FormData();
+      image && formData.append("file", image);
+      uploadImg.mutate({ workerId: data.data._id, file: formData });
+      // reset();
+    },
+    onError: (err: AxiosError) =>
+      alertActive({ message: err.message, color: "red" }),
+  });
 
   const onSubmit = (values: IcreateWorkerCurrentUserRequest) => {
     mutate(values);
@@ -154,9 +134,9 @@ const CreateWorker = () => {
                       disabled={isSubmitting}
                       onChange={imgFilehandler}
                     />
-                    {preview ? (
+                    {image ? (
                       <img
-                        src={preview}
+                        src={URL.createObjectURL(image)}
                         className="absolute top-1 right-5 rounded-full w-8 h-8"
                       />
                     ) : (

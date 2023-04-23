@@ -12,22 +12,19 @@ import { useMutation } from "react-query";
 import React, { LegacyRef, useEffect, useRef, useState } from "react";
 import { ClockLoader } from "react-spinners";
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
-import { ICompareChart } from "../types/components/compareChart-types";
-import { compareWorkersOptions } from "../util/compareChart-options";
 import { AxiosError } from "axios";
 import { alertActive } from "../util/alertActive";
-import { useLocation } from "react-router-dom";
+import { IAllWorkersChart } from "../types/components/allWorkersChart-types";
+import { allWorkersChartOptions } from "../util/allWorkersChart";
 
 let period: string = "day";
 
-const CompareChart: React.FC<ICompareChart> = ({
+const AllWorkersChart: React.FC<IAllWorkersChart> = ({
   requestFunc,
   color,
   description,
   title,
 }) => {
-  const workersId = useLocation().state.selectedWorkers;
-
   const [date, setDate] = useState(new Date().toLocaleDateString());
   // const [period, setPeriod] = useState("day");
   const dateRef = useRef<HTMLInputElement>();
@@ -43,15 +40,10 @@ const CompareChart: React.FC<ICompareChart> = ({
   });
 
   useEffect(() => {
-    mutation.mutateAsync({
-      data: {
-        workerIdList: workersId,
-      },
-      query: `date=${date}&period=${period}`,
-    });
+    mutation.mutateAsync(`date=${date}&period=${period}`);
   }, []);
 
-  const options = compareWorkersOptions({
+  const options = allWorkersChartOptions({
     data: mutation.data?.data,
     color,
     period,
@@ -116,17 +108,7 @@ const CompareChart: React.FC<ICompareChart> = ({
             </Select>
           </div>
           <Button
-            onClick={() =>
-              mutation.mutate({
-                data: {
-                  workerIdList: [
-                    "6437a48946680faad10eeea0",
-                    "6437e465ae2d619e6f9136bd",
-                  ],
-                },
-                query: `date=${date}&period=${period}`,
-              })
-            }
+            onClick={() => mutation.mutate(`date=${date}&period=${period}`)}
             className="py-3 px-12 w-20 text-base flex justify-center items-stretch"
           >
             {mutation.isLoading ? (
@@ -143,4 +125,4 @@ const CompareChart: React.FC<ICompareChart> = ({
   );
 };
 
-export default CompareChart;
+export default AllWorkersChart;

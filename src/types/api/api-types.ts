@@ -156,6 +156,9 @@ export interface IcreateWorkerCurrentUserResponse
 export interface IAdminGetAWorkerCurrentUserResponse extends IworkerInfo {}
 // Delete a worker for current user or Admin
 export interface IAdminDeleteAWorkerCurrentUserResponse extends IworkerInfo {}
+export interface IAdminDeleteWorkersListCurrentUserResponse {
+  workerIdList: string[];
+}
 
 // Update a worker for current user or Admin
 
@@ -241,4 +244,9 @@ export interface IAverageWorkersListRes {
 
 export interface IAverageWorkersListReq {
   workerIdList: string[];
+}
+
+export interface IAverageAllWorkersRes {
+  average: number;
+  date: string;
 }

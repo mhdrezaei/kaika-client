@@ -8,9 +8,13 @@ import {
   Input,
   Button,
   Checkbox,
+  CheckboxProps,
 } from "@material-tailwind/react";
 import { useQuery } from "react-query";
-import { getAllWorkerofCurrentUser } from "../../service/api";
+import {
+  deleteWorkerListCurrentUserAdmin,
+  getAllWorkerofCurrentUser,
+} from "../../service/api";
 import { BeatLoader } from "react-spinners";
 import { AxiosError } from "axios";
 import { alertActive } from "../../util/alertActive";
@@ -19,70 +23,74 @@ import {
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import InputBox from "../../components/common/InputBox";
 import { IAdminGetAllWorkerOfCurrentUserResponse } from "../../types/api/api-types";
-import { useAppDispatch } from "../../redux/hooks";
-import { alertAction } from "../../redux/slice/alert-slice";
+import { find } from "../../util/find";
+import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../../util/constants";
 
 const AllWorkers = () => {
-  const dispatch = useAppDispatch();
   const [filter, setFilter] = useState<
     IAdminGetAllWorkerOfCurrentUserResponse[]
   >([]);
+  const [selectedWorkers, setSelectedWorkers] = useState<string[]>([]);
   const [isSearch, setIsSearch] = useState(false);
-  const { data: workersInfo, isSuccess } = useQuery(
-    "allWorkersInfo",
-    getAllWorkerofCurrentUser,
-    {
-      select: (data) => data.data,
-      onError: (err: AxiosError) =>
-        alertActive({ message: err.message, color: "red" }),
-    }
-  );
+
+  const navigator = useNavigate();
+
+  const {
+    data: workersInfo,
+    isSuccess,
+    refetch,
+  } = useQuery("allWorkersInfo", getAllWorkerofCurrentUser, {
+    select: (data) => data.data,
+    onError: (err: AxiosError) =>
+      alertActive({ message: err.message, color: "red" }),
+  });
+
   const serchHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setIsSearch(true);
     const key = event.target.value;
     key.length === 0 && setIsSearch(false);
-    let filterdData: IAdminGetAllWorkerOfCurrentUserResponse[] = [];
-    workersInfo?.filter((worker) => {
-      if (worker.firstName.includes(key) || worker.firstName.includes(key)) {
-        filterdData.push(worker);
-      }
-    });
+    // let filterdData: IAdminGetAllWorkerOfCurrentUserResponse[] = [];
+    const filterdData = workersInfo
+      ? workersInfo?.filter((worker) =>
+          find(worker.firstName + " " + worker.lastName, key)
+        )
+      : [];
     if (filterdData.length === 0) {
-      dispatch(
-        alertAction.open({
-          message: `${key} not found! Please try another keyword..`,
-          color: "red",
-        })
-      );
-      setTimeout(() => {
-        dispatch(alertAction.close());
-      }, 5000);
+      alertActive({
+        message: `${key} not found! Please try another keyword..`,
+        color: "red",
+      });
       setFilter([]);
     } else {
       const item = filterdData.length === 1 ? "item" : "items";
-      dispatch(
-        alertAction.open({
-          message: `${filterdData.length} ${item} founded!`,
-          color: "green",
-        })
-      );
-      setTimeout(() => {
-        dispatch(alertAction.close());
-      }, 2000);
+      alertActive({
+        message: `${filterdData.length} ${item} founded!`,
+        color: "green",
+      });
     }
     setFilter(filterdData);
   };
+
+  const selectWorkerHandler = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) => {
+    if (e.target.checked) setSelectedWorkers((prev) => [...prev, id]);
+    else
+      setSelectedWorkers((prev) => prev.filter((workerId) => workerId !== id));
+  };
+
   return (
-    <div className="mt-12 mb-8 flex flex-col gap-12">
+    <div className="mt-12 flex flex-col gap-7">
       <Card className="bg-kaika-black">
         <CardHeader variant="gradient" color="orange" className="mb-8 p-6">
           <Typography variant="h6" color="white">
             All Workers Information
           </Typography>
         </CardHeader>
-        <CardBody className=" px-0 pt-0 pb-2">
+        <CardBody className=" px-0 pt-0 pb-2 overflow-y-scroll h-96">
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
@@ -134,12 +142,16 @@ const AllWorkers = () => {
                           key={_id}
                         >
                           <td className={className}>
-                            <Checkbox color="orange" value={_id} />
+                            <Checkbox
+                              color="orange"
+                              value={_id}
+                              onChange={(e) => selectWorkerHandler(e, _id)}
+                            />
                           </td>
                           <td className={className}>
                             <div className="flex items-center gap-4">
                               <Avatar
-                                src={imageUrl}
+                                src={baseUrl + imageUrl}
                                 alt={`${firstName} + ${lastName}`}
                                 size="sm"
                               />
@@ -149,7 +161,7 @@ const AllWorkers = () => {
                                   color="blue-gray"
                                   className="font-semibold text-blue-gray-50"
                                 >
-                                  {firstName + lastName}
+                                  {`${firstName} ${lastName}`}
                                 </Typography>
                                 {/* <Typography className="text-xs font-normal text-blue-gray-500">
                                 {email}
@@ -222,7 +234,7 @@ const AllWorkers = () => {
         </CardBody>
       </Card>
       {/* Toolbar */}
-      <div className="w-full bg-kaika-black py-2 rounded-md hover:shadow-md hover:shadow-kaika-yellow ">
+      <div className="w-full bg-kaika-black py-2 rounded-md hover:shadow-md">
         <div className="flex justify-between items-center">
           <div className="relative p-2 flex items-center">
             <Input
@@ -239,8 +251,29 @@ const AllWorkers = () => {
             />
           </div>
           <div className="flex gap-3 ml-auto p-2">
-            <Button type="button">resoult</Button>
-            <Button type="button" color="red" disabled={true}>
+            <Button
+              onClick={() =>
+                navigator("compare-workers", {
+                  state: { selectedWorkers },
+                })
+              }
+              disabled={selectedWorkers.length === 0}
+            >
+              {selectedWorkers.length > 1 ? "compare" : "result"}
+            </Button>
+            <Button
+              type="button"
+              color="red"
+              disabled={selectedWorkers.length === 0}
+              onClick={async () => {
+                const result = await deleteWorkerListCurrentUserAdmin(
+                  selectedWorkers
+                );
+                alertActive({ message: result.data, color: "green" });
+                await refetch();
+                setSelectedWorkers([]);
+              }}
+            >
               delete selected
             </Button>
           </div>

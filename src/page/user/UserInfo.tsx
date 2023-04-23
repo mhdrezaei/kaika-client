@@ -88,7 +88,6 @@ const UserInfo = () => {
     }
   );
   const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    console.log(e.target.value);
     setFetchData((prevState) => {
       return {
         ...prevState,

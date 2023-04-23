@@ -3,9 +3,7 @@ import {
   CardHeader,
   Typography,
   CardBody,
-  Progress,
 } from "@material-tailwind/react";
-import React from "react";
 import { useQuery } from "react-query";
 import { BeatLoader } from "react-spinners";
 import { last10Caution } from "../service/api";
