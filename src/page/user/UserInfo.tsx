@@ -214,14 +214,6 @@ const UserInfo = () => {
                     />
                   </div>
                   <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    {/* <InputBox
-                      name="job"
-                      label="Job"
-                      type="text"
-                      register={register}
-                      error={errors?.job?.message}
-                      disabled={isSubmitting}
-                    /> */}
                   </div>
                   <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                     <InputBox

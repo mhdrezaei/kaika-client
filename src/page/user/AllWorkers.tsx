@@ -17,6 +17,7 @@ import InputBox from "../../components/common/InputBox";
 import { IAdminGetAllWorkerOfCurrentUserResponse } from "../../types/api/api-types";
 import { useAppDispatch } from "../../redux/hooks";
 import { alertAction } from "../../redux/slice/alert-slice";
+import { Link } from "react-router-dom";
 
 const AllWorkers = () => {
   const dispatch = useAppDispatch()
@@ -143,16 +144,16 @@ const AllWorkers = () => {
                         </td>
                         <td className={className}>
                           <div className="flex justify-start gap-2">
-                            <Typography
-                              as="a"
-                              href="#"
+                            <Link
+                             
+                              to={`/user/worker-info/${_id}`}
                               className="inline text-xs font-semibold text-blue-gray-50"
                             >
                               <PencilSquareIcon
                                 strokeWidth={2.5}
                                 className="h-5 w-5"
                               />
-                            </Typography>
+                            </Link>
                             <Typography
                               as="a"
                               href="#"

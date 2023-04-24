@@ -34,7 +34,6 @@ const InputBox: FC<InputProps> = ({
           onchange: () => console.log("hio"),
         })}
         value={value}
-        defaultValue={value}
         onChange={changeHandler}
       />
       {error && (

@@ -31,6 +31,7 @@ import {
   ITop10HighCautios,
   IuploadImageWorker,
   IAdminUpdateUserRequest,
+  IAdminUpdateAWorkerCurrentUserResponse,
 } from "../types/api/api-types";
 
 const token: string = "";
@@ -155,7 +156,7 @@ export const createWorkerCurrentUser = async (
 
 // Get a worker for current user or Admin
 
-export const getAWorkerCurrentUserAdmin = async (workerId: string) => {
+export const getAWorkerCurrentUserAdmin = async (workerId: string | undefined) => {
   return axios.get<IAdminGetAWorkerCurrentUserResponse>(`/worker/${workerId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -177,7 +178,7 @@ export const updateAWorkerCurrentUserAdmin = async (
   workerId: string,
   workerData: IAdminUpdateAWorkerCurrentUserRequest
 ) => {
-  return axios.patch<IAdminDeleteAWorkerCurrentUserResponse>(
+  return axios.patch<IAdminUpdateAWorkerCurrentUserResponse>(
     `/worker/${workerId}`,
     workerData,
     {
