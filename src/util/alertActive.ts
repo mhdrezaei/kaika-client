@@ -11,4 +11,9 @@ export const alertActive = ({
 }) => {
   const dispatch = store.dispatch;
   dispatch(alertAction.open({ color, message }));
+  setTimeout(
+    () => dispatch(alertAction.close()),
+
+    2000
+  );
 };

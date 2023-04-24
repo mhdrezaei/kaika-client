@@ -13,6 +13,7 @@ import { ISidebar } from "../types/layout/layout-types";
 
 const Sidebar: React.FC<ISidebar> = ({ routes }) => {
   const sidebarState = useAppSelector((state) => state.sidebar);
+  const officialName = useAppSelector((state) => state.user.officialName);
   const dispatch = useAppDispatch();
 
   return (
@@ -24,7 +25,7 @@ const Sidebar: React.FC<ISidebar> = ({ routes }) => {
       <div className="relative border-b border-blue-gray-50">
         <Link to="/" className="flex items-center gap-4 py-6 px-8">
           {/* <Avatar src={brandImg} size="sm" /> */}
-          <Typography variant="h6">{"Kaika"}</Typography>
+          <Typography variant="h6">{officialName.toUpperCase()}</Typography>
         </Link>
         <IconButton
           variant="text"
@@ -41,7 +42,7 @@ const Sidebar: React.FC<ISidebar> = ({ routes }) => {
         {routes.map(({ icon, name, path }) => (
           <ul key={name} className="mb-4 flex flex-col gap-1">
             <li key={name}>
-              <NavLink to={`${path}`} end>
+              <NavLink to={`${path}`}>
                 {({ isActive }) => (
                   <Button
                     variant={isActive ? "gradient" : "text"}

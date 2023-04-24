@@ -1,66 +1,8 @@
 import { renderToString } from "react-dom/server";
 import { ITop10LowCautios } from "../types/api/api-types";
-import { ApexOptions } from "apexcharts";
 import { Props } from "react-apexcharts";
 import { colors } from "@material-tailwind/react/types/generic";
-
-const chartsConfig = {
-  chart: {
-    toolbar: {
-      show: false,
-    },
-  },
-
-  dataLabels: {
-    enabled: false,
-  },
-  xaxis: {
-    axisTicks: {
-      show: false,
-    },
-    axisBorder: {
-      show: false,
-    },
-    labels: {
-      style: {
-        colors: "#fff",
-        fontSize: "13px",
-        fontFamily: "inherit",
-        fontWeight: 300,
-      },
-    },
-  },
-  yaxis: {
-    labels: {
-      style: {
-        colors: "#fff",
-        fontSize: "13px",
-        fontFamily: "inherit",
-        fontWeight: 300,
-      },
-    },
-    max: 100,
-    logBase: 5,
-    tickAmount: 5,
-  },
-  grid: {
-    show: true,
-    borderColor: "#ffffff40",
-    strokeDashArray: 5,
-    xaxis: {
-      lines: {
-        show: true,
-      },
-    },
-    padding: {
-      top: 5,
-      right: 20,
-    },
-  },
-  fill: {
-    opacity: 0.8,
-  },
-};
+import { chartsConfig } from "../data/chart-config";
 
 export const top10chartOptions = ({
   data,
@@ -73,12 +15,16 @@ export const top10chartOptions = ({
     y: any = [],
     time: any = [];
 
-  if (data) {
+  if (data && data.length > 0) {
     x = data.map(
       (hseInfo) => `${hseInfo.worker.firstName} ${hseInfo.worker.lastName}`
     );
-    y = data.map((hseInfo) => 100 - hseInfo.kss);
-    time = data.map((hseIfdo) => new Date(hseIfdo.createdAt).toLocaleString());
+    y = data.map((hseInfo) => 100 - hseInfo.average);
+    time = data[0].date
+      ? data.map(
+          (hseIfdo) => hseIfdo.date && new Date(hseIfdo.date).toLocaleString()
+        )
+      : null;
   }
 
   const top10: Props = {
@@ -115,9 +61,9 @@ export const top10chartOptions = ({
         theme: "",
         custom: function ({ series, seriesIndex, dataPointIndex, w }) {
           return renderToString(
-            <div className="bg-black p-2 flex flex-col bg-opacity-20 backdrop-blur-lg rounded drop-shadow-lg">
+            <div className="bg-black py-2 px-5 flex flex-col bg-opacity-20 backdrop-blur-lg rounded drop-shadow-lg">
               <span>{series[seriesIndex][dataPointIndex]}</span>
-              <span>{time[dataPointIndex]}</span>
+              {time && <span>{time[dataPointIndex]}</span>}
             </div>
           );
         },

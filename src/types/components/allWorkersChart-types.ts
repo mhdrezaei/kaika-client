@@ -1,11 +1,11 @@
 import { colors } from "@material-tailwind/react/types/generic";
 import { AxiosResponse } from "axios";
-import { ITop10LowCautios } from "../api/api-types";
+import { IAverageAllWorkersRes } from "../api/api-types";
 
-export interface ITop10Chart {
+export interface IAllWorkersChart {
   requestFunc: (
     query: string
-  ) => Promise<AxiosResponse<ITop10LowCautios[], any>>;
+  ) => Promise<AxiosResponse<IAverageAllWorkersRes[], any>>;
   color: colors;
   title: string;
   description: string;

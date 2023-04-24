@@ -16,7 +16,6 @@ const InputBox: FC<InputProps> = ({
   onChange,
 }) => {
   const changeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    console.log(e.target.value);
     if (onChange) {
       onChange(e);
     }

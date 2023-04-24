@@ -3,24 +3,21 @@ import {
   CardHeader,
   Typography,
   CardBody,
-  Progress,
 } from "@material-tailwind/react";
-import React from "react";
 import { useQuery } from "react-query";
 import { BeatLoader } from "react-spinners";
-import { getHseCurrentUserInfo } from "../service/api";
-import WorkerInfo from "./worker/WorkerInfo";
+import { last10Caution } from "../service/api";
 import TestTable from "./table/TestTable";
+import { alertActive } from "../util/alertActive";
+import { AxiosError } from "axios";
 
 const Top10Table = () => {
   const heaeders = ["Worker", "job", "date", "KSS"];
-  const { data: workersInfo, isSuccess } = useQuery(
-    "workersInfo",
-    getHseCurrentUserInfo,
-    {
-      select: (data) => data.data,
-    }
-  );
+  const { data, isSuccess } = useQuery("workersInfo", last10Caution, {
+    select: (data) => data.data,
+    onError: (err: AxiosError) =>
+      alertActive({ message: err.message, color: "red" }),
+  });
 
   return (
     <div className="w-full flex justify-center rounded-md">
@@ -32,92 +29,12 @@ const Top10Table = () => {
           <Typography color="white">Last Tests Workers</Typography>
         </CardHeader>
         <CardBody className="relative w-full md:overflow-auto overflow-x-scroll px-0 pt-0 pb-2">
-          {/* <table className="w-full table-auto  ">
-            <thead>
-              <tr>
-                {["Worker", "Blink Frequency", "Blink Duration", "KSS"].map(
-                  (el) => (
-                    <th
-                      key={el}
-                      className="border-b border-blue-gray-50 py-3 px-6 text-left"
-                    >
-                      <Typography
-                        variant="small"
-                        className="text-[11px] font-medium uppercase text-blue-gray-50"
-                      >
-                        {el}
-                      </Typography>
-                    </th>
-                  )
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {isSuccess ? (
-                workersInfo.map(
-                  (
-                    { _id, workerId, createdAt, blinkDuration, kss },
-                    key
-                  ) => {
-                    const className = `py-3 px-5 ${
-                      key === workersInfo.length - 1
-                        ? ""
-                        : "border-b border-blue-gray-50"
-                    }`;
-
-                    return (
-                      <tr key={_id}>
-                        <td className={className}>
-                          <WorkerInfo workerId={workerId} />
-                        </td>
-                        <td className={className}>
-                          <Typography
-                            variant="small"
-                            className="text-sm text-center font-medium text-blue-gray-50"
-                          >
-                            {}
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <Typography
-                            variant="small"
-                            className="text-sm text-center font-medium text-blue-gray-50"
-                          >
-                            {blinkDuration}
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <div>
-                            <Typography
-                              variant="small"
-                              className=" block text-sm text-center font-medium text-blue-gray-50"
-                            >
-                              {kss}%
-                            </Typography>
-                            <Progress
-                              value={kss}
-                              variant="gradient"
-                              color={kss === 100 ? "green" : "blue"}
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  }
-                )
-              ) : (
-                <div className="absolute top-1/2 right-1/2 translate-x-1/3">
-                  <BeatLoader color="orange" size={25} />
-                </div>
-              )}
-            </tbody>
-          </table> */}
           {!isSuccess ? (
             <div className="absolute h-6 top-1/2 right-1/2 translate-x-1/3">
               <BeatLoader color="orange" size={25} />
             </div>
           ) : (
-            <TestTable headers={heaeders} data={workersInfo} />
+            <TestTable headers={heaeders} data={data} />
           )}
         </CardBody>
       </Card>

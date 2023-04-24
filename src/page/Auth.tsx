@@ -28,6 +28,7 @@ import { FormSchema } from "../schema/authFormSchema";
 import { useAppDispatch } from "../redux/hooks";
 import { alertAction } from "../redux/slice/alert-slice";
 import { useEffect } from "react";
+import { alertActive } from "../util/alertActive";
 
 type FormSchemaType = z.infer<typeof FormSchema>;
 
@@ -50,21 +51,18 @@ const Auth = () => {
       localStorage.setItem("user", JSON.stringify(data));
       dispatch(userAction.setUser(data));
     },
+    onError: (err: AxiosError) =>
+      alertActive({ message: err.message, color: "red" }),
   });
 
   const { isError, error, isLoading, mutate } = useMutation({
     mutationFn: loginUser,
-    onError: (error: AxiosError<any>) => {
-      const message = error.response?.data.message
-        ? error.response?.data.message
-        : "Somthing went wrong.";
-      dispatch(alertAction.open({ message, color: "red" }));
-      setTimeout(() => dispatch(alertAction.close()), 2000);
-    },
     onSuccess({ data }) {
       localStorage.setItem("token", data.access_token);
       query.refetch();
     },
+    onError: (err: AxiosError) =>
+      alertActive({ message: err.message, color: "red" }),
   });
 
   const onSubmit: SubmitHandler<FormSchemaType> = (

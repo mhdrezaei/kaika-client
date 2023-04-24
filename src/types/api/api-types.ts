@@ -156,6 +156,9 @@ export interface IcreateWorkerCurrentUserResponse
 export interface IAdminGetAWorkerCurrentUserResponse extends IworkerInfo {}
 // Delete a worker for current user or Admin
 export interface IAdminDeleteAWorkerCurrentUserResponse extends IworkerInfo {}
+export interface IAdminDeleteWorkersListCurrentUserResponse {
+  workerIdList: string[];
+}
 
 // Update a worker for current user or Admin
 
@@ -225,23 +228,25 @@ export interface IregisterUserResponse {
   updatedAt: string;
 }
 
-//  ******* REGISTRATION ********
+//  ******* chart ********
 export interface ITop10LowCautios {
-  _id: string;
-  kss: number;
-  createdAt: string;
-  worker: {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    birthDate: string;
-    job: string;
-    tel: string;
-    email: string;
-    userId: string;
-    createdAt: string;
-    updatedAt: string;
-  };
+  average: number;
+  date?: string;
+  worker: IworkerInfo;
 }
 
 export interface ITop10HighCautios extends ITop10LowCautios {}
+
+export interface IAverageWorkersListRes {
+  worker: IworkerInfo;
+  avgList: { avg: number; date: string }[];
+}
+
+export interface IAverageWorkersListReq {
+  workerIdList: string[];
+}
+
+export interface IAverageAllWorkersRes {
+  average: number;
+  date: string;
+}

@@ -6,26 +6,27 @@ import {
   Button,
   Option,
   Select,
-  Input,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
-import { top10chartOptions } from "../util/top10chart-options";
 import { useMutation } from "react-query";
 import React, { LegacyRef, useEffect, useRef, useState } from "react";
-import { ITop10Chart } from "../types/components/top10chart-types";
 import { ClockLoader } from "react-spinners";
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
 import { AxiosError } from "axios";
 import { alertActive } from "../util/alertActive";
+import { IAllWorkersChart } from "../types/components/allWorkersChart-types";
+import { allWorkersChartOptions } from "../util/allWorkersChart";
 
-const Top10Chart: React.FC<ITop10Chart> = ({
+let period: string = "day";
+
+const AllWorkersChart: React.FC<IAllWorkersChart> = ({
   requestFunc,
   color,
   description,
   title,
 }) => {
   const [date, setDate] = useState(new Date().toLocaleDateString());
-  const [period, setPeriod] = useState("day");
+  // const [period, setPeriod] = useState("day");
   const dateRef = useRef<HTMLInputElement>();
   const handleInterviewDateClick = () => {
     dateRef.current?.showPicker();
@@ -42,13 +43,14 @@ const Top10Chart: React.FC<ITop10Chart> = ({
     mutation.mutateAsync(`date=${date}&period=${period}`);
   }, []);
 
-  const options = top10chartOptions({
+  const options = allWorkersChartOptions({
     data: mutation.data?.data,
     color,
+    period,
   });
 
   return (
-    <Card className="h-fit w-full bg-kaika-black">
+    <Card className="h-fit w-full bg-kaika-black mt-10">
       <CardHeader
         variant="gradient"
         color={options.color}
@@ -69,6 +71,7 @@ const Top10Chart: React.FC<ITop10Chart> = ({
         </div>
         <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
           <span className="bg-kaika-gray w-24 text-center p-2 rounded">
+            {/* {new Date(date).toLocaleDateString("fr")} */}
             {date}
           </span>
           <div className="relative w-12">
@@ -94,7 +97,9 @@ const Top10Chart: React.FC<ITop10Chart> = ({
               className=""
               label="Period"
               value={period}
-              onChange={(e) => e && setPeriod(e)}
+              onChange={(e) => {
+                if (e) period = e;
+              }}
             >
               <Option value="day">Daily</Option>
               <Option value="week">Weekly</Option>
@@ -120,4 +125,4 @@ const Top10Chart: React.FC<ITop10Chart> = ({
   );
 };
 
-export default Top10Chart;
+export default AllWorkersChart;

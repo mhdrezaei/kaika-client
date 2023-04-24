@@ -75,7 +75,10 @@ function App() {
             <Route path="" element={<Navigate to="/user/home" replace />} />
             <Route path="home" element={<Home />} />
             <Route path="workers" element={<AllWorkers />} />
-            <Route path="compare-workers" element={<CompareWorkers />} />
+            <Route
+              path="workers/compare-workers"
+              element={<CompareWorkers />}
+            />
             <Route path="worker-info/:id" element={<WorkerInfo />} />
             <Route path="create-worker" element={<CreateWorker />} />
             <Route path="user-info" element={<UserInfo />} />

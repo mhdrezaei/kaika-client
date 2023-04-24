@@ -28,7 +28,7 @@ const TestTable: FC<ItestTableProps> = ({ headers, data }) => {
         </div>
 
         {data?.map((element) => (
-          <TestTableRow rows={element} />
+          <TestTableRow key={element._id} rows={element} />
         ))}
       </div>
     </div>
