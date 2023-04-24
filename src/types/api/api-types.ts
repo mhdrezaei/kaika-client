@@ -165,7 +165,7 @@ export interface IAdminDeleteWorkersListCurrentUserResponse {
 export interface IAdminUpdateAWorkerCurrentUserRequest {
   firstName: string;
   lastName: string;
-  birthDate: Date;
+  birthDate: string;
   job: string;
   tel: string;
   email: string;

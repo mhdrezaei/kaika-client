@@ -24,6 +24,9 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { IAdminGetAllWorkerOfCurrentUserResponse } from "../../types/api/api-types";
+import { useAppDispatch } from "../../redux/hooks";
+import { alertAction } from "../../redux/slice/alert-slice";
+import { Link } from "react-router-dom";
 import { find } from "../../util/find";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../util/constants";
@@ -168,6 +171,44 @@ const AllWorkers = () => {
                               </Typography> */}
                               </div>
                             </div>
+                          </div>
+                        </td>
+                        <td className={className}>
+                          <Typography className="text-xs font-semibold text-blue-gray-50">
+                            {job}
+                          </Typography>
+                        </td>
+                        <td className={className}>
+                          <Typography className="text-xs font-semibold text-blue-gray-50">
+                            {tel}
+                          </Typography>
+                        </td>
+                        <td className={className}>
+                          <Typography className="text-xs font-semibold text-blue-gray-50">
+                            {birthDate}
+                          </Typography>
+                        </td>
+                        <td className={className}>
+                          <div className="flex justify-start gap-2">
+                            <Link
+                             
+                              to={`/user/worker-info/${_id}`}
+                              className="inline text-xs font-semibold text-blue-gray-50"
+                            >
+                              <PencilSquareIcon
+                                strokeWidth={2.5}
+                                className="h-5 w-5"
+                              />
+                            </Link>
+                            <Typography
+                              as="a"
+                              href="#"
+                              className="inline text-xs font-semibold text-blue-gray-50"
+                            >
+                              <TrashIcon
+                                strokeWidth={2.5}
+                                className="h-5 w-5"
+                              />
                           </td>
                           <td className={className}>
                             <Typography className="text-xs font-semibold text-blue-gray-50">

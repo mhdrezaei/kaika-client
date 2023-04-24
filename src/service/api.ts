@@ -33,6 +33,7 @@ import {
   IAverageWorkersListReq,
   IAverageWorkersListRes,
   IAdminUpdateUserRequest,
+  IAdminUpdateAWorkerCurrentUserResponse,
   IAverageAllWorkersRes,
 } from "../types/api/api-types";
 
@@ -129,6 +130,7 @@ export const createWorkerCurrentUser = async (
 
 // Get a worker for current user or Admin
 
+
 export const getAWorkerCurrentUserAdmin = async (workerId: string) => {
   return axios.get<IAdminGetAWorkerCurrentUserResponse>(`/worker/${workerId}`);
 };
@@ -152,7 +154,7 @@ export const updateAWorkerCurrentUserAdmin = async (
   workerId: string,
   workerData: IAdminUpdateAWorkerCurrentUserRequest
 ) => {
-  return axios.patch<IAdminDeleteAWorkerCurrentUserResponse>(
+  return axios.patch<IAdminUpdateAWorkerCurrentUserResponse>(
     `/worker/${workerId}`,
     workerData
   );
