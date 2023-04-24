@@ -14,6 +14,6 @@ export const alertActive = ({
   setTimeout(
     () => dispatch(alertAction.close()),
 
-    2000
+    5000
   );
 };
