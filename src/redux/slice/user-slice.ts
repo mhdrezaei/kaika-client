@@ -15,6 +15,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, { payload }) => {
+      localStorage.setItem("user", JSON.stringify(payload));
       return payload;
     },
   },

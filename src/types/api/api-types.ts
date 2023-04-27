@@ -237,6 +237,13 @@ export interface ITop10LowCautios {
 
 export interface ITop10HighCautios extends ITop10LowCautios {}
 
+export interface ILast10CautionRes {
+  _id: string;
+  kss: number;
+  createdAt: string;
+  worker: IworkerInfo;
+}
+
 export interface IAverageWorkersListRes {
   worker: IworkerInfo;
   avgList: { avg: number; date: string }[];

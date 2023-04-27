@@ -4,6 +4,7 @@ import {
   Route,
   RouterProvider,
   Navigate,
+  Routes,
 } from "react-router-dom";
 import AllUsers from "./page/admin/AllUsers";
 import CreateUser from "./page/admin/CreateUser";
@@ -72,14 +73,14 @@ function App() {
           }
         >
           <Route element={<Layout routes={userRoutes} />}>
-            <Route path="" element={<Navigate to="/user/home" replace />} />
+            <Route path="" element={<Navigate to="/user/home" />} />
             <Route path="home" element={<Home />} />
-            <Route path="workers" element={<AllWorkers />} />
+            <Route path="workers" element={<AllWorkers />}></Route>
             <Route
               path="workers/compare-workers"
               element={<CompareWorkers />}
             />
-            <Route path="worker-info/:id" element={<WorkerInfo />} />
+            <Route path="workers/worker-info/:id" element={<WorkerInfo />} />
             <Route path="create-worker" element={<CreateWorker />} />
             <Route path="user-info" element={<UserInfo />} />
             <Route path="user-fatigue" element={<UserFatigue />} />

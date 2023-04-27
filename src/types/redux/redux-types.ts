@@ -18,6 +18,7 @@ export interface IUserState {
   registrationNumber: number;
   tel: string;
   address: string;
+  imageUrl: string;
   isAdmin: boolean;
   createdAt: string;
   updatedAt: string;

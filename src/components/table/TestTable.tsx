@@ -1,36 +1,38 @@
 import React, { FC } from "react";
-import { ItestTableProps } from "../../types/components/testTable-types";
+import { ItestTableProps } from "../../types/components/last10cuation/testTable-types";
 import TestTableRow from "./TestTableRow";
 import { Typography } from "@material-tailwind/react";
 
 const TestTable: FC<ItestTableProps> = ({ headers, data }) => {
   return (
-    // wrapper
-    <div className="w-full my-4 mx-auto p-4 ">
-      {/* Rtable Rtable--5cols Rtable--collapse */}
-      <div className="flex flex-wrap mb-3 p-0 ">
-        {/* Rtable-row Rtable-row--head  = > display:none*/}
-        <div className="w-full md:flex md:flex-nowrap flex-wrap mb-4 hidden ">
-          {headers.map((element, index) => (
-            // Rtable-cell date-cell column-heading
-            <div
-              key={index}
-              className="w-full flex items-center md:flex-grow md:py-2 md:pl-4 md:px4 md:overflow-hidden md:list-none"
-            >
-              <Typography
-                variant="small"
-                className="text-base font-medium uppercase text-blue-gray-50"
-              >
-                {element}
-              </Typography>
-            </div>
-          ))}
-        </div>
-
-        {data?.map((element) => (
-          <TestTableRow key={element._id} rows={element} />
-        ))}
-      </div>
+    <div className="grid grid-cols-[repeat(4,minmax(min-content,1fr))] mt-5  gap-y-3 gap-x-5 grid-flow-row min-w-fit mb-3 place-items-center place-content-center">
+      <Typography
+        variant="small"
+        className={`text-base min-w-max font-medium uppercase text-blue-gray-50`}
+      >
+        Worker
+      </Typography>
+      <Typography
+        variant="small"
+        className={`text-base min-w-max font-medium uppercase text-blue-gray-50`}
+      >
+        Job
+      </Typography>
+      <Typography
+        variant="small"
+        className={`text-base min-w-max font-medium uppercase text-blue-gray-50`}
+      >
+        Date of Test
+      </Typography>
+      <Typography
+        variant="small"
+        className={`text-base min-w-max font-medium uppercase text-blue-gray-50`}
+      >
+        Caution
+      </Typography>
+      {data.map((element) => (
+        <TestTableRow key={element._id} row={element} />
+      ))}
     </div>
   );
 };

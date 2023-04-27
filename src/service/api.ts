@@ -35,6 +35,7 @@ import {
   IAdminUpdateUserRequest,
   IAdminUpdateAWorkerCurrentUserResponse,
   IAverageAllWorkersRes,
+  ILast10CautionRes,
 } from "../types/api/api-types";
 
 const token: string = "";
@@ -84,7 +85,7 @@ export const updateCurrentUser = async (userData: IAdminUpdateUserRequest) => {
 
 //  Upload logo file
 
-export const updateUserFile = async (file: string) => {
+export const updateUserFile = async (file: FormData) => {
   return axios.patch<IuploadFileResponse>("/user/upload-file", file);
 };
 
@@ -129,7 +130,6 @@ export const createWorkerCurrentUser = async (
 };
 
 // Get a worker for current user or Admin
-
 
 export const getAWorkerCurrentUserAdmin = async (workerId: string) => {
   return axios.get<IAdminGetAWorkerCurrentUserResponse>(`/worker/${workerId}`);
@@ -208,7 +208,7 @@ export const RegisterUser = async (userId: string) => {
 
 // ------------------chart------------------
 export const last10Caution = async () => {
-  return axios.get<IgetHseCurrentUserInfoResponse[]>("/chart/last10caution");
+  return axios.get<ILast10CautionRes[]>("/chart/last10caution");
 };
 
 export const top10lowCaution = async (query: string) => {

@@ -18,17 +18,17 @@ export const adminRoutes: IRoutes = [
   },
   {
     icon: <UserGroupIcon {...attr} />,
-    name: "Users",
+    name: "Companies",
     path: "/admin/users",
   },
   {
     icon: <UserPlusIcon {...attr} />,
-    name: "Create User",
+    name: "Create Company",
     path: "/admin/create-user",
   },
   {
     icon: <CpuChipIcon {...attr} />,
-    name: "Register User",
+    name: "Register Company",
     path: "/admin/register-user",
   },
 ];

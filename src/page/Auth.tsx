@@ -51,8 +51,8 @@ const Auth = () => {
       localStorage.setItem("user", JSON.stringify(data));
       dispatch(userAction.setUser(data));
     },
-    onError: (err: AxiosError) =>
-      alertActive({ message: err.message, color: "red" }),
+    onError: (err: AxiosError<any>) =>
+      alertActive({ message: err.response?.data.message, color: "red" }),
   });
 
   const { isError, error, isLoading, mutate } = useMutation({
@@ -61,8 +61,8 @@ const Auth = () => {
       localStorage.setItem("token", data.access_token);
       query.refetch();
     },
-    onError: (err: AxiosError) =>
-      alertActive({ message: err.message, color: "red" }),
+    onError: (err: AxiosError<any>) =>
+      alertActive({ message: err.response?.data.message, color: "red" }),
   });
 
   const onSubmit: SubmitHandler<FormSchemaType> = (

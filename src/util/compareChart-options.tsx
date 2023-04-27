@@ -47,6 +47,8 @@ const createSeries = ({
           x:
             period === "year"
               ? monthOfYear[new Date(avg.date).getMonth()]
+              : period === "week"
+              ? dayOfWeek[new Date(avg.date).getDay()]
               : avg.date,
           y: avg.avg,
         };
@@ -61,6 +63,8 @@ const createSeries = ({
         ? new Date(avg.date).getFullYear() +
           "-" +
           monthOfYear[new Date(avg.date).getMonth()]
+        : period === "day"
+        ? new Date(avg.date).toLocaleString("fr")
         : avg.date
     )
   );

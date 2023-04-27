@@ -17,6 +17,7 @@ import { ClockLoader } from "react-spinners";
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
 import { AxiosError } from "axios";
 import { alertActive } from "../util/alertActive";
+import DatePickerEn from "./datePicker/DatePicker-en";
 
 const Top10Chart: React.FC<ITop10Chart> = ({
   requestFunc,
@@ -34,8 +35,8 @@ const Top10Chart: React.FC<ITop10Chart> = ({
   const mutation = useMutation({
     mutationFn: requestFunc,
     mutationKey: title,
-    onError: (err: AxiosError) =>
-      alertActive({ message: err.message, color: "red" }),
+    onError: (err: AxiosError<any>) =>
+      alertActive({ message: err.response?.data.message, color: "red" }),
   });
 
   useEffect(() => {
@@ -68,26 +69,8 @@ const Top10Chart: React.FC<ITop10Chart> = ({
           </Typography>
         </div>
         <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
-          <span className="bg-kaika-gray w-24 text-center p-2 rounded">
-            {date}
-          </span>
-          <div className="relative w-12">
-            <CalendarDaysIcon
-              className="h-full text-white"
-              onClick={handleInterviewDateClick}
-            />
-            <input
-              ref={dateRef as LegacyRef<HTMLInputElement>}
-              type="date"
-              className="opacity-0 absolute right-full "
-              onChange={(e) =>
-                setDate(
-                  e.target.value
-                    ? new Date(e.target.value).toLocaleDateString()
-                    : ""
-                )
-              }
-            />
+          <div className="">
+            <DatePickerEn period={period} setDate={setDate} />
           </div>
           <div className="[&>div]:min-w-[100px]">
             <Select

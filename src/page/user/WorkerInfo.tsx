@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import InputBox from "../../components/common/InputBox";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { date, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BeatLoader } from "react-spinners";
 import { useMutation, useQuery } from "react-query";
 import { WorkerFormSchema } from "../../schema/newWorkerFormSchema";
 import { AxiosError } from "axios";
-import { IAdminUpdateAWorkerCurrentUserRequest, IAdminUpdateUserRequest } from "../../types/api/api-types";
+import { IAdminUpdateAWorkerCurrentUserRequest } from "../../types/api/api-types";
 import {
   Button,
   Card,
@@ -21,44 +21,24 @@ import {
   updateAWorkerCurrentUserAdmin,
   uploadImageWorker,
 } from "../../service/api";
-import { alertAction } from "../../redux/slice/alert-slice";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { useParams } from "react-router-dom";
 import { DocumentIcon } from "@heroicons/react/24/outline";
-import formatDate from "../../util/formatDate";
+import { alertActive } from "../../util/alertActive";
 
 type WorkerFormSchemaType = z.infer<typeof WorkerFormSchema>;
 
-interface WorkerPageRouteParams {
-  id: string
-}
-
 const WorkerInfo = () => {
-  const { id } = useParams()
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
-  let userImg = new FormData();
-  const [image, setImage] = useState<FormData>(userImg);
-  const [preview, setPreview] = useState("");
-  const [workerData, setWorkerData] = useState<IAdminUpdateAWorkerCurrentUserRequest>({
-    firstName: "",
-    lastName: "",
-    birthDate: "",
-    job: "",
-    tel: "",
-    email: "",
-  });
-  const birthDate = formatDate(workerData.birthDate);
-  
-  const imgFilehandler: React.ChangeEventHandler<HTMLInputElement> = async (
-    event
-  ) => {
-    const target = event.target as HTMLInputElement;
-    if (target.files) {
-      userImg.append("file", target.files[0] as Blob);
-      setPreview(URL.createObjectURL(target.files[0]));
-    }
-  };
+  const { id } = useParams();
+  const [image, setImage] = useState<File>();
+  const [workerData, setWorkerData] =
+    useState<IAdminUpdateAWorkerCurrentUserRequest>({
+      firstName: "",
+      lastName: "",
+      birthDate: "",
+      job: "",
+      tel: "",
+      email: "",
+    });
 
   const {
     register,
@@ -66,46 +46,57 @@ const WorkerInfo = () => {
     formState: { errors, isSubmitting },
   } = useForm<WorkerFormSchemaType>({
     resolver: zodResolver(WorkerFormSchema),
+    values: { ...workerData },
   });
 
-  const uploadImg = useMutation(() => uploadImageWorker(id! ,preview), {
+  const { isSuccess: successData } = useQuery(
+    ["currentWorkerInfo", id],
+    () => getAWorkerCurrentUserAdmin(id!),
+    {
+      select: (data) => data.data,
+      onSuccess(data) {
+        const birthDate = new Date(data.birthDate)
+          .toLocaleDateString("fr")
+          .split("/")
+          .reverse()
+          .join("-");
+        setWorkerData({ ...data, birthDate });
+      },
+    }
+  );
+
+  const uploadImg = useMutation({
+    mutationFn: uploadImageWorker,
     onSuccess(response) {
-      console.log("success!!!!");
+      alertActive({ message: "File upload", color: "green" });
     },
   });
-  const { data, isError, error, isLoading, isSuccess, mutate } = useMutation({
-    mutationFn : (value : IAdminUpdateAWorkerCurrentUserRequest) => updateAWorkerCurrentUserAdmin(id! , value) ,
-    onError(error: AxiosError) {
-      dispatch(
-        alertAction.open({
-          message: error.message,
-          color: "red",
-        })
-      );
-    },
-    onSuccess(data) {
-      uploadImg.mutate();
-      dispatch(
-        alertAction.open({
-          message: "worker information updated successfully",
-          color: "green",
-        })
-      );
-      setTimeout(() => dispatch(alertAction.close()), 2000);
+  const { isLoading, mutate } = useMutation({
+    mutationFn: (value: IAdminUpdateAWorkerCurrentUserRequest) =>
+      updateAWorkerCurrentUserAdmin(id!, value),
+    onError: (err: AxiosError<any>) =>
+      alertActive({ message: err.response?.data.message, color: "red" }),
+    onSuccess: (data) => {
+      const birthDate = new Date(data.data.birthDate)
+        .toLocaleDateString("fr")
+        .split("/")
+        .reverse()
+        .join("-");
+      setWorkerData({ ...data.data, birthDate });
+      const formData = new FormData();
+      image && formData.append("file", image);
+      image && uploadImg.mutate({ workerId: data.data._id, file: formData });
     },
   });
 
-  const {
-    data: currentWorker,
-    isSuccess: successData,
-    isStale,
-  } = useQuery(["currentWorkerInfo", id], () => getAWorkerCurrentUserAdmin(id), {
-    select: (data) => data.data,
-    onSuccess(data) {
-      setWorkerData({...data})
-    },
-    retry:1
-  });
+  const imgFilehandler: React.ChangeEventHandler<HTMLInputElement> = async (
+    event
+  ) => {
+    if (event.target.files) {
+      setImage(event.target.files[0]);
+    }
+  };
+
   const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setWorkerData((prevState) => {
       return {
@@ -185,78 +176,76 @@ const WorkerInfo = () => {
                     />
                   </div>
                   <div className="w-full relative md:w-1/2 px-3 mb-6 md:mb-0">
-                  <div className="w-full  border border-gray-300 rounded-[8px] p-2">
-                    <label
-                      htmlFor="file"
-                      className="flex justify-start gap-4 items-center"
-                    >
-                      <DocumentIcon
-                        color="white"
-                        strokeWidth={3}
-                        className="h-6 w-6 text-blue-gray-500"
+                    <div className="w-full  border border-gray-300 rounded-[8px] p-2">
+                      <label
+                        htmlFor="file"
+                        className="flex justify-start gap-4 items-center"
+                      >
+                        <DocumentIcon
+                          color="white"
+                          strokeWidth={3}
+                          className="h-6 w-6 text-blue-gray-500"
+                        />
+                        <span>Choose an image</span>
+                      </label>
+                      <input
+                        id="file"
+                        name="file"
+                        type="file"
+                        className="hidden"
+                        disabled={isSubmitting}
+                        onChange={imgFilehandler}
                       />
-                      <span>Choose an image</span>
-                    </label>
-                    <input
-                      id="file"
-                      name="file"
-                      type="file"
-                      className="hidden"
-                      disabled={isSubmitting}
-                      onChange={imgFilehandler}
-                    />
-                    {preview ? (
-                      <img
-                        src={preview}
-                        className="absolute top-1 right-5 rounded-full w-8 h-8"
-                      />
-                    ) : (
-                      ""
-                    )}
+                      {image && (
+                        <img
+                          src={URL.createObjectURL(image)}
+                          className="absolute top-1 right-5 rounded-full w-8 h-8"
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
-                </div>
                 <div className="flex flex-wrap -mx-3 mb-2">
-                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 ">
-                  <InputBox
-                    name="birthDate"
-                    id="birthDate"
-                    label="Birth Date"
-                    type="date"
-                    register={register}
-                    error={errors?.birthDate?.message}
-                    disabled={isSubmitting}
-                    value={birthDate}
-                    onChange={onChangeHandler}
-                  />
+                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 ">
+                    <InputBox
+                      name="birthDate"
+                      id="birthDate"
+                      label="Birth Date"
+                      type="date"
+                      register={register}
+                      error={errors?.birthDate?.message}
+                      disabled={isSubmitting}
+                      value={workerData.birthDate}
+                      onChange={onChangeHandler}
+                    />
+                  </div>
+                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <InputBox
+                      name="job"
+                      id="job"
+                      label="Job"
+                      type="text"
+                      register={register}
+                      error={errors?.job?.message}
+                      disabled={isSubmitting}
+                      value={workerData.job}
+                      onChange={onChangeHandler}
+                    />
+                  </div>
+                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <InputBox
+                      name="tel"
+                      id="tel"
+                      label="Tel"
+                      type="text"
+                      register={register}
+                      error={errors?.tel?.message}
+                      disabled={isSubmitting}
+                      value={workerData.tel}
+                      onChange={onChangeHandler}
+                    />
+                  </div>
                 </div>
-                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                  <InputBox
-                    name="job"
-                    id="job"
-                    label="Job"
-                    type="text"
-                    register={register}
-                    error={errors?.job?.message}
-                    disabled={isSubmitting}
-                    value={workerData.job}
-                    onChange={onChangeHandler}
-                  />
-                </div>
-                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                  <InputBox
-                    name="tel"
-                    id="tel"
-                    label="Tel"
-                    type="text"
-                    register={register}
-                    error={errors?.tel?.message}
-                    disabled={isSubmitting}
-                    value={workerData.tel}
-                    onChange={onChangeHandler}
-                  />
-                </div>
-              </div>
               </CardBody>
               <CardFooter className="pt-0 pb-8 text-center">
                 <Button

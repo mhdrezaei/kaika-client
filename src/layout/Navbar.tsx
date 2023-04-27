@@ -4,14 +4,17 @@ import {
   IconButton,
   Navbar as MTNavbar,
   Breadcrumbs,
+  Avatar,
 } from "@material-tailwind/react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { sidebarAction } from "../redux/slice/sidebar-slice";
 import { INavbar } from "../types/layout/layout-types";
+import { baseUrl } from "../data/constants";
 
 const Navbar: React.FC<INavbar> = ({ routes }) => {
+  const userState = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
@@ -28,7 +31,7 @@ const Navbar: React.FC<INavbar> = ({ routes }) => {
       fullWidth
       blurred={fixedNavbar}
     >
-      <div className="flex flex-col-reverse justify-between md:gap-6 md:flex-row md:items-center">
+      <div className="flex  justify-between md:gap-6 md:flex-row md:items-center">
         <div className="capitalize">
           <Breadcrumbs
             className={`bg-transparent p-0 transition-all ${
@@ -61,6 +64,7 @@ const Navbar: React.FC<INavbar> = ({ routes }) => {
           )}
         </div>
         <div className="flex flex-row-reverse items-center">
+          <Avatar src={baseUrl + userState.imageUrl} />
           <IconButton
             variant="text"
             color="blue-gray"

@@ -1,41 +1,58 @@
 import React, { FC } from "react";
 import { IgetHseCurrentUserInfoResponse } from "../../types/api/api-types";
-import WorkerInfo from "../worker/WorkerInfo";
-import { Progress, Typography } from "@material-tailwind/react";
-export interface ItestTableRowProps {
-  rows: IgetHseCurrentUserInfoResponse;
-}
-const TestTableRow: FC<ItestTableRowProps> = ({ rows }) => {
-  const date = new Date(rows.createdAt);
+import { Avatar, Progress, Typography } from "@material-tailwind/react";
+import { ItestTableRowProps } from "../../types/components/last10cuation/testTableRow-types";
+import { baseUrl } from "../../data/constants";
+
+const TestTableRow: FC<ItestTableRowProps> = ({ row }) => {
+  const date = new Date(row.createdAt);
   return (
     // Rtable-row
-    <div className="w-full md:flex flex-wrap mb-4 ">
-      <WorkerInfo workerId={rows.workerId} />
-      <div className="md:w-1/4 flex items-center gap-3 bg-transparent text-kaika-black text-center pl-4 ">
-        <div className="md:hidden text-kaika-yellow">Date </div>
+    <>
+      <div className="flex min-w-max  gap-2 items-center">
+        <Avatar
+          src={baseUrl + row.worker.imageUrl}
+          alt={`${row.worker.firstName} + ${row.worker.lastName}`}
+          className="w-16 h-16"
+        />
         <Typography
           variant="small"
-          className="text-sm font-semibold text-blue-gray-50"
+          className="font-semibold min-w-max text-blue-gray-50"
         >
-          
-          {date.toLocaleString()}
+          {row.worker.firstName} {row.worker.lastName}
         </Typography>
       </div>
-      <div className="md:w-1/4 flex items-center gap-3 md:flex-grow  py-2 px-4 overflow-hidden list-none ">
-        <div className="md:hidden text-kaika-yellow">KSS </div>
+
+      <Typography
+        variant="small"
+        className="font-semibold w-fit text-blue-gray-50"
+      >
+        {row.worker.job}
+      </Typography>
+
+      <Typography
+        variant="small"
+        className="text-sm w-fit font-semibold text-blue-gray-50"
+      >
+        {date.toLocaleDateString()}
+      </Typography>
+      <div className="flex gap-2 items-center">
         <Typography
           variant="small"
-          className="block text-sm font-medium text-blue-gray-50"
+          className="block text-sm w-fit font-medium text-blue-gray-50"
         >
-          {100 - rows.kss}%
+          {100 - row.kss}%
         </Typography>
         <Progress
-          value={100 - rows.kss}
+          className=" w-20"
+          value={100 - row.kss}
           variant="gradient"
-          color={100 - rows.kss === 100 ? "green" : "blue"}
+          color={
+            100 - row.kss > 66 ? "green" : 100 - row.kss > 33 ? "yellow" : "red"
+          }
         />
       </div>
-    </div>
+    </>
   );
 };
 

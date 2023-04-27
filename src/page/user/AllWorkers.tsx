@@ -29,7 +29,7 @@ import { alertAction } from "../../redux/slice/alert-slice";
 import { Link } from "react-router-dom";
 import { find } from "../../util/find";
 import { useNavigate } from "react-router-dom";
-import { baseUrl } from "../../util/constants";
+import { baseUrl } from "../../data/constants";
 
 const AllWorkers = () => {
   const [filter, setFilter] = useState<
@@ -46,8 +46,8 @@ const AllWorkers = () => {
     refetch,
   } = useQuery("allWorkersInfo", getAllWorkerofCurrentUser, {
     select: (data) => data.data,
-    onError: (err: AxiosError) =>
-      alertActive({ message: err.message, color: "red" }),
+    onError: (err: AxiosError<any>) =>
+      alertActive({ message: err.response?.data.message, color: "red" }),
   });
 
   const serchHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -93,7 +93,7 @@ const AllWorkers = () => {
             All Workers Information
           </Typography>
         </CardHeader>
-        <CardBody className=" px-0 pt-0 pb-2 overflow-y-scroll h-96">
+        <CardBody className=" px-0 pt-0 pb-2 overflow-y-auto h-96">
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
@@ -154,7 +154,11 @@ const AllWorkers = () => {
                           <td className={className}>
                             <div className="flex items-center gap-4">
                               <Avatar
-                                src={baseUrl + imageUrl}
+                                src={
+                                  imageUrl
+                                    ? baseUrl + imageUrl
+                                    : "/assets/image/no-profile-photo.jpg"
+                                }
                                 alt={`${firstName} + ${lastName}`}
                                 size="sm"
                               />
@@ -190,7 +194,7 @@ const AllWorkers = () => {
                           <td className={className}>
                             <div className="flex justify-start gap-2">
                               <Link
-                                to={`/user/worker-info/${_id}`}
+                                to={`/user/workers/worker-info/${_id}`}
                                 className="inline text-xs font-semibold text-blue-gray-50"
                               >
                                 <PencilSquareIcon

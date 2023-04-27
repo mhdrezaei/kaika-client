@@ -47,7 +47,7 @@ const Sidebar: React.FC<ISidebar> = ({ routes }) => {
                   <Button
                     variant={isActive ? "gradient" : "text"}
                     color={isActive ? "orange" : "white"}
-                    className="flex items-center gap-4 px-4 capitalize text-gray-100"
+                    className="flex items-center gap-2 px-4 capitalize text-gray-100"
                     fullWidth
                   >
                     {icon}

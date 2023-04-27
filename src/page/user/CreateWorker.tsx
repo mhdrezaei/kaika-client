@@ -45,8 +45,8 @@ const CreateWorker = () => {
   const uploadImg = useMutation({
     mutationKey: "worker upload image",
     mutationFn: uploadImageWorker,
-    onError: (err: AxiosError) =>
-      alertActive({ message: err.message, color: "red" }),
+    onError: (err: AxiosError<any>) =>
+      alertActive({ message: err.response?.data.message, color: "red" }),
   });
 
   const { isLoading, mutate } = useMutation({
@@ -54,11 +54,11 @@ const CreateWorker = () => {
     onSuccess(data) {
       const formData = new FormData();
       image && formData.append("file", image);
-      uploadImg.mutate({ workerId: data.data._id, file: formData });
+      image && uploadImg.mutate({ workerId: data.data._id, file: formData });
       // reset();
     },
-    onError: (err: AxiosError) =>
-      alertActive({ message: err.message, color: "red" }),
+    onError: (err: AxiosError<any>) =>
+      alertActive({ message: err.response?.data.message, color: "red" }),
   });
 
   const onSubmit = (values: IcreateWorkerCurrentUserRequest) => {

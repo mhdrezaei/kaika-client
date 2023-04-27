@@ -16,8 +16,7 @@ import { AxiosError } from "axios";
 import { alertActive } from "../util/alertActive";
 import { IAllWorkersChart } from "../types/components/allWorkersChart-types";
 import { allWorkersChartOptions } from "../util/allWorkersChart";
-
-let period: string = "day";
+import DatePickerEn from "./datePicker/DatePicker-en";
 
 const AllWorkersChart: React.FC<IAllWorkersChart> = ({
   requestFunc,
@@ -26,28 +25,38 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
   title,
 }) => {
   const [date, setDate] = useState(new Date().toLocaleDateString());
-  // const [period, setPeriod] = useState("day");
-  const dateRef = useRef<HTMLInputElement>();
-  const handleInterviewDateClick = () => {
-    dateRef.current?.showPicker();
-  };
+  const [period, setPeriod] = useState("day");
+  const [options, setOptions] = useState(
+    allWorkersChartOptions({
+      data: undefined,
+      color,
+      period,
+    })
+  );
+  // const dateRef = useRef<HTMLInputElement>();
+  // const handleInterviewDateClick = () => {
+  //   dateRef.current?.showPicker();
+  // };
 
   const mutation = useMutation({
     mutationFn: requestFunc,
     mutationKey: title,
-    onError: (err: AxiosError) =>
-      alertActive({ message: err.message, color: "red" }),
+    onError: (err: AxiosError<any>) =>
+      alertActive({ message: err.response?.data.message, color: "red" }),
+    onSuccess: (data) => {
+      setOptions(
+        allWorkersChartOptions({
+          data: data.data,
+          color,
+          period,
+        })
+      );
+    },
   });
 
   useEffect(() => {
     mutation.mutateAsync(`date=${date}&period=${period}`);
   }, []);
-
-  const options = allWorkersChartOptions({
-    data: mutation.data?.data,
-    color,
-    period,
-  });
 
   return (
     <Card className="h-fit w-full bg-kaika-black mt-10">
@@ -70,27 +79,8 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
           </Typography>
         </div>
         <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
-          <span className="bg-kaika-gray w-24 text-center p-2 rounded">
-            {/* {new Date(date).toLocaleDateString("fr")} */}
-            {date}
-          </span>
-          <div className="relative w-12">
-            <CalendarDaysIcon
-              className="h-full text-white"
-              onClick={handleInterviewDateClick}
-            />
-            <input
-              ref={dateRef as LegacyRef<HTMLInputElement>}
-              type="date"
-              className="opacity-0 absolute right-full "
-              onChange={(e) =>
-                setDate(
-                  e.target.value
-                    ? new Date(e.target.value).toLocaleDateString()
-                    : ""
-                )
-              }
-            />
+          <div className="">
+            <DatePickerEn period={period} setDate={setDate} />
           </div>
           <div className="[&>div]:min-w-[100px]">
             <Select
@@ -98,7 +88,7 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
               label="Period"
               value={period}
               onChange={(e) => {
-                if (e) period = e;
+                if (e) setPeriod(e);
               }}
             >
               <Option value="day">Daily</Option>
