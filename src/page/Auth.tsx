@@ -59,6 +59,9 @@ const Auth = () => {
     mutationFn: loginUser,
     onSuccess({ data }) {
       localStorage.setItem("token", data.access_token);
+      // dispatch(
+      //   userAction.setUser(JSON.parse(atob(data.access_token.split(".")[1])))
+      // );
       query.refetch();
     },
     onError: (err: AxiosError<any>) =>

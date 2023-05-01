@@ -5,6 +5,11 @@ import {
   Navbar as MTNavbar,
   Breadcrumbs,
   Avatar,
+  Menu,
+  MenuHandler,
+  MenuItem,
+  Button,
+  MenuList,
 } from "@material-tailwind/react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -12,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { sidebarAction } from "../redux/slice/sidebar-slice";
 import { INavbar } from "../types/layout/layout-types";
 import { baseUrl } from "../data/constants";
+import { userAction } from "../redux/slice/user-slice";
 
 const Navbar: React.FC<INavbar> = ({ routes }) => {
   const userState = useAppSelector((state) => state.user);
@@ -63,8 +69,7 @@ const Navbar: React.FC<INavbar> = ({ routes }) => {
             </Typography>
           )}
         </div>
-        <div className="flex flex-row-reverse items-center">
-          <Avatar src={baseUrl + userState.imageUrl} />
+        <div className="flex items-center">
           <IconButton
             variant="text"
             color="blue-gray"
@@ -73,6 +78,23 @@ const Navbar: React.FC<INavbar> = ({ routes }) => {
           >
             <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
           </IconButton>
+          <Menu placement="bottom-end">
+            <MenuHandler>
+              <Avatar
+                className="cursor-pointer"
+                src={
+                  userState.imageUrl
+                    ? baseUrl + userState.imageUrl
+                    : "/assets/image/no-profile-photo.jpg"
+                }
+              />
+            </MenuHandler>
+            <MenuList>
+              <MenuItem onClick={() => dispatch(userAction.setUser(null))}>
+                Log Out
+              </MenuItem>
+            </MenuList>
+          </Menu>
 
           {/* <IconButton
             variant="text"

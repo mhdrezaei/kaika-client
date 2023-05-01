@@ -9,9 +9,13 @@ const TestTableRow: FC<ItestTableRowProps> = ({ row }) => {
   return (
     // Rtable-row
     <>
-      <div className="flex min-w-max  gap-2 items-center">
+      <div className="flex justify-self-start min-w-max  gap-2 items-center">
         <Avatar
-          src={baseUrl + row.worker.imageUrl}
+          src={
+            row.worker.imageUrl
+              ? baseUrl + row.worker.imageUrl
+              : "/assets/image/no-profile-photo.jpg"
+          }
           alt={`${row.worker.firstName} + ${row.worker.lastName}`}
           className="w-16 h-16"
         />

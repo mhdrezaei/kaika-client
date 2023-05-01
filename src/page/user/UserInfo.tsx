@@ -55,7 +55,8 @@ const UserInfo = () => {
   const uploadImg = useMutation({
     mutationFn: updateUserFile,
     onSuccess(response) {
-      alertActive({ message: "File Uploaded", color: "green" });
+      location.reload();
+      alertActive({ message: "Information Updated", color: "green" });
     },
     onError: (err: AxiosError<any>) =>
       alertActive({ message: err.response?.data.message, color: "red" }),

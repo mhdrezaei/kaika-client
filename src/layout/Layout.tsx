@@ -5,10 +5,30 @@ import { Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { sidebarAction } from "../redux/slice/sidebar-slice";
 import { ILayout } from "../types/layout/layout-types";
+import { AxiosError } from "axios";
+import { useQuery } from "react-query";
+import { userAction } from "../redux/slice/user-slice";
+import { getCurrentUser } from "../service/api";
+import { alertActive } from "../util/alertActive";
 
 const Layout: React.FC<PropsWithChildren<ILayout>> = ({ children, routes }) => {
   const dispatch = useAppDispatch();
   const sidebarState = useAppSelector((state) => state.sidebar);
+
+  useQuery("user", getCurrentUser, {
+    select: (data) => data.data,
+    retry: 1,
+    onSuccess: (data) => {
+      localStorage.setItem("user", JSON.stringify(data));
+      dispatch(userAction.setUser(data));
+    },
+    onError: (err: AxiosError<any>) => {
+      console.log("hi");
+
+      alertActive({ message: err.response?.data.message, color: "red" });
+      dispatch(userAction.setUser(null));
+    },
+  });
 
   return (
     <>
