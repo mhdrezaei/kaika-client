@@ -44,12 +44,7 @@ const createSeries = ({
     return {
       data: workerData.avgList.map((avg) => {
         return {
-          x:
-            period === "year"
-              ? monthOfYear[new Date(avg.date).getMonth()]
-              : period === "week"
-              ? dayOfWeek[new Date(avg.date).getDay()]
-              : avg.date,
+          x: new Date(avg.date),
           y: avg.avg,
         };
       }),
@@ -83,12 +78,15 @@ export const compareWorkersOptions = ({
 }) => {
   const { series, time } = createSeries({ data, period });
 
+  const className = "";
+
   const compareChart: Props = {
     type: "line",
     height: 500,
     series,
     options: {
       ...chartsConfig,
+      chart: {},
       plotOptions: {
         bar: {
           columnWidth: "21%",
@@ -103,8 +101,22 @@ export const compareWorkersOptions = ({
       },
       xaxis: {
         ...chartsConfig.xaxis,
-        categories: period === "day" && dayOfWeek,
-        type: period === "day" ? "datetime" : "category",
+        type: "datetime",
+        // type: period === "day" ? "datetime" : "category",
+        labels: {
+          format:
+            period === "year"
+              ? "MMM"
+              : period === "month"
+              ? "dd"
+              : period === "week"
+              ? "ddd"
+              : "HH:mm",
+          style: {
+            colors: "#fff",
+            cssClass: className,
+          },
+        },
         tooltip: { enabled: false },
         group: { groups: [] },
       },
