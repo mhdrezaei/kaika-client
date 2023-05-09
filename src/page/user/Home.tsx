@@ -4,7 +4,7 @@ import Top10Table from "../../components/Top10Table";
 
 const Home = () => {
   return (
-    <div className="grid  grid-cols-1 gap-10 mt-10">
+    <div className="grid  grid-cols-1 gap-10">
       <Top10Chart
         color="deep-orange"
         requestFunc={top10lowCaution}

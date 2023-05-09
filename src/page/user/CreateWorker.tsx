@@ -66,20 +66,20 @@ const CreateWorker = () => {
   };
 
   return (
-    <div className="w-full  flex justify-center  p-0 sm:p-12 md:px-0 md:pt-12   rounded-md">
+    <div className="w-full flex justify-center items-center rounded-md">
       <div className="2-full md:w-3/4 mx-auto   ">
-        <Card className=" border border-1 border-gray-200 rounded-md mt-6 bg-kaika-black shadow-sm  shadow-gray-300 hover:shadow-md hover:shadow-kaika-yellow">
+        <Card className=" border border-1 border-gray-200 rounded-md bg-kaika-black shadow-sm  shadow-gray-300">
           <CardHeader
             variant="gradient"
             color="orange"
-            className="mb-8 p-6 text-center"
+            className="p-6 text-center"
           >
             <Typography variant="h6" color="white">
               Create new Worker
             </Typography>
           </CardHeader>
           <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-full">
-            <CardBody className="flex flex-col md:gap-5 pb- md:pb-6">
+            <CardBody className="flex flex-col md:gap-5 pt-8">
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <InputBox

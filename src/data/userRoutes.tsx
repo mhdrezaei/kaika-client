@@ -51,7 +51,7 @@ export const userRoutes: Routes = [
   },
   {
     icon: <InformationCircleIcon {...attr} />,
-    name: "About Kaika",
+    name: "About Mainbrain",
     path: "/user/about",
   },
 ];

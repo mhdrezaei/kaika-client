@@ -79,10 +79,10 @@ const Top10Chart: React.FC<ITop10Chart> = ({
               value={period}
               onChange={(e) => e && setPeriod(e)}
             >
-              <Option value="day">Daily</Option>
-              <Option value="week">Weekly</Option>
-              <Option value="month">Monthly</Option>
-              <Option value="year">Yearly</Option>
+              <Option value="day">Day</Option>
+              <Option value="week">Week</Option>
+              <Option value="month">Month</Option>
+              <Option value="year">Year</Option>
             </Select>
           </div>
           <Button

@@ -77,7 +77,7 @@ const CompareChart: React.FC<ICompareChart> = ({
   }, []);
 
   return (
-    <Card className="h-fit w-full bg-kaika-black mt-10">
+    <Card className="h-fit w-full bg-kaika-black">
       <CardHeader
         variant="gradient"
         color={options.color}
@@ -113,10 +113,10 @@ const CompareChart: React.FC<ICompareChart> = ({
                 if (e) setPeriod(e);
               }}
             >
-              <Option value="day">Daily</Option>
-              <Option value="week">Weekly</Option>
-              <Option value="month">Monthly</Option>
-              <Option value="year">Yearly</Option>
+              <Option value="day">Day</Option>
+              <Option value="week">Week</Option>
+              <Option value="month">Month</Option>
+              <Option value="year">Year</Option>
             </Select>
           </div>
           <Button

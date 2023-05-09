@@ -103,6 +103,7 @@ export const compareWorkersOptions = ({
       },
       xaxis: {
         ...chartsConfig.xaxis,
+        categories: period === "day" && dayOfWeek,
         type: period === "day" ? "datetime" : "category",
         tooltip: { enabled: false },
         group: { groups: [] },
@@ -129,33 +130,3 @@ export const compareWorkersOptions = ({
     chart: compareChart,
   };
 };
-
-// const dailySalesChart = {
-//   type: "line",
-//   height: 220,
-//   series: [
-//     {
-//       name: "Sales",
-//       data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-//     },
-//   ],
-//   options: {
-//     ...chartsConfig,
-//     colors: ["#fff"],
-
-//     xaxis: {
-//       ...chartsConfig.xaxis,
-//       categories: [
-//         "Apr",
-//         "May",
-//         "Jun",
-//         "Jul",
-//         "Aug",
-//         "Sep",
-//         "Oct",
-//         "Nov",
-//         "Dec",
-//       ],
-//     },
-//   },
-// };

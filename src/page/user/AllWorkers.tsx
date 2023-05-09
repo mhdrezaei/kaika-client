@@ -86,14 +86,14 @@ const AllWorkers = () => {
   };
 
   return (
-    <div className="mt-12 flex flex-col gap-7">
+    <div className="flex flex-col gap-7">
       <Card className="bg-kaika-black">
-        <CardHeader variant="gradient" color="orange" className="mb-8 p-6">
+        <CardHeader variant="gradient" color="orange" className="p-6">
           <Typography variant="h6" color="white">
             All Workers Information
           </Typography>
         </CardHeader>
-        <CardBody className=" px-0 pt-0 pb-2 overflow-y-auto h-96">
+        <CardBody className=" px-0 pt-6 pb-2 overflow-y-auto h-[416px]">
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
@@ -188,7 +188,7 @@ const AllWorkers = () => {
                           </td>
                           <td className={className}>
                             <Typography className="text-xs font-semibold text-blue-gray-50">
-                              {birthDate}
+                              {new Date(birthDate).toLocaleDateString("fr")}
                             </Typography>
                           </td>
                           <td className={className}>
@@ -240,7 +240,7 @@ const AllWorkers = () => {
         </CardBody>
       </Card>
       {/* Toolbar */}
-      <div className="w-full bg-kaika-black py-2 rounded-md hover:shadow-md">
+      <div className="w-full bg-kaika-black py-2 rounded-md ">
         <div className="flex justify-between items-center">
           <div className="relative p-2 flex items-center">
             <Input

@@ -22,9 +22,7 @@ const DatePickerEn = ({ period, setDate }) => {
             const week = e.target.value.split("W")[1];
             setDate(
               period === "week"
-                ? new Date(
-                    new Date(+year, 0).setDate(+week * 7)
-                  ).toLocaleString()
+                ? new Date(new Date(+year, 0).setDate(+week * 7))
                 : e.target.value
             );
           }}

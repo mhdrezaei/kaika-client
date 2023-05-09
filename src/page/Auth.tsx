@@ -77,7 +77,7 @@ const Auth = () => {
   return (
     <div className="absolute inset-0 z-0 h-full w-full  bg-kaika-gray">
       <div className="container mx-auto p-4 ">
-        <Card className="absolute top-2/4 left-2/4 w-full max-w-[24rem] -translate-y-2/4 -translate-x-2/4 bg-kaika-black shadow-sm  shadow-kaika-yellow hover:shadow-md hover:shadow-kaika-yellow">
+        <Card className="absolute top-2/4 left-2/4 w-full max-w-[24rem] -translate-y-2/4 -translate-x-2/4 bg-kaika-black shadow-sm ">
           <form method="post" onSubmit={handleSubmit(onSubmit)}>
             <CardHeader
               variant="gradient"

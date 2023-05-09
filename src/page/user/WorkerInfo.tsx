@@ -113,7 +113,7 @@ const WorkerInfo = () => {
   return (
     <div className="w-full  flex justify-center  p-0 sm:p-12 md:px-0 md:pt-12   rounded-md">
       <div className="2-full md:w-3/4 mx-auto   ">
-        <Card className=" border border-1 border-gray-200 rounded-md mt-6 bg-kaika-black shadow-sm  shadow-gray-300 hover:shadow-md hover:shadow-kaika-yellow">
+        <Card className=" border border-1 border-gray-200 rounded-md mt-6 bg-kaika-black shadow-sm  shadow-gray-300">
           <CardHeader
             variant="gradient"
             color="orange"

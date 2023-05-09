@@ -44,7 +44,7 @@ const Layout: React.FC<PropsWithChildren<ILayout>> = ({ children, routes }) => {
         // onClick={() => dispatch(sidebarAction.close())}
       >
         <Sidebar routes={routes} />
-        <div className="xl:ml-[19rem]">
+        <div className="xl:ml-[19rem] flex flex-col gap-10">
           <Navbar routes={routes} />
           <div className="lg:p-4 p-1">
             {children}
