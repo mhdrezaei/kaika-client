@@ -237,3 +237,9 @@ export const averageWorkersList = async ({
 export const averageAllWorkers = async (query: string) => {
   return axios.get<IAverageAllWorkersRes[]>("/chart/allworkers-avg?" + query);
 };
+
+export const alertUnderThreshold = async (workerId: string) => {
+  return axios.post<{ isAlert: boolean }>("/chart/alert-under-threshold", {
+    workerId,
+  });
+};

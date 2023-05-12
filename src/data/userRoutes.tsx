@@ -37,7 +37,7 @@ export const userRoutes: Routes = [
   {
     icon: <PresentationChartLineIcon {...attr} />,
     name: "Company Mental Alertness",
-    path: "/user/user-fatigue",
+    path: "/user/Company-alertness",
   },
   {
     icon: <IdentificationIcon {...attr} />,

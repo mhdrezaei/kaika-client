@@ -78,7 +78,7 @@ export const compareWorkersOptions = ({
 }) => {
   const { series, time } = createSeries({ data, period });
 
-  const className = "";
+  const className = "md:font-medium md:text-base";
 
   const compareChart: Props = {
     type: "line",
@@ -86,7 +86,20 @@ export const compareWorkersOptions = ({
     series,
     options: {
       ...chartsConfig,
-      chart: {},
+      chart: {
+        // foreColor: "#fff",
+      },
+      legend: {
+        fontSize: "19px",
+        fontWeight: 400,
+        fontFamily: "Helvetica, Arial",
+        labels: {
+          colors: "#FFCC80",
+        },
+        itemMargin: {
+          horizontal: 20,
+        },
+      },
       plotOptions: {
         bar: {
           columnWidth: "21%",
@@ -101,24 +114,31 @@ export const compareWorkersOptions = ({
       },
       xaxis: {
         ...chartsConfig.xaxis,
+        tickPlacement: "between",
         type: "datetime",
+
         // type: period === "day" ? "datetime" : "category",
         labels: {
+          // rotateAlways: true,
+          // rotate: -90,
+
           format:
             period === "year"
-              ? "MMM"
+              ? "MMMM"
               : period === "month"
               ? "dd"
               : period === "week"
-              ? "ddd"
+              ? "dddd"
               : "HH:mm",
           style: {
             colors: "#fff",
             cssClass: className,
           },
+          // formatter(value, timestamp, opts) {
+          //   return dayOfWeek[new Date(value).getDay()];
+          // },
         },
         tooltip: { enabled: false },
-        group: { groups: [] },
       },
 
       tooltip: {

@@ -1,4 +1,6 @@
-export const chartsConfig = {
+import { ApexOptions } from "apexcharts";
+
+export const chartsConfig: ApexOptions = {
   chart: {
     toolbar: {
       show: false,
@@ -28,11 +30,12 @@ export const chartsConfig = {
     labels: {
       style: {
         colors: "#fff",
-        fontSize: "13px",
+        fontSize: "17px",
         fontFamily: "inherit",
-        fontWeight: 300,
+        fontWeight: 500,
       },
     },
+
     max: 100,
     min: 0,
     logBase: 5,
@@ -49,10 +52,12 @@ export const chartsConfig = {
     },
     padding: {
       top: 5,
-      right: 20,
+      right: 50,
+      left: 10,
+      bottom: 20,
     },
   },
   fill: {
-    opacity: 0.8,
+    opacity: 1,
   },
 };

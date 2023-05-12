@@ -38,6 +38,13 @@ export const top10chartOptions = ({
     ],
     options: {
       ...chartsConfig,
+      states: {
+        active: {
+          filter: {
+            type: "none" /* none, lighten, darken */,
+          },
+        },
+      },
       colors: [
         function (props: any) {
           return (
@@ -56,6 +63,9 @@ export const top10chartOptions = ({
       xaxis: {
         ...chartsConfig.xaxis,
         categories: x,
+        crosshairs: {
+          show: false, // <--- HERE
+        },
       },
       tooltip: {
         theme: "",

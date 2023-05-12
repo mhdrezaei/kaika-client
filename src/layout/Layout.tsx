@@ -23,8 +23,6 @@ const Layout: React.FC<PropsWithChildren<ILayout>> = ({ children, routes }) => {
       dispatch(userAction.setUser(data));
     },
     onError: (err: AxiosError<any>) => {
-      console.log("hi");
-
       alertActive({ message: err.response?.data.message, color: "red" });
       dispatch(userAction.setUser(null));
     },

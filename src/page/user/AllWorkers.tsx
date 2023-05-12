@@ -12,6 +12,7 @@ import {
 } from "@material-tailwind/react";
 import { useQuery } from "react-query";
 import {
+  alertUnderThreshold,
   deleteWorkerListCurrentUserAdmin,
   getAllWorkerofCurrentUser,
 } from "../../service/api";
@@ -30,6 +31,12 @@ import { Link } from "react-router-dom";
 import { find } from "../../util/find";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../data/constants";
+import DialogWin from "../../components/common/DialogWin";
+import {
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/solid";
+import ThresholdAlert from "../../components/ThresholdAlert";
 
 const AllWorkers = () => {
   const [filter, setFilter] = useState<
@@ -37,6 +44,7 @@ const AllWorkers = () => {
   >([]);
   const [selectedWorkers, setSelectedWorkers] = useState<string[]>([]);
   const [isSearch, setIsSearch] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const navigator = useNavigate();
 
@@ -60,19 +68,7 @@ const AllWorkers = () => {
           find(worker.firstName + " " + worker.lastName, key)
         )
       : [];
-    if (filterdData.length === 0) {
-      alertActive({
-        message: `${key} not found! Please try another keyword..`,
-        color: "red",
-      });
-      setFilter([]);
-    } else {
-      const item = filterdData.length === 1 ? "item" : "items";
-      alertActive({
-        message: `${filterdData.length} ${item} founded!`,
-        color: "green",
-      });
-    }
+
     setFilter(filterdData);
   };
 
@@ -97,21 +93,26 @@ const AllWorkers = () => {
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {["#", "Worker name", "job", "tel", "birthday", "Actions"].map(
-                  (el) => (
-                    <th
-                      key={el}
-                      className="border-b border-blue-gray-50 py-3 px-5 text-left"
+                {[
+                  <CheckCircleIcon className="w-5" />,
+                  "Worker name",
+                  "job",
+                  "tel",
+                  "birthday",
+                  "Actions",
+                ].map((el) => (
+                  <th
+                    key={el.toString()}
+                    className="border-b border-blue-gray-50 py-3 px-5 text-left"
+                  >
+                    <Typography
+                      variant="small"
+                      className="text-[11px] font-bold uppercase text-blue-gray-50"
                     >
-                      <Typography
-                        variant="small"
-                        className="text-[11px] font-bold uppercase text-blue-gray-50"
-                      >
-                        {el}
-                      </Typography>
-                    </th>
-                  )
-                )}
+                      {el}
+                    </Typography>
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody
@@ -146,6 +147,7 @@ const AllWorkers = () => {
                         >
                           <td className={className}>
                             <Checkbox
+                              id={_id}
                               color="orange"
                               value={_id}
                               onChange={(e) => selectWorkerHandler(e, _id)}
@@ -153,15 +155,18 @@ const AllWorkers = () => {
                           </td>
                           <td className={className}>
                             <div className="flex items-center gap-4">
-                              <Avatar
-                                src={
-                                  imageUrl
-                                    ? baseUrl + imageUrl
-                                    : "/assets/image/no-profile-photo.jpg"
-                                }
-                                alt={`${firstName} + ${lastName}`}
-                                size="sm"
-                              />
+                              <div className="w-fit h-fit relative">
+                                <Avatar
+                                  src={
+                                    imageUrl
+                                      ? baseUrl + imageUrl
+                                      : "/assets/image/no-profile-photo.jpg"
+                                  }
+                                  alt={`${firstName} + ${lastName}`}
+                                  size="sm"
+                                />
+                                <ThresholdAlert id={_id} />
+                              </div>
                               <div>
                                 <Typography
                                   variant="small"
@@ -192,7 +197,7 @@ const AllWorkers = () => {
                             </Typography>
                           </td>
                           <td className={className}>
-                            <div className="flex justify-start gap-2">
+                            <div className="flex justify-center gap-2">
                               <Link
                                 to={`/user/workers/worker-info/${_id}`}
                                 className="inline text-xs font-semibold text-blue-gray-50"
@@ -202,16 +207,6 @@ const AllWorkers = () => {
                                   className="h-5 w-5"
                                 />
                               </Link>
-                              <Typography
-                                as="a"
-                                href="#"
-                                className="inline text-xs font-semibold text-blue-gray-50"
-                              >
-                                <TrashIcon
-                                  strokeWidth={2.5}
-                                  className="h-5 w-5"
-                                />
-                              </Typography>
                             </div>
                           </td>
                         </tr>
@@ -249,7 +244,7 @@ const AllWorkers = () => {
               type="text"
               disabled={false}
               onChange={serchHandler}
-              className="w-full rounded-md border border-gray-300"
+              className="w-96 rounded-md border border-gray-300"
             />
             <MagnifyingGlassIcon
               color="white"
@@ -264,6 +259,7 @@ const AllWorkers = () => {
                 })
               }
               disabled={selectedWorkers.length === 0}
+              // className="w-40"
             >
               {selectedWorkers.length > 1 ? "compare" : "result"}
             </Button>
@@ -271,7 +267,14 @@ const AllWorkers = () => {
               type="button"
               color="red"
               disabled={selectedWorkers.length === 0}
-              onClick={async () => {
+              onClick={() => setIsDialogOpen(true)}
+            >
+              delete selected
+            </Button>
+            <DialogWin
+              isOpen={isDialogOpen}
+              setIsOpen={setIsDialogOpen}
+              handle={async () => {
                 const result = await deleteWorkerListCurrentUserAdmin(
                   selectedWorkers
                 );
@@ -279,9 +282,7 @@ const AllWorkers = () => {
                 await refetch();
                 setSelectedWorkers([]);
               }}
-            >
-              delete selected
-            </Button>
+            />
           </div>
         </div>
       </div>

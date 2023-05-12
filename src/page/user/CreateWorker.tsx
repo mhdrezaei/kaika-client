@@ -24,12 +24,12 @@ type WorkerFormSchemaType = z.infer<typeof WorkerFormSchema>;
 
 const CreateWorker = () => {
   const [image, setImage] = useState<File>();
-  // const [preview, setPreview] = useState<string>();
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<WorkerFormSchemaType>({
     resolver: zodResolver(WorkerFormSchema),
   });
@@ -52,10 +52,11 @@ const CreateWorker = () => {
   const { isLoading, mutate } = useMutation({
     mutationFn: createWorkerCurrentUser,
     onSuccess(data) {
+      alertActive({ message: "Employee created!", color: "green" });
       const formData = new FormData();
       image && formData.append("file", image);
       image && uploadImg.mutate({ workerId: data.data._id, file: formData });
-      // reset();
+      reset();
     },
     onError: (err: AxiosError<any>) =>
       alertActive({ message: err.response?.data.message, color: "red" }),

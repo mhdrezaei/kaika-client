@@ -6,9 +6,9 @@ import {
 } from "@material-tailwind/react";
 import { useQuery } from "react-query";
 import { BeatLoader } from "react-spinners";
-import { last10Caution } from "../service/api";
-import TestTable from "./table/TestTable";
-import { alertActive } from "../util/alertActive";
+import { last10Caution } from "../../service/api";
+import TestTable from "./TestTable";
+import { alertActive } from "../../util/alertActive";
 import { AxiosError } from "axios";
 
 const Top10Table = () => {

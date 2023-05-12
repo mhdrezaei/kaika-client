@@ -1,6 +1,6 @@
-import Top10Chart from "../../components/Top10Chart";
+import Top10Chart from "../../components/charts/Top10Chart";
 import { top10highCaution, top10lowCaution } from "../../service/api";
-import Top10Table from "../../components/Top10Table";
+import Top10Table from "../../components/table/Top10Table";
 
 const Home = () => {
   return (

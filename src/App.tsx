@@ -10,7 +10,7 @@ import AllUsers from "./page/admin/AllUsers";
 import CreateUser from "./page/admin/CreateUser";
 import CompareUsers from "./page/admin/CompareUsers";
 import AdminUserInfo from "./page/admin/UserInfo";
-import UserFatigue from "./page/user/UserFatigue";
+import CompanyAlertness from "./page/user/CompanyAlertness";
 import Home from "./page/user/Home";
 import UserInfo from "./page/user/UserInfo";
 import WorkerInfo from "./page/user/WorkerInfo";
@@ -83,7 +83,7 @@ function App() {
             <Route path="workers/worker-info/:id" element={<WorkerInfo />} />
             <Route path="create-worker" element={<CreateWorker />} />
             <Route path="user-info" element={<UserInfo />} />
-            <Route path="user-fatigue" element={<UserFatigue />} />
+            <Route path="company-alertness" element={<CompanyAlertness />} />
             <Route path="guide" element={<Guide />} />
             <Route path="about" element={<About />} />
           </Route>

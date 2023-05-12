@@ -10,6 +10,7 @@ import {
   MenuItem,
   Button,
   MenuList,
+  Tooltip,
 } from "@material-tailwind/react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -18,9 +19,12 @@ import { sidebarAction } from "../redux/slice/sidebar-slice";
 import { INavbar } from "../types/layout/layout-types";
 import { baseUrl } from "../data/constants";
 import { userAction } from "../redux/slice/user-slice";
+import {
+  ArrowLeftOnRectangleIcon,
+  ArrowsPointingOutIcon,
+} from "@heroicons/react/24/solid";
 
 const Navbar: React.FC<INavbar> = ({ routes }) => {
-  const userState = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
@@ -69,40 +73,28 @@ const Navbar: React.FC<INavbar> = ({ routes }) => {
             </Typography>
           )}
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center gap-3">
           <IconButton
             variant="text"
             color="blue-gray"
-            className="grid xl:hidden"
+            className="xl:hidden"
             onClick={() => dispatch(sidebarAction.open())}
           >
             <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
           </IconButton>
-          <Menu placement="bottom-end">
-            <MenuHandler>
-              <Avatar
-                className="cursor-pointer"
-                src={
-                  userState.imageUrl
-                    ? baseUrl + userState.imageUrl
-                    : "/assets/image/no-profile-photo.jpg"
-                }
-              />
-            </MenuHandler>
-            <MenuList>
-              <MenuItem onClick={() => dispatch(userAction.setUser(null))}>
-                Log Out
-              </MenuItem>
-            </MenuList>
-          </Menu>
 
-          {/* <IconButton
-            variant="text"
-            color="blue-gray"
-            onClick={() => setOpenConfigurator(dispatch, true)}
-          >
-            <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
-          </IconButton> */}
+          <Tooltip content="Log Out" className="text-kaika-yellow">
+            <IconButton
+              variant="text"
+              color="blue-gray"
+              onClick={() => dispatch(userAction.setUser(null))}
+            >
+              <ArrowLeftOnRectangleIcon
+                className="cursor-pointer w-7 text-blue-gray-500"
+                strokeWidth={3}
+              />
+            </IconButton>
+          </Tooltip>
         </div>
       </div>
     </MTNavbar>

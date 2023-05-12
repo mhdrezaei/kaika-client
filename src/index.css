@@ -119,3 +119,41 @@ input::-webkit-datetime-edit {
   position: relative;
   left: 10%;
 } */
+
+@media screen and (min-width: 800px) {
+  :root {
+    --primary: orange;
+    --secondary: transparent;
+  }
+
+  * {
+    scrollbar-width: 5px;
+    scrollbar-color: var(--primary) var(--secondary);
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+    background-color: transparent;
+    border-radius: 5px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 14px;
+    border: 3px solid var(--primary);
+  }
+}
+
+body {
+  background-color: gray;
+}
+
+::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(1);
+  /* color-scheme: dark; */
+}

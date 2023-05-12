@@ -9,44 +9,71 @@ import {
   Input,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
-import { top10chartOptions } from "../util/top10chart-options";
 import { useMutation } from "react-query";
-import React, { LegacyRef, useEffect, useRef, useState } from "react";
-import { ITop10Chart } from "../types/components/top10chart-types";
+import React, {
+  LegacyRef,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { ClockLoader } from "react-spinners";
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
+import { ICompareChart } from "../../types/components/compareChart-types";
+import { compareWorkersOptions } from "../../util/compareChart-options";
 import { AxiosError } from "axios";
-import { alertActive } from "../util/alertActive";
-import DatePickerEn from "./datePicker/DatePicker-en";
+import { alertActive } from "../../util/alertActive";
+import { useLocation } from "react-router-dom";
+import DatePickerEn from "../datePicker/DatePicker-en";
+import SelectPeriod from "../datePicker/SelectPeriod";
 
-const Top10Chart: React.FC<ITop10Chart> = ({
+const CompareChart: React.FC<ICompareChart> = ({
   requestFunc,
   color,
   description,
   title,
 }) => {
-  const [date, setDate] = useState(new Date().toLocaleDateString());
-  const [period, setPeriod] = useState("day");
-  const dateRef = useRef<HTMLInputElement>();
-  const handleInterviewDateClick = () => {
-    dateRef.current?.showPicker();
-  };
+  const workersId = useLocation().state.selectedWorkers;
 
+  const [date, setDate] = useState(new Date().toLocaleDateString());
+  const [options, setOptions] = useState(
+    compareWorkersOptions({
+      data: undefined,
+      color: "indigo",
+      period: "day",
+    })
+  );
+  const [period, setPeriod] = useState("day");
+  // const dateRef = useRef<HTMLInputElement>();
+  // const handleInterviewDateClick = () => {
+  //   dateRef.current?.showPicker();
+  // };
+  // (dateRef.current)&&dateRef.current.datepicker({dateFormat: 'yy'})
+  // console.log(dateRef.current && dateRef.current.);
   const mutation = useMutation({
     mutationFn: requestFunc,
     mutationKey: title,
     onError: (err: AxiosError<any>) =>
       alertActive({ message: err.response?.data.message, color: "red" }),
+    onSuccess: (data) => {
+      setOptions(
+        compareWorkersOptions({
+          data: data.data,
+          color,
+          period,
+        })
+      );
+    },
   });
 
   useEffect(() => {
-    mutation.mutateAsync(`date=${date}&period=${period}`);
+    mutation.mutateAsync({
+      data: {
+        workerIdList: workersId,
+      },
+      query: `date=${date}&period=${period}`,
+    });
   }, []);
-
-  const options = top10chartOptions({
-    data: mutation.data?.data,
-    color,
-  });
 
   return (
     <Card className="h-fit w-full bg-kaika-black">
@@ -70,23 +97,27 @@ const Top10Chart: React.FC<ITop10Chart> = ({
         </div>
         <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
           <div className="">
+            {/* <CalendarDaysIcon
+                  className="w-12 text-white"
+                  onClick={handleInterviewDateClick}
+                /> */}
             <DatePickerEn period={period} setDate={setDate} />
           </div>
-          <div className="[&>div]:min-w-[100px]">
-            <Select
-              className=""
-              label="Period"
-              value={period}
-              onChange={(e) => e && setPeriod(e)}
-            >
-              <Option value="day">Day</Option>
-              <Option value="week">Week</Option>
-              <Option value="month">Month</Option>
-              <Option value="year">Year</Option>
-            </Select>
-          </div>
+          <SelectPeriod
+            period={period}
+            setPeriod={setPeriod}
+            setDate={setDate}
+          />
+
           <Button
-            onClick={() => mutation.mutate(`date=${date}&period=${period}`)}
+            onClick={() => {
+              mutation.mutate({
+                data: {
+                  workerIdList: workersId,
+                },
+                query: `date=${date}&period=${period}`,
+              });
+            }}
             className="py-3 px-12 w-20 text-base flex justify-center items-stretch"
           >
             {mutation.isLoading ? (
@@ -103,4 +134,4 @@ const Top10Chart: React.FC<ITop10Chart> = ({
   );
 };
 
-export default Top10Chart;
+export default CompareChart;

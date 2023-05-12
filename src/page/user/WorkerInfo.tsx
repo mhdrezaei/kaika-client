@@ -24,6 +24,7 @@ import {
 import { useParams } from "react-router-dom";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 import { alertActive } from "../../util/alertActive";
+import { useAppDispatch } from "../../redux/hooks";
 
 type WorkerFormSchemaType = z.infer<typeof WorkerFormSchema>;
 
@@ -67,10 +68,8 @@ const WorkerInfo = () => {
 
   const uploadImg = useMutation({
     mutationFn: uploadImageWorker,
-    onSuccess(response) {
-      alertActive({ message: "File upload", color: "green" });
-    },
   });
+
   const { isLoading, mutate } = useMutation({
     mutationFn: (value: IAdminUpdateAWorkerCurrentUserRequest) =>
       updateAWorkerCurrentUserAdmin(id!, value),
@@ -83,6 +82,7 @@ const WorkerInfo = () => {
         .reverse()
         .join("-");
       setWorkerData({ ...data.data, birthDate });
+      alertActive({ message: "Employee Updated!", color: "green" });
       const formData = new FormData();
       image && formData.append("file", image);
       image && uploadImg.mutate({ workerId: data.data._id, file: formData });

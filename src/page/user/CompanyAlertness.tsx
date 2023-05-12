@@ -1,7 +1,7 @@
-import AllWorkersChart from "../../components/AllWorkersChart";
+import AllWorkersChart from "../../components/charts/AllWorkersChart";
 import { averageAllWorkers } from "../../service/api";
 
-const UserFatigue = () => {
+const CompanyAlertness = () => {
   return (
     <AllWorkersChart
       color="brown"
@@ -12,4 +12,4 @@ const UserFatigue = () => {
   );
 };
 
-export default UserFatigue;
+export default CompanyAlertness;

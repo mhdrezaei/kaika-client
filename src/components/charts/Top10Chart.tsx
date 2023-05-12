@@ -6,19 +6,21 @@ import {
   Button,
   Option,
   Select,
+  Input,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
+import { top10chartOptions } from "../../util/top10chart-options";
 import { useMutation } from "react-query";
 import React, { LegacyRef, useEffect, useRef, useState } from "react";
+import { ITop10Chart } from "../../types/components/top10chart-types";
 import { ClockLoader } from "react-spinners";
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
 import { AxiosError } from "axios";
-import { alertActive } from "../util/alertActive";
-import { IAllWorkersChart } from "../types/components/allWorkersChart-types";
-import { allWorkersChartOptions } from "../util/allWorkersChart";
-import DatePickerEn from "./datePicker/DatePicker-en";
+import { alertActive } from "../../util/alertActive";
+import DatePickerEn from "../datePicker/DatePicker-en";
+import SelectPeriod from "../datePicker/SelectPeriod";
 
-const AllWorkersChart: React.FC<IAllWorkersChart> = ({
+const Top10Chart: React.FC<ITop10Chart> = ({
   requestFunc,
   color,
   description,
@@ -26,37 +28,26 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
 }) => {
   const [date, setDate] = useState(new Date().toLocaleDateString());
   const [period, setPeriod] = useState("day");
-  const [options, setOptions] = useState(
-    allWorkersChartOptions({
-      data: undefined,
-      color,
-      period,
-    })
-  );
-  // const dateRef = useRef<HTMLInputElement>();
-  // const handleInterviewDateClick = () => {
-  //   dateRef.current?.showPicker();
-  // };
+  const dateRef = useRef<HTMLInputElement>();
+  const handleInterviewDateClick = () => {
+    dateRef.current?.showPicker();
+  };
 
   const mutation = useMutation({
     mutationFn: requestFunc,
     mutationKey: title,
     onError: (err: AxiosError<any>) =>
       alertActive({ message: err.response?.data.message, color: "red" }),
-    onSuccess: (data) => {
-      setOptions(
-        allWorkersChartOptions({
-          data: data.data,
-          color,
-          period,
-        })
-      );
-    },
   });
 
   useEffect(() => {
     mutation.mutateAsync(`date=${date}&period=${period}`);
   }, []);
+
+  const options = top10chartOptions({
+    data: mutation.data?.data,
+    color,
+  });
 
   return (
     <Card className="h-fit w-full bg-kaika-black">
@@ -82,21 +73,11 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
           <div className="">
             <DatePickerEn period={period} setDate={setDate} />
           </div>
-          <div className="[&>div]:min-w-[100px]">
-            <Select
-              className=""
-              label="Period"
-              value={period}
-              onChange={(e) => {
-                if (e) setPeriod(e);
-              }}
-            >
-              <Option value="day">Day</Option>
-              <Option value="week">Week</Option>
-              <Option value="month">Month</Option>
-              <Option value="year">Year</Option>
-            </Select>
-          </div>
+          <SelectPeriod
+            period={period}
+            setPeriod={setPeriod}
+            setDate={setDate}
+          />
           <Button
             onClick={() => mutation.mutate(`date=${date}&period=${period}`)}
             className="py-3 px-12 w-20 text-base flex justify-center items-stretch"
@@ -115,4 +96,4 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
   );
 };
 
-export default AllWorkersChart;
+export default Top10Chart;

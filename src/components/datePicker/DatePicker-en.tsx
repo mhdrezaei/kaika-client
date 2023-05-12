@@ -15,6 +15,12 @@ const DatePickerEn = ({ period, setDate }) => {
         </Select>
       ) : (
         <Input
+          label="Date"
+          defaultValue={new Date()
+            .toLocaleDateString("fr")
+            .split("/")
+            .reverse()
+            .join("-")}
           type={period === "day" ? "date" : period}
           className="text-white bg-gray-400"
           onChange={(e) => {
