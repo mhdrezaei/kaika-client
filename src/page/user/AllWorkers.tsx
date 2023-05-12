@@ -82,8 +82,8 @@ const AllWorkers = () => {
   };
 
   return (
-    <div className="flex flex-col gap-7">
-      <Card className="bg-kaika-black">
+    <div className="flex flex-col justify-between gap-7">
+      <Card className="bg-kaika-black rounded-md">
         <CardHeader variant="gradient" color="orange" className="p-6">
           <Typography variant="h6" color="white">
             All Workers Information
@@ -145,7 +145,7 @@ const AllWorkers = () => {
                           className={isSearch && !filter.length ? "hidden" : ""}
                           key={_id}
                         >
-                          <td className={className}>
+                          <td className={`pl-2 ${className}`}>
                             <Checkbox
                               id={_id}
                               color="orange"
@@ -236,8 +236,8 @@ const AllWorkers = () => {
       </Card>
       {/* Toolbar */}
       <div className="w-full bg-kaika-black py-2 rounded-md ">
-        <div className="flex justify-between items-center">
-          <div className="relative p-2 flex items-center">
+        <div className="flex flex-col md:flex-row justify-between md:items-center">
+          <div className="relative px-2 flex flex-1 items-center">
             <Input
               name="search"
               label="Search"
@@ -248,10 +248,10 @@ const AllWorkers = () => {
             />
             <MagnifyingGlassIcon
               color="white"
-              className="absolute right-4 w-5 h-5"
+              className="absolute right-4 top-3 w-5 h-5"
             />
           </div>
-          <div className="flex gap-3 ml-auto p-2">
+          <div className="flex gap-3 ml-auto px-2 pt-2 md:pt-0">
             <Button
               onClick={() =>
                 navigator("compare-workers", {
