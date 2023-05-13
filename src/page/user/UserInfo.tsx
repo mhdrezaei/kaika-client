@@ -103,7 +103,7 @@ const UserInfo = () => {
           </CardHeader>
 
           <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-full">
-            <CardBody className="flex flex-col md:gap-5 pt-8">
+            <CardBody className="flex flex-col md:gap-0 xl:gap-3 pt-8">
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <InputBox
@@ -171,13 +171,13 @@ const UserInfo = () => {
                     {image && (
                       <img
                         src={URL.createObjectURL(image)}
-                        className="absolute top-1 right-5 rounded-full w-8 h-8"
+                        className="absolute top-1 right-5 rounded-lg w-8 h-8"
                       />
                     )}
                   </div>
                 </div>
               </div>
-              <div className="flex flex-wrap -mx-3 mb-2">
+              <div className="flex flex-wrap -mx-3 md:mb-6">
                 <div className="w-full px-3 mb-6 md:mb-0">
                   <InputBox
                     name="address"
@@ -192,7 +192,7 @@ const UserInfo = () => {
                   />
                 </div>
               </div>
-              <div className="flex flex-wrap -mx-3 mb-2">
+              <div className="flex flex-wrap -mx-3 md:mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <InputBox
                     name="officialName"
@@ -221,7 +221,7 @@ const UserInfo = () => {
                   />
                 </div>
               </div>
-              <div className="flex flex-wrap -mx-3 mb-2">
+              <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <InputBox
                     name="password"
@@ -234,7 +234,7 @@ const UserInfo = () => {
                     onChange={onChangeHandler}
                   />
                 </div>
-                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <div className="w-full md:w-1/2 px-3 md:mb-0">
                   <InputBox
                     name="newPassword"
                     id="newPassword"

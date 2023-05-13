@@ -16,16 +16,16 @@ export const UserInfoSchema = z.object({
   tel: z
     .string()
     .nonempty("Tel is required")
-    .min(7, "tel must be atleast 7 characters.")
-    .max(52, "tel must be less than 52 characters."),
+    .min(7, "Tel must be atleast 7 characters.")
+    .max(52, "Tel must be less than 52 characters."),
     password: z
     .string()
-    .nonempty("Tel is required")
-    .min(3, "tel must be atleast 3 characters.")
-    .max(52, "tel must be less than 52 characters."),
+    .nonempty("Password is required")
+    .min(3, "Password must be atleast 3 characters.")
+    .max(52, "Password must be less than 52 characters."),
     newPassword: z
     .string()
-    .nonempty("Tel is required")
-    .min(3, "tel must be atleast 3 characters.")
-    .max(52, "tel must be less than 52 characters."),
+    .nonempty("Password is required")
+    .min(3, "Password must be atleast 3 characters.")
+    .max(52, "Password must be less than 52 characters."),
 });
