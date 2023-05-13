@@ -37,6 +37,7 @@ import {
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/solid";
 import ThresholdAlert from "../../components/ThresholdAlert";
+import AllWorkersRow from "../../components/table/all-workers/AllWorkersRow";
 
 const AllWorkers = () => {
   const [filter, setFilter] = useState<
@@ -45,6 +46,8 @@ const AllWorkers = () => {
   const [selectedWorkers, setSelectedWorkers] = useState<string[]>([]);
   const [isSearch, setIsSearch] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isShowJustAlertEmployees, setIsShowJustAlertEmployees] =
+    useState(false);
 
   const navigator = useNavigate();
 
@@ -116,24 +119,11 @@ const AllWorkers = () => {
               </tr>
             </thead>
             <tbody
-              className={
-                !isSuccess || !filter.length ? "relative h-40" : "relative"
-              }
+              className={!isSuccess || !filter.length ? "relative" : "relative"}
             >
               {isSuccess
                 ? (filter.length ? filter : workersInfo).map(
-                    (
-                      {
-                        firstName,
-                        lastName,
-                        tel,
-                        job,
-                        imageUrl,
-                        birthDate,
-                        _id,
-                      },
-                      key
-                    ) => {
+                    (workerData, key) => {
                       const className = `py-3 px-5 ${
                         key === workersInfo.length - 1
                           ? ""
@@ -141,75 +131,14 @@ const AllWorkers = () => {
                       }`;
 
                       return (
-                        <tr
-                          className={isSearch && !filter.length ? "hidden" : ""}
-                          key={_id}
-                        >
-                          <td className={`pl-2 ${className}`}>
-                            <Checkbox
-                              id={_id}
-                              color="orange"
-                              value={_id}
-                              onChange={(e) => selectWorkerHandler(e, _id)}
-                            />
-                          </td>
-                          <td className={className}>
-                            <div className="flex items-center gap-4">
-                              <div className="w-fit h-fit relative">
-                                <Avatar
-                                  src={
-                                    imageUrl
-                                      ? baseUrl + imageUrl
-                                      : "/assets/image/no-profile-photo.jpg"
-                                  }
-                                  alt={`${firstName} + ${lastName}`}
-                                  size="sm"
-                                />
-                                <ThresholdAlert id={_id} />
-                              </div>
-                              <div>
-                                <Typography
-                                  variant="small"
-                                  color="blue-gray"
-                                  className="font-semibold text-blue-gray-50"
-                                >
-                                  {`${firstName} ${lastName}`}
-                                </Typography>
-                                {/* <Typography className="text-xs font-normal text-blue-gray-500">
-                                {email}
-                              </Typography> */}
-                              </div>
-                            </div>
-                          </td>
-                          <td className={className}>
-                            <Typography className="text-xs font-semibold text-blue-gray-50">
-                              {job}
-                            </Typography>
-                          </td>
-                          <td className={className}>
-                            <Typography className="text-xs font-semibold text-blue-gray-50">
-                              {tel}
-                            </Typography>
-                          </td>
-                          <td className={className}>
-                            <Typography className="text-xs font-semibold text-blue-gray-50">
-                              {new Date(birthDate).toLocaleDateString("fr")}
-                            </Typography>
-                          </td>
-                          <td className={className}>
-                            <div className="flex justify-center gap-2">
-                              <Link
-                                to={`/user/workers/worker-info/${_id}`}
-                                className="inline text-xs font-semibold text-blue-gray-50"
-                              >
-                                <PencilSquareIcon
-                                  strokeWidth={2.5}
-                                  className="h-5 w-5"
-                                />
-                              </Link>
-                            </div>
-                          </td>
-                        </tr>
+                        <AllWorkersRow
+                          {...workerData}
+                          className={className}
+                          isSearch={isSearch}
+                          filter={filter}
+                          isShowJustAlertEmployees={isShowJustAlertEmployees}
+                          selectWorkerHandler={selectWorkerHandler}
+                        />
                       );
                     }
                   )
@@ -235,14 +164,13 @@ const AllWorkers = () => {
         </CardBody>
       </Card>
       {/* Toolbar */}
-      <div className="w-full bg-kaika-black py-2 rounded-md ">
+      <div className="w-full bg-kaika-black p-4 rounded-md ">
         <div className="flex flex-col md:flex-row justify-between md:items-center">
-          <div className="relative px-2 flex flex-1 items-center">
+          <div className="relative flex items-center">
             <Input
               name="search"
               label="Search"
               type="text"
-              disabled={false}
               onChange={serchHandler}
               className="w-96 rounded-md border border-gray-300"
             />
@@ -251,8 +179,9 @@ const AllWorkers = () => {
               className="absolute right-4 top-3 w-5 h-5"
             />
           </div>
-          <div className="flex gap-3 ml-auto px-2 pt-2 md:pt-0">
+          <div className="flex gap-3 ml-auto ">
             <Button
+              variant="gradient"
               onClick={() =>
                 navigator("compare-workers", {
                   state: { selectedWorkers },
@@ -264,6 +193,15 @@ const AllWorkers = () => {
               {selectedWorkers.length > 1 ? "compare" : "result"}
             </Button>
             <Button
+              variant="gradient"
+              type="button"
+              color="amber"
+              onClick={() => setIsShowJustAlertEmployees((prev) => !prev)}
+            >
+              {isShowJustAlertEmployees ? "All Employees" : "Low Alertness"}
+            </Button>
+            <Button
+              variant="gradient"
               type="button"
               color="red"
               disabled={selectedWorkers.length === 0}

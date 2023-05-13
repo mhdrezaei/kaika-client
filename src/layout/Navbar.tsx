@@ -83,18 +83,18 @@ const Navbar: React.FC<INavbar> = ({ routes }) => {
             <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
           </IconButton>
 
-          <Tooltip content="Log Out" className="text-kaika-yellow">
-            <IconButton
-              variant="text"
-              color="blue-gray"
-              onClick={() => dispatch(userAction.setUser(null))}
-            >
-              <ArrowLeftOnRectangleIcon
-                className="cursor-pointer w-7 text-blue-gray-500"
-                strokeWidth={3}
-              />
-            </IconButton>
-          </Tooltip>
+          <Button
+            variant="text"
+            color="blue-gray"
+            onClick={() => dispatch(userAction.setUser(null))}
+            className="flex capitalize items-center p-1 font-bold text-blue-gray-500"
+          >
+            Logout
+            <ArrowLeftOnRectangleIcon
+              className="cursor-pointer w-7 "
+              strokeWidth={5}
+            />
+          </Button>
         </div>
       </div>
     </MTNavbar>

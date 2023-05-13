@@ -3,9 +3,11 @@ import React from "react";
 import { useQuery } from "react-query";
 import { alertUnderThreshold } from "../service/api";
 
-const ThresholdAlert = ({ id }) => {
-  const { data } = useQuery("alerUnderThreshold" + id, () =>
-    alertUnderThreshold(id)
+const ThresholdAlert = ({ id, setIsAlertEmployee }) => {
+  const { data } = useQuery(
+    "alerUnderThreshold" + id,
+    () => alertUnderThreshold(id),
+    { onSuccess: (data) => setIsAlertEmployee(data.data.isAlert) }
   );
 
   return (
