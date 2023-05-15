@@ -51,7 +51,6 @@ const CreateWorker = () => {
   const removeImage = () => {
     setImage(undefined);
   };
-  console.log(image);
   const uploadImg = useMutation({
     mutationKey: "worker upload image",
     mutationFn: uploadImageWorker,
