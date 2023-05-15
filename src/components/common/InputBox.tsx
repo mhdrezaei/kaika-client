@@ -24,6 +24,7 @@ const InputBox: FC<InputProps> = ({
     <div className="relative">
       <Input
         name={name}
+        autoComplete="new-password"
         id={id}
         type={type}
         disabled={disabled}

@@ -133,8 +133,8 @@ const WorkerInfo = () => {
               className="w-full max-w-full"
             >
               <CardBody className="flex flex-col gap-5">
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <div className="flex flex-wrap -mx-3 xl:mb-6">
+                  <div className="w-full xl:w-1/2 px-3 mb-6 xl:mb-0">
                     <InputBox
                       name="firstName"
                       id="firstName"
@@ -147,7 +147,7 @@ const WorkerInfo = () => {
                       onChange={onChangeHandler}
                     />
                   </div>
-                  <div className="w-full md:w-1/2 px-3">
+                  <div className="w-full xl:w-1/2 px-3">
                     <InputBox
                       name="lastName"
                       id="lastName"
@@ -161,8 +161,8 @@ const WorkerInfo = () => {
                     />
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <div className="flex flex-wrap -mx-3 xl:mb-3">
+                  <div className="w-full xl:w-1/2 px-3 mb-6 xl:mb-0">
                     <InputBox
                       name="email"
                       id="email"
@@ -175,7 +175,7 @@ const WorkerInfo = () => {
                       onChange={onChangeHandler}
                     />
                   </div>
-                  <div className="w-full relative md:w-1/2 px-3 mb-6 md:mb-0">
+                  <div className="w-full relative xl:w-1/2 px-3 xl:mb-0">
                     <div className="w-full  border border-gray-300 rounded-[8px] p-2">
                       <label
                         htmlFor="file"
@@ -206,7 +206,7 @@ const WorkerInfo = () => {
                   </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-2">
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 ">
+                  <div className="w-full xl:w-1/2 px-3 mb-6 xl:mb-0 ">
                     <InputBox
                       name="birthDate"
                       id="birthDate"
@@ -219,7 +219,7 @@ const WorkerInfo = () => {
                       onChange={onChangeHandler}
                     />
                   </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full xl:w-1/2 px-3 mb-6 xl:mb-0">
                     <InputBox
                       name="job"
                       id="job"
@@ -232,7 +232,7 @@ const WorkerInfo = () => {
                       onChange={onChangeHandler}
                     />
                   </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full xl:w-1/2 px-3 mb-6 xl:mb-0 xl:mt-6">
                     <InputBox
                       name="tel"
                       id="tel"
