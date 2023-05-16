@@ -3,8 +3,10 @@ import { IgetHseCurrentUserInfoResponse } from "../../types/api/api-types";
 import { Avatar, Progress, Typography } from "@material-tailwind/react";
 import { ItestTableRowProps } from "../../types/components/last10cuation/testTableRow-types";
 import { baseUrl } from "../../data/constants";
+import { Link, useNavigate } from "react-router-dom";
 
 const TestTableRow: FC<ItestTableRowProps> = ({ row }) => {
+  const navigator = useNavigate()
   const date = new Date(row.createdAt);
   return (
     // Rtable-row
@@ -21,10 +23,14 @@ const TestTableRow: FC<ItestTableRowProps> = ({ row }) => {
         />
         <Typography
           variant="small"
-          className="font-semibold min-w-max text-blue-gray-50"
+          className="font-semibold min-w-max text-blue-gray-50 cursor-pointer hover:border-b"
+          onClick={() =>
+            navigator("/user/workers/compare-workers", {
+              state: { selectedWorkers : row.worker._id },
+            })}
         >
           {row.worker.firstName} {row.worker.lastName}
-        </Typography>
+                   </Typography>
       </div>
 
       <Typography

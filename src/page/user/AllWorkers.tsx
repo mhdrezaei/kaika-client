@@ -179,7 +179,7 @@ const AllWorkers = () => {
               className="absolute right-4 top-3 w-5 h-5"
             />
           </div>
-          <div className="flex gap-3 ml-auto ">
+          <div className="flex gap-3 ml-auto mt-3 md:mt-0">
             <Button
               variant="gradient"
               onClick={() =>

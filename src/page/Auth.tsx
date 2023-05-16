@@ -95,6 +95,7 @@ const Auth = () => {
                 register={register}
                 error={errors?.email?.message}
                 disabled={isSubmitting}
+                
               />
 
               <InputBox

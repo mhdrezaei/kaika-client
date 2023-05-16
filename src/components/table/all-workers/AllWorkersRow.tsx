@@ -68,12 +68,10 @@ const AllWorkersRow = ({
               variant="small"
               color="blue-gray"
               className="font-semibold text-blue-gray-50"
+      
             >
               {`${firstName} ${lastName}`}
             </Typography>
-            {/* <Typography className="text-xs font-normal text-blue-gray-500">
-                                {email}
-                              </Typography> */}
           </div>
         </div>
       </td>
@@ -93,7 +91,7 @@ const AllWorkersRow = ({
         </Typography>
       </td>
       <td className={className}>
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-start pl-3">
           <Link
             to={`/user/workers/worker-info/${_id}`}
             className="inline text-xs font-semibold text-blue-gray-50"
