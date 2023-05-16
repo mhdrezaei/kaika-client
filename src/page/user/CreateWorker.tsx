@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import InputBox from "../../components/common/InputBox";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { string, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BeatLoader } from "react-spinners";
 import { WorkerFormSchema } from "../../schema/newWorkerFormSchema";
@@ -19,6 +19,8 @@ import { createWorkerCurrentUser, uploadImageWorker } from "../../service/api";
 import { alertActive } from "../../util/alertActive";
 import { DocumentIcon } from "@heroicons/react/24/solid";
 import { useMutation } from "react-query";
+import CropImage from "../../components/common/CropImage";
+import FingerImage from "../../components/common/FingerImage";
 
 type WorkerFormSchemaType = z.infer<typeof WorkerFormSchema>;
 
@@ -34,14 +36,21 @@ const CreateWorker = () => {
     resolver: zodResolver(WorkerFormSchema),
   });
 
-  const imgFilehandler: React.ChangeEventHandler<HTMLInputElement> = async (
+  const imgFilehandler: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
     if (event.target.files) {
       setImage(event.target.files[0]);
     }
   };
-
+  const imageCropedHandler = (
+    image: React.SetStateAction<File | undefined>
+  ) => {
+    setImage(image);
+  };
+  const removeImage = () => {
+    setImage(undefined);
+  };
   const uploadImg = useMutation({
     mutationKey: "worker upload image",
     mutationFn: uploadImageWorker,
@@ -57,6 +66,7 @@ const CreateWorker = () => {
       image && formData.append("file", image);
       image && uploadImg.mutate({ workerId: data.data._id, file: formData });
       reset();
+      setImage(undefined);
     },
     onError: (err: AxiosError<any>) =>
       alertActive({ message: err.response?.data.message, color: "red" }),
@@ -115,7 +125,7 @@ const CreateWorker = () => {
                   />
                 </div>
                 <div className="w-full relative xl:w-1/2 px-3 xl:mb-0">
-                  <div className="w-full  border border-gray-300 rounded-[8px] p-2">
+                  <div className="w-full flex justify-between items-center  border border-gray-300 rounded-[8px] p-2">
                     <label
                       htmlFor="upload"
                       className="flex justify-start gap-4 items-center"
@@ -136,12 +146,16 @@ const CreateWorker = () => {
                       onChange={imgFilehandler}
                     />
                     {image ? (
-                      <img
-                        src={URL.createObjectURL(image)}
-                        className="absolute top-1 right-5 rounded-lg w-8 h-8"
+                      <CropImage
+                        img={URL.createObjectURL(image)}
+                        onCroped={imageCropedHandler}
+                        onRemove={removeImage}
                       />
                     ) : (
                       ""
+                    )}
+                    {image && (
+                      <FingerImage image={image} onRemove={removeImage} />
                     )}
                   </div>
                 </div>

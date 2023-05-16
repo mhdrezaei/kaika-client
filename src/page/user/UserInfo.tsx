@@ -27,6 +27,8 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { userAction } from "../../redux/slice/user-slice";
 import { alertActive } from "../../util/alertActive";
 import { DocumentIcon } from "@heroicons/react/24/outline";
+import CropImage from "../../components/common/CropImage";
+import FingerImage from "../../components/common/FingerImage";
 
 type UserFormSchemaType = z.infer<typeof UserInfoSchema>;
 
@@ -42,6 +44,15 @@ const UserInfo = () => {
     if (event.target.files) {
       setImage(event.target.files[0]);
     }
+  };
+
+  const imageCropedHandler = (
+    image: React.SetStateAction<File | undefined>
+  ) => {
+    setImage(image);
+  };
+  const removeImage = () => {
+    setImage(undefined);
   };
 
   const {
@@ -148,7 +159,7 @@ const UserInfo = () => {
                 </div>
 
                 <div className="w-full relative md:w-1/2 px-3 md:mb-0">
-                  <div className="w-full  border border-gray-300 rounded-[8px] p-2">
+                  <div className="w-full flex justify-between items-center  border border-gray-300 rounded-[8px] p-2">
                     <label
                       htmlFor="file"
                       className="flex justify-start gap-4 items-center"
@@ -168,11 +179,17 @@ const UserInfo = () => {
                       disabled={isSubmitting}
                       onChange={imgFilehandler}
                     />
-                    {image && (
-                      <img
-                        src={URL.createObjectURL(image)}
-                        className="absolute top-1 right-5 rounded-lg w-8 h-8"
+                    {image ? (
+                      <CropImage
+                        img={URL.createObjectURL(image)}
+                        onCroped={imageCropedHandler}
+                        onRemove={removeImage}
                       />
+                    ) : (
+                      ""
+                    )}
+                    {image && (
+                      <FingerImage image={image} onRemove={removeImage} />
                     )}
                   </div>
                 </div>
