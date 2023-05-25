@@ -86,7 +86,7 @@ const CreateWorker = () => {
             className="p-6 text-center"
           >
             <Typography variant="h6" color="white">
-              Create new Worker
+              Create new Employee
             </Typography>
           </CardHeader>
           <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-full">

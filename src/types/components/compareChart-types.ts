@@ -14,6 +14,4 @@ export interface ICompareChart {
     query: string;
   }) => Promise<AxiosResponse<IAverageWorkersListRes[], any>>;
   color: colors;
-  title: string;
-  description: string;
 }

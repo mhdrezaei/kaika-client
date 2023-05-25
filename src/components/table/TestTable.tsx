@@ -8,27 +8,27 @@ const TestTable: FC<ItestTableProps> = ({ headers, data }) => {
     <div className="grid grid-cols-[repeat(3,minmax(min-content,1fr))_min-content] pt-5 lg:px-5 md:px-2  gap-y-3 gap-x-5 grid-flow-row min-w-fit mb-3 place-items-center place-content-center">
       <Typography
         variant="small"
-        className={`text-base min-w-max font-medium uppercase text-blue-gray-50`}
+        className={`text-base capitalize min-w-max font-medium text-blue-gray-50`}
       >
-        Worker
+        Employee
       </Typography>
       <Typography
         variant="small"
-        className={`text-base min-w-max font-medium uppercase text-blue-gray-50`}
+        className={`text-base capitalize min-w-max font-medium text-blue-gray-50`}
       >
         Job
       </Typography>
       <Typography
         variant="small"
-        className={`text-base min-w-max font-medium uppercase text-blue-gray-50`}
+        className={`text-base capitalize min-w-max font-medium text-blue-gray-50`}
       >
         Date of Test
       </Typography>
       <Typography
         variant="small"
-        className={`text-base min-w-max font-medium uppercase text-blue-gray-50`}
+        className={`text-base capitalize min-w-max font-medium text-blue-gray-50`}
       >
-        Caution
+        Mental Alertness
       </Typography>
       {data.map((element) => (
         <TestTableRow key={element._id} row={element} />

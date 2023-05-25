@@ -109,7 +109,7 @@ const UserInfo = () => {
             className="p-6 text-center"
           >
             <Typography variant="h6" color="white">
-              User Information
+              Company Information
             </Typography>
           </CardHeader>
 

@@ -75,14 +75,17 @@ function App() {
           <Route element={<Layout routes={userRoutes} />}>
             <Route path="" element={<Navigate to="/user/home" />} />
             <Route path="home" element={<Home />} />
-            <Route path="workers" element={<AllWorkers />}></Route>
+            <Route path="Employees" element={<AllWorkers />}></Route>
             <Route
-              path="workers/compare-workers"
+              path="employees/compare-employees"
               element={<CompareWorkers />}
             />
-            <Route path="workers/worker-info/:id" element={<WorkerInfo />} />
-            <Route path="create-worker" element={<CreateWorker />} />
-            <Route path="user-info" element={<UserInfo />} />
+            <Route
+              path="employees/employee-info/:id"
+              element={<WorkerInfo />}
+            />
+            <Route path="create-employee" element={<CreateWorker />} />
+            <Route path="company-info" element={<UserInfo />} />
             <Route path="company-alertness" element={<CompanyAlertness />} />
             <Route path="guide" element={<Guide />} />
             <Route path="about" element={<About />} />

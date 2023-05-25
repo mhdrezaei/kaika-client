@@ -6,7 +6,7 @@ import { baseUrl } from "../../data/constants";
 import { Link, useNavigate } from "react-router-dom";
 
 const TestTableRow: FC<ItestTableRowProps> = ({ row }) => {
-  const navigator = useNavigate()
+  const navigator = useNavigate();
   const date = new Date(row.createdAt);
   return (
     // Rtable-row
@@ -23,19 +23,20 @@ const TestTableRow: FC<ItestTableRowProps> = ({ row }) => {
         />
         <Typography
           variant="small"
-          className="font-semibold min-w-max text-blue-gray-50 cursor-pointer hover:border-b"
+          className="font-semibold min-w-max text-blue-gray-50 cursor-pointer capitalize hover:border-b"
           onClick={() =>
             navigator("/user/workers/compare-workers", {
-              state: { selectedWorkers : row.worker._id },
-            })}
+              state: { selectedWorkers: row.worker._id },
+            })
+          }
         >
           {row.worker.firstName} {row.worker.lastName}
-                   </Typography>
+        </Typography>
       </div>
 
       <Typography
         variant="small"
-        className="font-semibold w-fit text-blue-gray-50"
+        className="font-semibold w-fit text-blue-gray-50 capitalize"
       >
         {row.worker.job}
       </Typography>

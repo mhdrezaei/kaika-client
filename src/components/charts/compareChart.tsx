@@ -7,6 +7,7 @@ import {
   Option,
   Select,
   Input,
+  Avatar,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
 import { useMutation } from "react-query";
@@ -26,13 +27,9 @@ import { alertActive } from "../../util/alertActive";
 import { useLocation } from "react-router-dom";
 import DatePickerEn from "../datePicker/DatePicker-en";
 import SelectPeriod from "../datePicker/SelectPeriod";
+import { baseUrl } from "../../data/constants";
 
-const CompareChart: React.FC<ICompareChart> = ({
-  requestFunc,
-  color,
-  description,
-  title,
-}) => {
+const CompareChart: React.FC<ICompareChart> = ({ requestFunc, color }) => {
   const workersId = useLocation().state.selectedWorkers;
 
   const [date, setDate] = useState(new Date().toLocaleDateString());
@@ -52,7 +49,6 @@ const CompareChart: React.FC<ICompareChart> = ({
   // console.log(dateRef.current && dateRef.current.);
   const mutation = useMutation({
     mutationFn: requestFunc,
-    mutationKey: title,
     onError: (err: AxiosError<any>) =>
       alertActive({ message: err.response?.data.message, color: "red" }),
     onSuccess: (data) => {
@@ -87,14 +83,47 @@ const CompareChart: React.FC<ICompareChart> = ({
         )}
       </CardHeader>
       <CardBody className="p-6 md:flex flex-col lg:flex-row">
-        <div>
-          <Typography variant="h6" className="text-orange-200">
-            {title}
-          </Typography>
-          <Typography variant="small" className="font-normal text-kaika-yellow">
-            {description}
-          </Typography>
-        </div>
+        {mutation.data?.data.length === 1 ? (
+          <div
+            className="flex items-center gap-2
+          "
+          >
+            <Avatar
+              src={
+                mutation.data?.data[0].worker.imageUrl
+                  ? baseUrl + mutation.data?.data[0].worker.imageUrl
+                  : "/assets/image/no-profile-photo.jpg"
+              }
+              alt={`${mutation.data?.data[0].worker.firstName} + ${mutation.data?.data[0].worker.lastName}`}
+              className="w-16 h-16"
+            />
+            <div>
+              <Typography variant="h6" className="text-orange-200">
+                {mutation.data?.data[0].worker.firstName +
+                  " " +
+                  mutation.data?.data[0].worker.firstName}
+              </Typography>
+              <Typography
+                variant="small"
+                className="font-normal text-kaika-yellow"
+              >
+                {mutation.data?.data[0].worker.job}
+              </Typography>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col">
+            <Typography variant="h6" className="text-orange-200">
+              Comparison
+            </Typography>
+            <Typography
+              variant="small"
+              className="font-normal text-kaika-yellow"
+            >
+              Compare betweens employees
+            </Typography>
+          </div>
+        )}
         <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
           <div className="">
             {/* <CalendarDaysIcon

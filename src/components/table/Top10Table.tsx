@@ -12,7 +12,7 @@ import { alertActive } from "../../util/alertActive";
 import { AxiosError } from "axios";
 
 const Top10Table = () => {
-  const heaeders = ["Worker", "job", "date", "KSS"];
+  const heaeders = ["Employee", "job", "date", "KSS"];
   const { data, isSuccess } = useQuery("last10caution", last10Caution, {
     select: (data) => data.data,
     onError: (err: AxiosError<any>) =>
@@ -25,7 +25,7 @@ const Top10Table = () => {
         variant="gradient"
         className=" grid py-4 place-items-center  bg-kaika-yellow shadow-kaika-yellow/50 shadow-md"
       >
-        <Typography color="white">Last Tests Workers</Typography>
+        <Typography color="white">Last tests</Typography>
       </CardHeader>
       <CardBody className="relative w-full p-0 overflow-x-auto">
         {!isSuccess ? (
