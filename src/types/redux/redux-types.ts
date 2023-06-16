@@ -24,5 +24,5 @@ export interface IUserState {
   updatedAt: string;
 }
 export interface ILangState {
-  lang: string;
+  lang: string | void;
 }

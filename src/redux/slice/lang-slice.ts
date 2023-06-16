@@ -5,7 +5,8 @@ import { ILangState } from "../../types/redux/redux-types";
 // Define the initial state using that type
 const langStorage = localStorage.getItem("selected-lang");
 const initialState: ILangState = {
-  lang: langStorage || navigator.language,
+  lang:
+    langStorage || localStorage.setItem("selected-lang", navigator.language),
 };
 
 export const langSlice = createSlice({
