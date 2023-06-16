@@ -6,13 +6,14 @@ import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import HttpApi from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
+import "./i18next/i18n";
 import { Progress, ThemeProvider } from "@material-tailwind/react";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
-import { QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from "react-query";
 import { QueryClient } from "react-query";
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const queryClient = new QueryClient();
 
@@ -38,11 +39,11 @@ i18next
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <QueryClientProvider client={queryClient} >
-      <ThemeProvider>
-        <App />
-      </ThemeProvider>
-      <ReactQueryDevtools/>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </Provider>
   </React.StrictMode>

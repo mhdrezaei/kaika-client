@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import sidebarReducer from "./slice/sidebar-slice";
 import userReducer from "./slice/user-slice";
 import alertReducer from "./slice/alert-slice";
-import langReducer from "./slice/lang-slice"
 // ...
 
 export const store = configureStore({
@@ -10,7 +9,6 @@ export const store = configureStore({
     sidebar: sidebarReducer,
     user: userReducer,
     alert: alertReducer,
-    lang : langReducer
   },
 });
 

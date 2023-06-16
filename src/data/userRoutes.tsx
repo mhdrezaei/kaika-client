@@ -7,7 +7,6 @@ import {
   CpuChipIcon,
   InformationCircleIcon,
 } from "@heroicons/react/24/solid";
-
 const attr = {
   className: "w-5 h-5 text-inherit",
 };

@@ -23,6 +23,3 @@ export interface IUserState {
   createdAt: string;
   updatedAt: string;
 }
-export interface ILangState {
-  lang: string | void;
-}
