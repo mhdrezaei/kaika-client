@@ -30,11 +30,7 @@ import AlertMessage from "./components/AlertMessage";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 function App() {
-  const { t, i18n } = useTranslation();
-  useEffect(() => {
-    const lng = navigator.language;
-    i18n.changeLanguage(lng);
-  });
+  
 
   const userState = useAppSelector(selectUser);
 
