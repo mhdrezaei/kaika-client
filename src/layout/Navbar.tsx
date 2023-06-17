@@ -23,6 +23,7 @@ import {
   ArrowLeftOnRectangleIcon,
   ArrowsPointingOutIcon,
 } from "@heroicons/react/24/solid";
+import LangSelector from "../components/common/LangSelector";
 
 const Navbar: React.FC<INavbar> = ({ routes }) => {
   const dispatch = useAppDispatch();
@@ -83,6 +84,7 @@ const Navbar: React.FC<INavbar> = ({ routes }) => {
             <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
           </IconButton>
 
+          <LangSelector />
           <Button
             variant="text"
             color="blue-gray"

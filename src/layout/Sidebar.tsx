@@ -11,8 +11,10 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { sidebarAction } from "../redux/slice/sidebar-slice";
 import { ISidebar } from "../types/layout/layout-types";
 import { baseUrl } from "../data/constants";
+import { useTranslation } from "react-i18next";
 
 const Sidebar: React.FC<ISidebar> = ({ routes }) => {
+  const { t, i18n } = useTranslation("translation");
   const sidebarState = useAppSelector((state) => state.sidebar);
   const userState = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -57,7 +59,7 @@ const Sidebar: React.FC<ISidebar> = ({ routes }) => {
                   >
                     {icon}
                     <Typography className="font-medium capitalize ">
-                      {name}
+                      {t(name)}
                     </Typography>
                   </Button>
                 )}
