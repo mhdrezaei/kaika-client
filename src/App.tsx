@@ -27,9 +27,10 @@ import { userRoutes } from "./data/userRoutes";
 import { useAppSelector } from "./redux/hooks";
 import { selectUser } from "./redux/slice/user-slice";
 import AlertMessage from "./components/AlertMessage";
-
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 function App() {
-  // const { t } = useTranslation();
+  
 
   const userState = useAppSelector(selectUser);
 
