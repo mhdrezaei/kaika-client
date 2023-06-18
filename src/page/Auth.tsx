@@ -39,6 +39,7 @@ const Auth = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    getValues,
   } = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
   });
@@ -95,7 +96,7 @@ const Auth = () => {
                 register={register}
                 error={errors?.email?.message}
                 disabled={isSubmitting}
-                
+                value={getValues("email")}
               />
 
               <InputBox
@@ -105,6 +106,7 @@ const Auth = () => {
                 register={register}
                 error={errors?.password?.message}
                 disabled={isSubmitting}
+                value={getValues("password")}
               />
               <div className="-ml-2.5">
                 <Checkbox label="Remember Me" />

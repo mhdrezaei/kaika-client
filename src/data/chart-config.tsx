@@ -52,7 +52,7 @@ export const chartsConfig: ApexOptions = {
     },
     padding: {
       top: 5,
-      right: 50,
+      right: 40,
       left: 10,
       bottom: 20,
     },

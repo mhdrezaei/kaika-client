@@ -89,7 +89,7 @@ const AllWorkers = () => {
       <Card className="bg-kaika-black rounded-md">
         <CardHeader variant="gradient" color="orange" className="p-6">
           <Typography variant="h6" color="white">
-            All Workers Information
+            All Employees Information
           </Typography>
         </CardHeader>
         <CardBody className=" px-0 pt-6 pb-2 overflow-y-auto h-[416px]">
@@ -98,7 +98,7 @@ const AllWorkers = () => {
               <tr>
                 {[
                   <CheckCircleIcon className="w-5" />,
-                  "Worker name",
+                  "Name",
                   "job",
                   "tel",
                   "birthday",
@@ -110,7 +110,7 @@ const AllWorkers = () => {
                   >
                     <Typography
                       variant="small"
-                      className="text-[11px] font-bold uppercase text-blue-gray-50"
+                      className="text-[11px] font-bold capitalize text-blue-gray-50"
                     >
                       {el}
                     </Typography>
@@ -132,6 +132,7 @@ const AllWorkers = () => {
 
                       return (
                         <AllWorkersRow
+                          key={workerData._id}
                           {...workerData}
                           className={className}
                           isSearch={isSearch}
@@ -183,7 +184,7 @@ const AllWorkers = () => {
             <Button
               variant="gradient"
               onClick={() =>
-                navigator("compare-workers", {
+                navigator("compare-employees", {
                   state: { selectedWorkers },
                 })
               }

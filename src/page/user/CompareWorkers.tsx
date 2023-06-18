@@ -5,14 +5,7 @@ import { averageWorkersList } from "../../service/api";
 import { compareWorkersOptions } from "../../util/compareChart-options";
 
 const CompareWorkers = () => {
-  return (
-    <CompareChart
-      color="indigo"
-      requestFunc={averageWorkersList}
-      description="Workers who their last test is Highest"
-      title="Top 10 high"
-    />
-  );
+  return <CompareChart color="indigo" requestFunc={averageWorkersList} />;
 };
 
 export default CompareWorkers;

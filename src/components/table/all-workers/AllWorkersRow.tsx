@@ -33,7 +33,6 @@ const AllWorkersRow = ({
           ? "hidden"
           : ""
       }
-      key={_id}
     >
       <td className={`pl-2 ${className}`}>
         <Checkbox
@@ -67,8 +66,7 @@ const AllWorkersRow = ({
             <Typography
               variant="small"
               color="blue-gray"
-              className="font-semibold text-blue-gray-50"
-      
+              className="font-semibold capitalize text-blue-gray-50"
             >
               {`${firstName} ${lastName}`}
             </Typography>
@@ -76,7 +74,7 @@ const AllWorkersRow = ({
         </div>
       </td>
       <td className={className}>
-        <Typography className="text-xs font-semibold text-blue-gray-50">
+        <Typography className="text-xs capitalize font-semibold text-blue-gray-50">
           {job}
         </Typography>
       </td>
@@ -93,7 +91,7 @@ const AllWorkersRow = ({
       <td className={className}>
         <div className="flex justify-start pl-3">
           <Link
-            to={`/user/workers/worker-info/${_id}`}
+            to={`/user/employees/employee-info/${_id}`}
             className="inline text-xs font-semibold text-blue-gray-50"
           >
             <PencilSquareIcon strokeWidth={2.5} className="h-5 w-5" />

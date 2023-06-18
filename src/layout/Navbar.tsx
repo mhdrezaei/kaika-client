@@ -89,7 +89,7 @@ const Navbar: React.FC<INavbar> = ({ routes }) => {
             variant="text"
             color="blue-gray"
             onClick={() => dispatch(userAction.setUser(null))}
-            className="flex capitalize items-center p-1 font-bold text-blue-gray-500"
+            className="flex capitalize items-center p-1 font-bold text-kaika-black"
           >
             Logout
             <ArrowLeftOnRectangleIcon

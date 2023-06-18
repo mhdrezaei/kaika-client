@@ -25,13 +25,15 @@ export const userRoutes: Routes = [
   },
   {
     icon: <UserGroupIcon {...attr} />,
-    name: "Workers",
-    path: "/user/workers",
+    name: "Employees",
+    path: "/user/employees",
   },
   {
     icon: <UserPlusIcon {...attr} />,
-    name: "Create_Worker",
-    path: "/user/create-worker",
+
+    name: "Create Employee",
+    path: "/user/create-employee",
+
   },
   {
     icon: <PresentationChartLineIcon {...attr} />,
@@ -40,8 +42,10 @@ export const userRoutes: Routes = [
   },
   {
     icon: <IdentificationIcon {...attr} />,
-    name: "Company_Information",
-    path: "/user/user-info",
+
+    name: "Company Information",
+    path: "/user/company-info",
+
   },
   {
     icon: <CpuChipIcon {...attr} />,

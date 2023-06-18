@@ -86,9 +86,7 @@ export const compareWorkersOptions = ({
     series,
     options: {
       ...chartsConfig,
-      chart: {
-        // foreColor: "#fff",
-      },
+
       legend: {
         fontSize: "19px",
         fontWeight: 400,
@@ -140,7 +138,22 @@ export const compareWorkersOptions = ({
         },
         tooltip: { enabled: false },
       },
-
+      grid: {
+        show: true,
+        borderColor: "#ffffff40",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        padding: {
+          top: 5,
+          right: period === "month" ? 30 : 50,
+          left: 10,
+          bottom: 20,
+        },
+      },
       tooltip: {
         enabled: true,
         shared: true,
