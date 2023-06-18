@@ -1,0 +1,24 @@
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import HttpApi from "i18next-http-backend";
+import { langs } from "../data/enums";
+
+i18n
+  .use(initReactI18next)
+  .use(LanguageDetector)
+  .use(HttpApi)
+  .init({
+    supportedLngs: [langs.en, langs.fa],
+    fallbackLng: "en",
+    detection: {
+      order: ["cookie", "localStorage", "htmlTag"],
+      caches: ["cookie" ,"localStorage"],
+    },
+    backend: {
+      loadPath:  window.location.protocol + "/src/i18next/languages/{{lng}}/translation.json",
+    },
+    react: { useSuspense: false },
+  });
+
+export default i18n;
