@@ -19,6 +19,7 @@ import { AxiosError } from "axios";
 import { alertActive } from "../../util/alertActive";
 import DatePickerEn from "../datePicker/DatePicker-en";
 import SelectPeriod from "../datePicker/SelectPeriod";
+import FaEnDatePicker from "../datePicker/FaEnDatePicker";
 
 const Top10Chart: React.FC<ITop10Chart> = ({
   requestFunc,
@@ -72,6 +73,7 @@ const Top10Chart: React.FC<ITop10Chart> = ({
         <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
           <div className="">
             <DatePickerEn period={period} setDate={setDate} />
+            <FaEnDatePicker period={period} />
           </div>
           <SelectPeriod
             period={period}

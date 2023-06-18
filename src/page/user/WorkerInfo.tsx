@@ -131,7 +131,7 @@ const WorkerInfo = () => {
             className="mb-8 p-6 text-center"
           >
             <Typography variant="h6" color="white">
-              Worker Information
+              Employee Information
             </Typography>
           </CardHeader>
           {!successData ? (

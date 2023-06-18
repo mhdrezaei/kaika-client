@@ -101,7 +101,7 @@ const CompareChart: React.FC<ICompareChart> = ({ requestFunc, color }) => {
               <Typography variant="h6" className="text-orange-200">
                 {mutation.data?.data[0].worker.firstName +
                   " " +
-                  mutation.data?.data[0].worker.firstName}
+                  mutation.data?.data[0].worker.lastName}
               </Typography>
               <Typography
                 variant="small"
