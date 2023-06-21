@@ -55,5 +55,27 @@
   "Choose-an-image" : "Choose an image",
   "Birth-Date" : "Birth-Date",
   "Tel" : "Tel",
-  "Submit" : "Submit"
+  "Submit" : "Submit",
+  "Search" : "Search",
+  "First-Name-is-required" : "First Name is required",
+  "First-Name-must-be-atleast-3-characters" : "FirstName must be atleast 3 characters.",
+  "First-Name-must-be-less-than-52-characters" : "First Name must be less than 52 characters",
+  "Last-Name-is-required" : "Last Name is required",
+  "Last-Name-must-be-atleast-3-characters" : "Last Name must be atleast 3 characters.",
+  "Last-Name-must-be-less-than-52-characters" : "LastName must be less than 52 characters",
+  "Official-Name-is-required" : "Official Name is required",
+  "Address-is-required" : "Address is required",
+  "Tel-is-required" : "Tel is required",
+  "Tel-must-be-atleast-7-characters" : "Tel must be atleast 7 characters.",
+  "Tel-must-be-less-than-13-characters" : "Tel must be less than 13 characters",
+  "Password-is-required" : "Password is required",
+  "Password-must-be-atleast-3-characters" : "Password must be atleast 3 characters",
+  "Password-must-be-less-than-52-characters" : "Password-must-be-less-than-52-characters.",
+  "Please-enter-a-valid-email-adress" : "Please enter a valid email adress.",
+  "Job-is-required" : "Job is required",
+  "Job-must-be-atleast-3-characters" : "Job must be atleast 3 characters",
+  "Job-must-be-less-than-52-characters" : "Job must be less than 52 characters",
+  "Birth-date-is-required" : "Birth date is required",
+  "Average-of-all-employees" : "Average of all employees"
+
 }

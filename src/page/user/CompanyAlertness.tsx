@@ -6,8 +6,8 @@ const CompanyAlertness = () => {
     <AllWorkersChart
       color="brown"
       requestFunc={averageAllWorkers}
-      description="Average of all employees"
-      title="Company Mental Alertness"
+      description="Average-of-all-employees"
+      title="Company-Mental-Alertness"
     />
   );
 };

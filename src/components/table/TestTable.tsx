@@ -24,7 +24,7 @@ const TestTable: FC<ItestTableProps> = ({ headers, data }) => {
         variant="small"
         className={`text-base capitalize min-w-max font-medium text-blue-gray-50`}
       >
-        {("Date-of-Test")}
+        {t("Date-of-Test")}
       </Typography>
       <Typography
         variant="small"

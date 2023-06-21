@@ -42,6 +42,7 @@ import { useTranslation } from "react-i18next";
 
 const AllWorkers = () => {
   const {t} = useTranslation()
+  const searchLabel = t("Search")
   const [filter, setFilter] = useState<
     IAdminGetAllWorkerOfCurrentUserResponse[]
   >([]);
@@ -172,7 +173,7 @@ const AllWorkers = () => {
           <div className="relative flex items-center">
             <Input
               name="search"
-              label="Search"
+              label={searchLabel}
               type="text"
               onChange={serchHandler}
               className="w-96 rounded-md border border-gray-300"
