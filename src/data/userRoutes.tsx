@@ -31,30 +31,30 @@ export const userRoutes: Routes = [
   {
     icon: <UserPlusIcon {...attr} />,
 
-    name: "Create Employee",
+    name: "Create-Employee",
     path: "/user/create-employee",
 
   },
   {
     icon: <PresentationChartLineIcon {...attr} />,
-    name: "Company_Mental_Alertness",
+    name: "Company-Mental-Alertness",
     path: "/user/Company-alertness",
   },
   {
     icon: <IdentificationIcon {...attr} />,
 
-    name: "Company Information",
+    name: "Company-Information",
     path: "/user/company-info",
 
   },
   {
     icon: <CpuChipIcon {...attr} />,
-    name: "Device_Guide",
+    name: "Device-Guide",
     path: "/user/guide",
   },
   {
     icon: <InformationCircleIcon {...attr} />,
-    name: "About_Mainbrain",
+    name: "About-Mainbrain",
     path: "/user/about",
   },
 ];

@@ -8,13 +8,13 @@ const Home = () => {
       <Top10Chart
         color="deep-orange"
         requestFunc={top10lowCaution}
-        description="Employees who their last test is Lowest"
+        description="Employees-who-their-last-test-is-Lowest"
         title="Lowest"
       />
       <Top10Chart
         color="light-green"
         requestFunc={top10highCaution}
-        description="Employees who their last test is Highest"
+        description="Employees-who-their-last-test-is-Highest"
         title="Highest"
       />
       <Top10Table />

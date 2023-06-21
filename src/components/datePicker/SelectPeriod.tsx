@@ -1,22 +1,25 @@
 import { Option, Select } from "@material-tailwind/react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const SelectPeriod = ({ period, setPeriod, setDate }) => {
-  return (
+  const {t} = useTranslation();
+  const label = t("Period")
+   return (
     <div className="[&>div]:min-w-[100px]">
       <Select
         className=""
-        label="Period"
+        label={label}
         value={period}
         onChange={(e) => {
           e && setPeriod(e);
           setDate("");
         }}
       >
-        <Option value="day">Day</Option>
-        <Option value="week">Week</Option>
-        <Option value="month">Month</Option>
-        <Option value="year">Year</Option>
+        <Option value="day">{t("Day")}</Option>
+        <Option value="week">{t("Week")}</Option>
+        <Option value="month">{t("Month")}</Option>
+        <Option value="year">{t("Year")}</Option>
       </Select>
     </div>
   );

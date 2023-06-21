@@ -38,8 +38,10 @@ import {
 } from "@heroicons/react/24/solid";
 import ThresholdAlert from "../../components/ThresholdAlert";
 import AllWorkersRow from "../../components/table/all-workers/AllWorkersRow";
+import { useTranslation } from "react-i18next";
 
 const AllWorkers = () => {
+  const {t} = useTranslation()
   const [filter, setFilter] = useState<
     IAdminGetAllWorkerOfCurrentUserResponse[]
   >([]);
@@ -89,7 +91,7 @@ const AllWorkers = () => {
       <Card className="bg-kaika-black rounded-md">
         <CardHeader variant="gradient" color="orange" className="p-6">
           <Typography variant="h6" color="white">
-            All Employees Information
+            {t("All-Employees-Information")}
           </Typography>
         </CardHeader>
         <CardBody className=" px-0 pt-6 pb-2 overflow-y-auto h-[416px]">
@@ -98,11 +100,11 @@ const AllWorkers = () => {
               <tr>
                 {[
                   <CheckCircleIcon className="w-5" />,
-                  "Name",
-                  "job",
-                  "tel",
-                  "birthday",
-                  "Actions",
+                  t("Name"),
+                  t("job"),
+                  t("tel"),
+                  t("birthday"),
+                  t("Actions"),
                 ].map((el) => (
                   <th
                     key={el.toString()}
@@ -154,7 +156,7 @@ const AllWorkers = () => {
               {isSearch && filter.length === 0 ? (
                 <tr className="absolute top-1/2 left-1/2 -translate-x-1/2 ">
                   <td>
-                    <p className="text-lg text-red-600">No Items Founded !</p>
+                    <p className="text-lg text-red-600">{t("No-Items-Founded")}</p>
                   </td>
                 </tr>
               ) : (
@@ -191,7 +193,7 @@ const AllWorkers = () => {
               disabled={selectedWorkers.length === 0}
               // className="w-40"
             >
-              {selectedWorkers.length > 1 ? "compare" : "result"}
+              {selectedWorkers.length > 1 ? t("compare") : t("result")}
             </Button>
             <Button
               variant="gradient"
@@ -199,7 +201,7 @@ const AllWorkers = () => {
               color="amber"
               onClick={() => setIsShowJustAlertEmployees((prev) => !prev)}
             >
-              {isShowJustAlertEmployees ? "All Employees" : "Low Alertness"}
+              {isShowJustAlertEmployees ? t("All-Employees") : t("Low-Alertness")}
             </Button>
             <Button
               variant="gradient"
@@ -208,7 +210,7 @@ const AllWorkers = () => {
               disabled={selectedWorkers.length === 0}
               onClick={() => setIsDialogOpen(true)}
             >
-              delete selected
+              {t("delete-selected")}
             </Button>
             <DialogWin
               isOpen={isDialogOpen}
