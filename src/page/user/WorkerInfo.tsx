@@ -27,10 +27,12 @@ import { alertActive } from "../../util/alertActive";
 import { useAppDispatch } from "../../redux/hooks";
 import CropImage from "../../components/common/CropImage";
 import FingerImage from "../../components/common/FingerImage";
+import { useTranslation } from "react-i18next";
 
 type WorkerFormSchemaType = z.infer<typeof WorkerFormSchema>;
 
 const WorkerInfo = () => {
+  const {t} = useTranslation()
   const { id } = useParams();
   const [image, setImage] = useState<File>();
   const [workerData, setWorkerData] =
@@ -227,7 +229,7 @@ const WorkerInfo = () => {
                     <InputBox
                       name="birthDate"
                       id="birthDate"
-                      label="Birth Date"
+                      label="Birth-Date"
                       type="date"
                       register={register}
                       error={errors?.birthDate?.message}
@@ -274,7 +276,7 @@ const WorkerInfo = () => {
                   className="relative  inline-flex items-center justify-center px-8 py-3 mt-4 overflow-hidden font-semibold text-base bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
                   fullWidth
                 >
-                  {isLoading ? <BeatLoader color="#fff" size={17} /> : "Submit"}
+                  {isLoading ? <BeatLoader color="#fff" size={17} /> : t("Submit")}
                 </Button>
               </CardFooter>
             </form>

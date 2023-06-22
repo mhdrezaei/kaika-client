@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { Button } from "@material-tailwind/react";
+import { useTranslation } from "react-i18next";
 
 const CropImage = (props) => {
+  const {t} = useTranslation()
   const [image, setImage] = useState<string>();
   const [cropper, setCropper] = useState<Cropper>();
   const [showModal, setShowModal] = useState(true);
@@ -44,7 +46,7 @@ const CropImage = (props) => {
               <div className="border-0 rounded-lg shadow-lg shadow-brown-50 relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 bg-kaika-yellow border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl text-white font-semibold">Crop your image</h3>
+                  <h3 className="text-3xl text-white font-semibold">{t("Crop-your-image")}</h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={cancelHandler}
@@ -75,7 +77,7 @@ const CropImage = (props) => {
                       <Button variant="gradient"
                         className="relative  inline-flex items-center justify-center px-8 py-3 md:mt-4 overflow-hidden font-semibold text-base bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
                         type="button" ripple={true} size="sm" onClick={getCropData}>
-                        Crop Image
+                        {t("Crop-Image")}
                       </Button>
                       {/* <button onClick={getCropData}>Crop Image</button> */}
                     </>
@@ -83,13 +85,7 @@ const CropImage = (props) => {
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end gap-2 bg-black p-6 border-t border-solid border-slate-200 rounded-b">
-                  {/* <button
-                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={cancelHandler}
-                    >
-                    Close
-                  </button> */}
+                  
                   <Button
                 variant="gradient"
                 type="submit"
@@ -98,7 +94,7 @@ const CropImage = (props) => {
                 size="md"
                 className="relative  inline-flex items-center justify-center px-8 py-3 md:mt-4 overflow-hidden font-semibold text-base bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
                 onClick={cancelHandler}
-                >Close</Button>
+                >{t("Close")}</Button>
                   <Button
                 variant="gradient"
                 type="submit"
@@ -108,15 +104,9 @@ const CropImage = (props) => {
                 className="relative  inline-flex items-center justify-center px-8 py-3 md:mt-4 overflow-hidden font-semibold text-base bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
                 onClick={saveHandler}
               >
-                Save Changes
+                {("Save-Changes")}
               </Button>
-                  {/* <button
-                    className="bg-emerald-500 text-black active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={saveHandler}
-                  >
-                    
-                  </button> */}
+                  
                 </div>
               </div>
             </div>
@@ -127,27 +117,6 @@ const CropImage = (props) => {
         <></>
       )}
     </>
-    // <div>
-    //   <input type="file" onChange={handleFileInputChange} />
-    //   {image && (
-    //     <Cropper
-    //       src={image}
-    //       initialAspectRatio={1}
-    //       guides={false}
-    //       viewMode={1}
-    //       minCropBoxWidth={200}
-    //       minCropBoxHeight={200}
-    //       background={false}
-    //       responsive={true}
-    //       autoCropArea={1}
-    //       checkOrientation={false}
-    //       onInitialized={(instance) => {
-    //         setCropper(instance);
-    //       }}
-    //     />
-    //   )}
-    //   <button onClick={handleCrop}>Crop</button>
-    // </div>
   );
 };
 

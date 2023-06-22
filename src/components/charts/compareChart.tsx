@@ -28,8 +28,10 @@ import { useLocation } from "react-router-dom";
 import DatePickerEn from "../datePicker/DatePicker-en";
 import SelectPeriod from "../datePicker/SelectPeriod";
 import { baseUrl } from "../../data/constants";
+import { useTranslation } from "react-i18next";
 
 const CompareChart: React.FC<ICompareChart> = ({ requestFunc, color }) => {
+  const {t} = useTranslation()
   const workersId = useLocation().state.selectedWorkers;
 
   const [date, setDate] = useState(new Date().toLocaleDateString());
@@ -114,13 +116,13 @@ const CompareChart: React.FC<ICompareChart> = ({ requestFunc, color }) => {
         ) : (
           <div className="flex flex-col">
             <Typography variant="h6" className="text-orange-200">
-              Comparison
+              {t("Comparison")}
             </Typography>
             <Typography
               variant="small"
               className="font-normal text-kaika-yellow"
             >
-              Compare betweens employees
+              {t("Compare-betweens-employees")}
             </Typography>
           </div>
         )}
@@ -154,7 +156,7 @@ const CompareChart: React.FC<ICompareChart> = ({ requestFunc, color }) => {
                 <ClockLoader color="#fff" size={24} />
               </div>
             ) : (
-              "Apply"
+              t("Apply")
             )}
           </Button>
         </div>
