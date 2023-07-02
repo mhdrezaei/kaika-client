@@ -7,6 +7,7 @@ const CompanyAlertness = () => {
       color="brown"
       description="Average of all employees"
       title="Company Mental Alertness"
+
     />
   );
 };

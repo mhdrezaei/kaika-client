@@ -1,12 +1,16 @@
 import { Input, Option, Select } from "@material-tailwind/react";
 import { years } from "../../data/year";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const DatePickerEn = ({ period, setDate }) => {
+  const {t} = useTranslation();
+  const selectYear = t("Select Year");
+  const date = t("Date")
   return (
     <>
       {period === "year" ? (
-        <Select label="Select Year" onChange={(e) => e && setDate(e)}>
+        <Select label={selectYear} onChange={(e) => e && setDate(e)}>
           {years.map((year) => (
             <Option key={year} value={year.toString()}>
               {year}
@@ -15,7 +19,7 @@ const DatePickerEn = ({ period, setDate }) => {
         </Select>
       ) : (
         <Input
-          label="Date"
+          label={date}
           defaultValue={new Date()
             .toLocaleDateString("fr")
             .split("/")

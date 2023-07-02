@@ -29,10 +29,12 @@ import { alertActive } from "../../util/alertActive";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 import CropImage from "../../components/common/CropImage";
 import FingerImage from "../../components/common/FingerImage";
+import { useTranslation } from "react-i18next";
 
 type UserFormSchemaType = z.infer<typeof UserInfoSchema>;
 
 const UserInfo = () => {
+  const { t } = useTranslation()
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const [image, setImage] = useState<File>();
@@ -109,7 +111,7 @@ const UserInfo = () => {
             className="p-6 text-center"
           >
             <Typography variant="h6" color="white">
-              Company Information
+              {t("Company Information")}
             </Typography>
           </CardHeader>
 
@@ -169,7 +171,7 @@ const UserInfo = () => {
                         strokeWidth={3}
                         className="h-6 w-6 text-blue-gray-500"
                       />
-                      <span>Choose an image</span>
+                      <span>{t("Choose an image")}</span>
                     </label>
                     <input
                       id="file"
@@ -275,7 +277,7 @@ const UserInfo = () => {
                 className="relative  inline-flex items-center justify-center px-8 py-3 md:mt-4 overflow-hidden font-semibold text-base bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
                 fullWidth
               >
-                {isLoading ? <BeatLoader color="#fff" size={17} /> : "Submit"}
+                {isLoading ? <BeatLoader color="#fff" size={17} /> : t("Submit")}
               </Button>
             </CardFooter>
           </form>

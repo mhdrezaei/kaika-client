@@ -24,8 +24,10 @@ import {
   ArrowsPointingOutIcon,
 } from "@heroicons/react/24/solid";
 import LangSelector from "../components/common/LangSelector";
+import { useTranslation } from "react-i18next";
 
 const Navbar: React.FC<INavbar> = ({ routes }) => {
+  const { t } = useTranslation()
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
@@ -55,7 +57,7 @@ const Navbar: React.FC<INavbar> = ({ routes }) => {
                 color="blue-gray"
                 className="font-normal opacity-50 transition-all hover:text-blue-500 hover:opacity-100"
               >
-                {layout}
+                {t(layout)}
               </Typography>
             </Link>
             {page && (
@@ -64,13 +66,13 @@ const Navbar: React.FC<INavbar> = ({ routes }) => {
                 color="blue-gray"
                 className="font-normal"
               >
-                {page}
+                {t(page)}
               </Typography>
             )}
           </Breadcrumbs>
           {page && (
             <Typography variant="h6" color="blue-gray">
-              {page}
+              {t(page)}
             </Typography>
           )}
         </div>
@@ -91,7 +93,7 @@ const Navbar: React.FC<INavbar> = ({ routes }) => {
             onClick={() => dispatch(userAction.setUser(null))}
             className="flex capitalize items-center p-1 font-bold text-kaika-black"
           >
-            Logout
+            {t("Logout")}
             <ArrowLeftOnRectangleIcon
               className="cursor-pointer w-7 "
               strokeWidth={5}

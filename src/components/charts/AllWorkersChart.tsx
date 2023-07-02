@@ -27,12 +27,13 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
   description,
   title,
 }) => {
-  const { i18n } = useTranslation();
+  const { i18n , t } = useTranslation();
 
   const [date, setDate] = useState({
     from: new Date().toDateString(),
     to: new Date(new Date().setDate(new Date().getDate() + 1)).toDateString(),
   });
+
   const [period, setPeriod] = useState("day");
   const [options, setOptions] = useState(
     allWorkersChartOptions({
@@ -88,10 +89,10 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
       <CardBody className="p-6 md:flex flex-col lg:flex-row">
         <div>
           <Typography variant="h6" className="text-orange-200">
-            {title}
+            {t(title)}
           </Typography>
           <Typography variant="small" className="font-normal text-kaika-yellow">
-            {description}
+            {t(description)}
           </Typography>
         </div>
         <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
