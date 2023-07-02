@@ -4,40 +4,40 @@ import {
   CardBody,
   Typography,
   Button,
-  Option,
-  Select,
-  Input,
   Avatar,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
 import { useMutation } from "react-query";
-import React, {
-  LegacyRef,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 import { ClockLoader } from "react-spinners";
-import { CalendarDaysIcon } from "@heroicons/react/24/solid";
 import { ICompareChart } from "../../types/components/compareChart-types";
 import { compareWorkersOptions } from "../../util/compareChart-options";
 import { AxiosError } from "axios";
 import { alertActive } from "../../util/alertActive";
 import { useLocation } from "react-router-dom";
-import DatePickerEn from "../datePicker/DatePicker-en";
 import SelectPeriod from "../datePicker/SelectPeriod";
 import { baseUrl } from "../../data/constants";
+import FaEnDatePicker from "../datePicker/FaEnDatePicker";
+import { useTranslation } from "react-i18next";
+import {
+  averageWorkersList,
+  averageWorkersListYearFa,
+} from "../../service/api";
 
-const CompareChart: React.FC<ICompareChart> = ({ requestFunc, color }) => {
+const CompareChart: React.FC<ICompareChart> = ({ color }) => {
   const workersId = useLocation().state.selectedWorkers;
+  const { i18n } = useTranslation();
 
-  const [date, setDate] = useState(new Date().toLocaleDateString());
+  const [date, setDate] = useState({
+    from: new Date().toDateString(),
+    to: new Date(new Date().setDate(new Date().getDate() + 1)).toDateString(),
+  });
   const [options, setOptions] = useState(
     compareWorkersOptions({
       data: undefined,
       color: "indigo",
       period: "day",
+      lang: i18n.language,
     })
   );
   const [period, setPeriod] = useState("day");
@@ -48,7 +48,10 @@ const CompareChart: React.FC<ICompareChart> = ({ requestFunc, color }) => {
   // (dateRef.current)&&dateRef.current.datepicker({dateFormat: 'yy'})
   // console.log(dateRef.current && dateRef.current.);
   const mutation = useMutation({
-    mutationFn: requestFunc,
+    mutationFn:
+      i18n.language === "fa" && period === "year"
+        ? averageWorkersListYearFa
+        : averageWorkersList,
     onError: (err: AxiosError<any>) =>
       alertActive({ message: err.response?.data.message, color: "red" }),
     onSuccess: (data) => {
@@ -57,6 +60,7 @@ const CompareChart: React.FC<ICompareChart> = ({ requestFunc, color }) => {
           data: data.data,
           color,
           period,
+          lang: i18n.language,
         })
       );
     },
@@ -67,7 +71,7 @@ const CompareChart: React.FC<ICompareChart> = ({ requestFunc, color }) => {
       data: {
         workerIdList: workersId,
       },
-      query: `date=${date}&period=${period}`,
+      query: `from=${date.from}&to=${date.to}&period=${period}`,
     });
   }, []);
 
@@ -101,7 +105,7 @@ const CompareChart: React.FC<ICompareChart> = ({ requestFunc, color }) => {
               <Typography variant="h6" className="text-orange-200">
                 {mutation.data?.data[0].worker.firstName +
                   " " +
-                  mutation.data?.data[0].worker.firstName}
+                  mutation.data?.data[0].worker.lastName}
               </Typography>
               <Typography
                 variant="small"
@@ -130,7 +134,8 @@ const CompareChart: React.FC<ICompareChart> = ({ requestFunc, color }) => {
                   className="w-12 text-white"
                   onClick={handleInterviewDateClick}
                 /> */}
-            <DatePickerEn period={period} setDate={setDate} />
+            {/* <DatePickerEn period={period} setDate={setDate} /> */}
+            <FaEnDatePicker period={period} setDate={setDate} />
           </div>
           <SelectPeriod
             period={period}
@@ -144,7 +149,7 @@ const CompareChart: React.FC<ICompareChart> = ({ requestFunc, color }) => {
                 data: {
                   workerIdList: workersId,
                 },
-                query: `date=${date}&period=${period}`,
+                query: `from=${date.from}&to=${date.to}&period=${period}`,
               });
             }}
             className="py-3 px-12 w-20 text-base flex justify-center items-stretch"

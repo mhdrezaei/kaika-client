@@ -212,6 +212,7 @@ export const last10Caution = async () => {
 };
 
 export const top10lowCaution = async (query: string) => {
+  console.log(query);
   return axios.get<ITop10LowCautios[]>("/chart/top10LowCautionOfUser?" + query);
 };
 
@@ -234,8 +235,27 @@ export const averageWorkersList = async ({
   );
 };
 
+export const averageWorkersListYearFa = async ({
+  data,
+  query,
+}: {
+  data: IAverageWorkersListReq;
+  query: string;
+}) => {
+  return axios.post<IAverageWorkersListRes[]>(
+    "/chart/workers-avg-year-fa?" + query,
+    data
+  );
+};
+
 export const averageAllWorkers = async (query: string) => {
   return axios.get<IAverageAllWorkersRes[]>("/chart/allworkers-avg?" + query);
+};
+
+export const averageAllWorkersYearFa = async (query: string) => {
+  return axios.get<IAverageAllWorkersRes[]>(
+    "/chart/allworkers-avg-year-fa?" + query
+  );
 };
 
 export const alertUnderThreshold = async (workerId: string) => {

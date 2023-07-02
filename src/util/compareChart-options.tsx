@@ -4,7 +4,7 @@ import { Props } from "react-apexcharts";
 import { colors } from "@material-tailwind/react/types/generic";
 import { chartsConfig } from "../data/chart-config";
 
-const dayOfWeek = [
+const dayOfWeekEn = [
   "Sunday",
   "Monday",
   "Tuesday",
@@ -13,7 +13,17 @@ const dayOfWeek = [
   "Friday",
   "Saturday",
 ];
-const monthOfYear = [
+const dayOfWeekFa = [
+  "یکشنبه",
+  "دوشنبه",
+  "سه‌شنبه",
+  "چهارشنبه",
+  "پنچشنبه",
+  "جمعه",
+  "شنبه",
+];
+
+const monthOfYearEn = [
   "January",
   "February",
   "March",
@@ -27,13 +37,29 @@ const monthOfYear = [
   "November",
   "December",
 ];
+const monthOfYearFa = [
+  "فروردین",
+  "اردیبهشت",
+  "خرداد",
+  "تیر",
+  "مرداد",
+  "شهریور",
+  "مهر",
+  "آبان",
+  "آذر",
+  "دی",
+  "بهمن",
+  "اسفند",
+];
 
 const createSeries = ({
   data,
   period,
+  lang,
 }: {
   data: IAverageWorkersListRes[] | undefined;
   period: string;
+  lang: string;
 }) => {
   let series: any = [],
     time: any = [];
@@ -44,7 +70,21 @@ const createSeries = ({
     return {
       data: workerData.avgList.map((avg) => {
         return {
-          x: new Date(avg.date),
+          x:
+            period === "year"
+              ? lang === "en"
+                ? monthOfYearEn[new Date(avg.date).getMonth()]
+                : monthOfYearFa[+avg.date.split("-")[1] - 1]
+              : period === "week"
+              ? lang === "en"
+                ? dayOfWeekEn[new Date(avg.date).getDay()]
+                : dayOfWeekFa[new Date(avg.date).getDay()]
+              : period === "month" && lang === "fa"
+              ? new Date(avg.date)
+                  .toLocaleDateString("fa-IR-u-nu-latn")
+                  .split("/")
+                  .join("-")
+              : avg.date,
           y: avg.avg,
         };
       }),
@@ -55,12 +95,14 @@ const createSeries = ({
   time = data.map((workerData) =>
     workerData.avgList.map((avg) =>
       period === "year"
-        ? new Date(avg.date).getFullYear() +
-          "-" +
-          monthOfYear[new Date(avg.date).getMonth()]
+        ? new Date(avg.date).getFullYear() + "-" + lang === "en"
+          ? monthOfYearEn[new Date(avg.date).getMonth()]
+          : monthOfYearFa[new Date(avg.date).getMonth()]
         : period === "day"
-        ? new Date(avg.date).toLocaleString("fr")
-        : avg.date
+        ? new Date(avg.date).toLocaleString(lang === "en" ? "fr" : "fa")
+        : lang === "en"
+        ? avg.date
+        : new Date(avg.date).toLocaleDateString("fa")
     )
   );
 
@@ -71,12 +113,14 @@ export const compareWorkersOptions = ({
   data,
   color,
   period,
+  lang,
 }: {
   data: IAverageWorkersListRes[] | undefined;
   color: colors;
   period: string;
+  lang: string;
 }) => {
-  const { series, time } = createSeries({ data, period });
+  const { series, time } = createSeries({ data, period, lang });
 
   const className = "md:font-medium md:text-base";
 
@@ -86,7 +130,6 @@ export const compareWorkersOptions = ({
     series,
     options: {
       ...chartsConfig,
-
       legend: {
         fontSize: "19px",
         fontWeight: 400,
@@ -112,29 +155,14 @@ export const compareWorkersOptions = ({
       },
       xaxis: {
         ...chartsConfig.xaxis,
-        tickPlacement: "between",
-        type: "datetime",
+        type: period === "day" ? "datetime" : "category",
 
         // type: period === "day" ? "datetime" : "category",
         labels: {
-          // rotateAlways: true,
-          // rotate: -90,
-
-          format:
-            period === "year"
-              ? "MMMM"
-              : period === "month"
-              ? "dd"
-              : period === "week"
-              ? "dddd"
-              : "HH:mm",
           style: {
             colors: "#fff",
             cssClass: className,
           },
-          // formatter(value, timestamp, opts) {
-          //   return dayOfWeek[new Date(value).getDay()];
-          // },
         },
         tooltip: { enabled: false },
       },

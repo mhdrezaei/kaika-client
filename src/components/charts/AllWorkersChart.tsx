@@ -18,29 +18,41 @@ import { IAllWorkersChart } from "../../types/components/allWorkersChart-types";
 import { allWorkersChartOptions } from "../../util/allWorkersChart";
 import DatePickerEn from "../datePicker/DatePicker-en";
 import SelectPeriod from "../datePicker/SelectPeriod";
+import FaEnDatePicker from "../datePicker/FaEnDatePicker";
+import { useTranslation } from "react-i18next";
+import { averageAllWorkers, averageAllWorkersYearFa } from "../../service/api";
 
 const AllWorkersChart: React.FC<IAllWorkersChart> = ({
-  requestFunc,
   color,
   description,
   title,
 }) => {
-  const [date, setDate] = useState(new Date().toLocaleDateString());
+  const { i18n } = useTranslation();
+
+  const [date, setDate] = useState({
+    from: new Date().toDateString(),
+    to: new Date(new Date().setDate(new Date().getDate() + 1)).toDateString(),
+  });
   const [period, setPeriod] = useState("day");
   const [options, setOptions] = useState(
     allWorkersChartOptions({
       data: undefined,
       color,
       period,
+      lang: i18n.language,
     })
   );
+
   // const dateRef = useRef<HTMLInputElement>();
   // const handleInterviewDateClick = () => {
   //   dateRef.current?.showPicker();
   // };
 
   const mutation = useMutation({
-    mutationFn: requestFunc,
+    mutationFn:
+      period === "year" && i18n.language === "fa"
+        ? averageAllWorkersYearFa
+        : averageAllWorkers,
     mutationKey: title,
     onError: (err: AxiosError<any>) =>
       alertActive({ message: err.response?.data.message, color: "red" }),
@@ -50,14 +62,17 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
           data: data.data,
           color,
           period,
+          lang: i18n.language,
         })
       );
     },
   });
 
   useEffect(() => {
-    mutation.mutateAsync(`date=${date}&period=${period}`);
+    mutation.mutateAsync(`from=${date.from}&to=${date.to}&period=${period}`);
   }, []);
+
+  console.log(mutation.data);
 
   return (
     <Card className="h-fit w-full bg-kaika-black">
@@ -81,7 +96,8 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
         </div>
         <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
           <div className="">
-            <DatePickerEn period={period} setDate={setDate} />
+            {/* <DatePickerEn period={period} setDate={setDate} /> */}
+            <FaEnDatePicker period={period} setDate={setDate} />
           </div>
           <SelectPeriod
             period={period}
@@ -89,7 +105,11 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
             setDate={setDate}
           />
           <Button
-            onClick={() => mutation.mutate(`date=${date}&period=${period}`)}
+            onClick={() =>
+              mutation.mutate(
+                `from=${date.from}&to=${date.to}&period=${period}`
+              )
+            }
             className="py-3 px-12 w-20 text-base flex justify-center items-stretch"
           >
             {mutation.isLoading ? (

@@ -7,7 +7,7 @@ import { Props } from "react-apexcharts";
 import { colors } from "@material-tailwind/react/types/generic";
 import { chartsConfig } from "../data/chart-config";
 
-const dayOfWeek = [
+const dayOfWeekEn = [
   "Sunday",
   "Monday",
   "Tuesday",
@@ -16,7 +16,17 @@ const dayOfWeek = [
   "Friday",
   "Saturday",
 ];
-const monthOfYear = [
+const dayOfWeekFa = [
+  "یکشنبه",
+  "دوشنبه",
+  "سه‌شنبه",
+  "چهارشنبه",
+  "پنچشنبه",
+  "جمعه",
+  "شنبه",
+];
+
+const monthOfYearEn = [
   "January",
   "February",
   "March",
@@ -30,13 +40,29 @@ const monthOfYear = [
   "November",
   "December",
 ];
+const monthOfYearFa = [
+  "فروردین",
+  "اردیبهشت",
+  "خرداد",
+  "تیر",
+  "مرداد",
+  "شهریور",
+  "مهر",
+  "آبان",
+  "آذر",
+  "دی",
+  "بهمن",
+  "اسفند",
+];
 
 const createSeries = ({
   data,
   period,
+  lang,
 }: {
   data: IAverageAllWorkersRes[] | undefined;
   period: string;
+  lang: string;
 }) => {
   let series: any = [],
     time: any = [];
@@ -49,9 +75,18 @@ const createSeries = ({
         return {
           x:
             period === "year"
-              ? monthOfYear[new Date(dataPerDate.date).getMonth()]
+              ? lang === "en"
+                ? monthOfYearEn[new Date(dataPerDate.date).getMonth()]
+                : monthOfYearFa[+dataPerDate.date.split("-")[1] - 1]
               : period === "week"
-              ? dayOfWeek[new Date(dataPerDate.date).getDay()]
+              ? lang === "en"
+                ? dayOfWeekEn[new Date(dataPerDate.date).getDay()]
+                : dayOfWeekFa[new Date(dataPerDate.date).getDay()]
+              : period === "month" && lang === "fa"
+              ? new Date(dataPerDate.date)
+                  .toLocaleDateString("fa-IR-u-nu-latn")
+                  .split("/")
+                  .join("-")
               : dataPerDate.date,
           y: dataPerDate.average,
         };
@@ -64,10 +99,14 @@ const createSeries = ({
     period === "year"
       ? new Date(dataPerDate.date).getFullYear() +
         "-" +
-        monthOfYear[new Date(dataPerDate.date).getMonth()]
+        (lang === "en"
+          ? monthOfYearEn[new Date(dataPerDate.date).getMonth()]
+          : monthOfYearFa[new Date(dataPerDate.date).getMonth()])
       : period === "day"
-      ? new Date(dataPerDate.date).toLocaleString("fr")
-      : dataPerDate.date
+      ? new Date(dataPerDate.date).toLocaleString(lang === "en" ? "fr" : "fa")
+      : lang === "en"
+      ? dataPerDate.date
+      : new Date(dataPerDate.date).toLocaleDateString("fa")
   );
 
   return { series, time };
@@ -77,19 +116,23 @@ export const allWorkersChartOptions = ({
   data,
   color,
   period,
+  lang,
 }: {
   data: IAverageAllWorkersRes[] | undefined;
   color: colors;
   period: string;
+  lang: string;
 }) => {
-  const { series, time } = createSeries({ data, period });
+  const { series, time } = createSeries({ data, period, lang });
 
   const compareChart: Props = {
     type: "line",
     height: 500,
     series,
+
     options: {
       ...chartsConfig,
+      // chart: { locales: [fa], defaultLocale: "fa" },
       plotOptions: {
         bar: {
           columnWidth: "21%",

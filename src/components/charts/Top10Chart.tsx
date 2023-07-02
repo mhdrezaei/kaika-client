@@ -19,6 +19,7 @@ import { AxiosError } from "axios";
 import { alertActive } from "../../util/alertActive";
 import DatePickerEn from "../datePicker/DatePicker-en";
 import SelectPeriod from "../datePicker/SelectPeriod";
+import FaEnDatePicker from "../datePicker/FaEnDatePicker";
 
 const Top10Chart: React.FC<ITop10Chart> = ({
   requestFunc,
@@ -26,12 +27,11 @@ const Top10Chart: React.FC<ITop10Chart> = ({
   description,
   title,
 }) => {
-  const [date, setDate] = useState(new Date().toLocaleDateString());
+  const [date, setDate] = useState({
+    from: new Date().toDateString(),
+    to: new Date(new Date().setDate(new Date().getDate() + 1)).toDateString(),
+  });
   const [period, setPeriod] = useState("day");
-  const dateRef = useRef<HTMLInputElement>();
-  const handleInterviewDateClick = () => {
-    dateRef.current?.showPicker();
-  };
 
   const mutation = useMutation({
     mutationFn: requestFunc,
@@ -41,13 +41,15 @@ const Top10Chart: React.FC<ITop10Chart> = ({
   });
 
   useEffect(() => {
-    mutation.mutateAsync(`date=${date}&period=${period}`);
+    mutation.mutateAsync(`from=${date.from}&to=${date.to}&period=${period}`);
   }, []);
 
   const options = top10chartOptions({
     data: mutation.data?.data,
     color,
   });
+
+  console.log(date);
 
   return (
     <Card className="h-fit w-full bg-kaika-black">
@@ -71,7 +73,8 @@ const Top10Chart: React.FC<ITop10Chart> = ({
         </div>
         <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
           <div className="">
-            <DatePickerEn period={period} setDate={setDate} />
+            {/* <DatePickerEn period={period} setDate={setDate} /> */}
+            <FaEnDatePicker period={period} setDate={setDate} />
           </div>
           <SelectPeriod
             period={period}
@@ -79,7 +82,11 @@ const Top10Chart: React.FC<ITop10Chart> = ({
             setDate={setDate}
           />
           <Button
-            onClick={() => mutation.mutate(`date=${date}&period=${period}`)}
+            onClick={() =>
+              mutation.mutate(
+                `from=${date.from}&to=${date.to}&period=${period}`
+              )
+            }
             className="py-3 px-12 w-20 text-base flex justify-center items-stretch"
           >
             {mutation.isLoading ? (
