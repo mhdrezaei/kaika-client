@@ -12,8 +12,10 @@ const Home = () => {
       <Top10Chart
         color="deep-orange"
         requestFunc={top10lowCaution}
+
         description="Employees who their last test is Lowest"
         title="Lowest Mental Alertness"
+
       />
       <Top10Chart
         color="light-green"

@@ -27,14 +27,16 @@ import InputBox from "../components/common/InputBox";
 import { FormSchema } from "../schema/authFormSchema";
 import { useAppDispatch } from "../redux/hooks";
 import { alertAction } from "../redux/slice/alert-slice";
-import { useEffect } from "react";
+import { useEffect, useTransition } from "react";
 import { alertActive } from "../util/alertActive";
+import { useTranslation } from "react-i18next";
 
 type FormSchemaType = z.infer<typeof FormSchema>;
 
 const Auth = () => {
+  const {t} = useTranslation()
   const dispatch = useAppDispatch();
-
+  
   const {
     register,
     handleSubmit,
@@ -85,7 +87,7 @@ const Auth = () => {
               className="mb-4 grid h-28 place-items-center  bg-kaika-yellow shadow-xl"
             >
               <Typography variant="h3" color="white">
-                Sign In
+                {t("Sign In")}
               </Typography>
             </CardHeader>
             <CardBody className="flex flex-col gap-4">
@@ -96,7 +98,7 @@ const Auth = () => {
                 register={register}
                 error={errors?.email?.message}
                 disabled={isSubmitting}
-                value={getValues("email")}
+                // value={getValues("email")}
               />
 
               <InputBox
@@ -106,10 +108,10 @@ const Auth = () => {
                 register={register}
                 error={errors?.password?.message}
                 disabled={isSubmitting}
-                value={getValues("password")}
+                // value={getValues("password")}
               />
               <div className="-ml-2.5">
-                <Checkbox label="Remember Me" />
+                <Checkbox label={t("Remember Me")} />
               </div>
             </CardBody>
             <CardFooter className="pt-0">
@@ -122,11 +124,11 @@ const Auth = () => {
                 className="relative w-full inline-flex items-center justify-center px-8 py-3 mt-4 overflow-hidden font-medium bg-kaika-yellow transition duration-300 ease-out border-2 rounded-md group"
                 fullWidth
               >
-                {isLoading ? <BeatLoader color="#fff" size={13} /> : "Sign in"}
+                {isLoading ? <BeatLoader color="#fff" size={13} /> : t("Sign In")}
               </Button>
 
               <Typography variant="small" className="mt-6 flex justify-center">
-                Forgot your password?
+                {t("Forgot your password")}
                 <Link to="/auth/reset">
                   <Typography
                     as="span"
@@ -134,7 +136,7 @@ const Auth = () => {
                     color="blue"
                     className="ml-1 font-bold"
                   >
-                    Reset Password
+                    {t("Reset Password")}
                   </Typography>
                 </Link>
               </Typography>

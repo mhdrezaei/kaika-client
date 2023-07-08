@@ -20,6 +20,8 @@ import { alertActive } from "../../util/alertActive";
 import DatePickerEn from "../datePicker/DatePicker-en";
 import SelectPeriod from "../datePicker/SelectPeriod";
 import FaEnDatePicker from "../datePicker/FaEnDatePicker";
+import { useTranslation } from "react-i18next";
+
 
 const Top10Chart: React.FC<ITop10Chart> = ({
   requestFunc,
@@ -31,6 +33,9 @@ const Top10Chart: React.FC<ITop10Chart> = ({
     from: new Date().toDateString(),
     to: new Date(new Date().setDate(new Date().getDate() + 1)).toDateString(),
   });
+
+  const {t} = useTranslation()
+
   const [period, setPeriod] = useState("day");
 
   const mutation = useMutation({
@@ -65,10 +70,10 @@ const Top10Chart: React.FC<ITop10Chart> = ({
       <CardBody className="p-6 md:flex flex-col lg:flex-row">
         <div>
           <Typography variant="h6" className="text-orange-200">
-            {title}
+            {t(title)}
           </Typography>
           <Typography variant="small" className="font-normal text-kaika-yellow">
-            {description}
+            {t(description)}
           </Typography>
         </div>
         <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
@@ -94,7 +99,7 @@ const Top10Chart: React.FC<ITop10Chart> = ({
                 <ClockLoader color="#fff" size={24} />
               </div>
             ) : (
-              "Apply"
+              t("Apply")
             )}
           </Button>
         </div>

@@ -27,7 +27,7 @@ import EmployeeExcelExport from "../excel/EmployeeExcelExport";
 
 const CompareChart: React.FC<ICompareChart> = ({ color }) => {
   const workersId = useLocation().state.selectedWorkers;
-  const { i18n } = useTranslation();
+  const { i18n , t } = useTranslation();
 
   const [date, setDate] = useState({
     from: new Date().toDateString(),
@@ -121,13 +121,13 @@ const CompareChart: React.FC<ICompareChart> = ({ color }) => {
         ) : (
           <div className="flex flex-col">
             <Typography variant="h6" className="text-orange-200">
-              Comparison
+              {t("Comparison")}
             </Typography>
             <Typography
               variant="small"
               className="font-normal text-kaika-yellow"
             >
-              Compare betweens employees
+              {t("Compare betweens employees")}
             </Typography>
           </div>
         )}
@@ -166,7 +166,7 @@ const CompareChart: React.FC<ICompareChart> = ({ color }) => {
                 <ClockLoader color="#fff" size={24} />
               </div>
             ) : (
-              "Apply"
+              t("Apply")
             )}
           </Button>
         </div>

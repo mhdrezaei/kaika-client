@@ -1,5 +1,4 @@
 import { Button } from "@material-tailwind/react";
-import cookies from "js-cookie";
 import { langs } from "../../data/enums";
 import i18next from "i18next";
 import { useState } from "react"

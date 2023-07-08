@@ -37,7 +37,7 @@ export const userRoutes: Routes = [
   },
   {
     icon: <PresentationChartLineIcon {...attr} />,
-    name: "Company_Mental_Alertness",
+    name: "Company Mental Alertness",
     path: "/user/Company-alertness",
   },
   {
@@ -49,12 +49,12 @@ export const userRoutes: Routes = [
   },
   {
     icon: <CpuChipIcon {...attr} />,
-    name: "Device_Guide",
+    name: "Device Guide",
     path: "/user/guide",
   },
   {
     icon: <InformationCircleIcon {...attr} />,
-    name: "About_Mainbrain",
+    name: "About Mainbrain",
     path: "/user/about",
   },
 ];
