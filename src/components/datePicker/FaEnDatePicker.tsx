@@ -31,21 +31,24 @@ const FaEnDatePicker = ({ period, setDate }) => {
       case "month":
         date = new Date(+JSON.stringify(PickeDate));
         from = date.toDateString();
-        const monthNumberFa = +new Date(from)
-          .toLocaleDateString("fa-IR-u-nu-latn")
-          .split("/")[1];
-        to = new Date(
-          new Date(date.setMonth(date.getMonth() + 1)).setDate(
-            date.getDate() + 3
+        to = new Date(date.setMonth(date.getMonth() + 1));
+        if (i18n.language === "fa") {
+          const monthNumberFa = +new Date(from)
+            .toLocaleDateString("fa-IR-u-nu-latn")
+            .split("/")[1];
+          to = new Date(
+            new Date(date.setMonth(date.getMonth() + 1)).setDate(
+              date.getDate() + 3
+            )
+          );
+          while (
+            monthNumberFa !==
+            +to.toLocaleDateString("fa-IR-u-nu-latn").split("/")[1]
           )
-        );
-        while (
-          monthNumberFa !==
-          +to.toLocaleDateString("fa-IR-u-nu-latn").split("/")[1]
-        )
-          to = new Date(to.setDate(to.getDate() - 1));
-        to = new Date(to.setDate(to.getDate() + 1));
-        to.toDateString();
+            to = new Date(to.setDate(to.getDate() - 1));
+          to = new Date(to.setDate(to.getDate() + 1));
+        }
+        to = to.toDateString();
         break;
 
       case "year":

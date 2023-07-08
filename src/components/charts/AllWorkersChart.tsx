@@ -21,6 +21,7 @@ import SelectPeriod from "../datePicker/SelectPeriod";
 import FaEnDatePicker from "../datePicker/FaEnDatePicker";
 import { useTranslation } from "react-i18next";
 import { averageAllWorkers, averageAllWorkersYearFa } from "../../service/api";
+import AllEmployeesExcelExport from "../excel/AllEmployeesExcelExport";
 
 const AllWorkersChart: React.FC<IAllWorkersChart> = ({
   color,
@@ -104,6 +105,8 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
             setPeriod={setPeriod}
             setDate={setDate}
           />
+          <AllEmployeesExcelExport data={mutation.data?.data} period={period} />
+
           <Button
             onClick={() =>
               mutation.mutate(

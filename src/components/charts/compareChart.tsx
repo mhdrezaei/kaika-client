@@ -23,6 +23,7 @@ import {
   averageWorkersList,
   averageWorkersListYearFa,
 } from "../../service/api";
+import EmployeeExcelExport from "../excel/EmployeeExcelExport";
 
 const CompareChart: React.FC<ICompareChart> = ({ color }) => {
   const workersId = useLocation().state.selectedWorkers;
@@ -100,6 +101,8 @@ const CompareChart: React.FC<ICompareChart> = ({ color }) => {
               }
               alt={`${mutation.data?.data[0].worker.firstName} + ${mutation.data?.data[0].worker.lastName}`}
               className="w-16 h-16"
+              id="imageid"
+              crossOrigin="anonymous"
             />
             <div>
               <Typography variant="h6" className="text-orange-200">
@@ -142,7 +145,11 @@ const CompareChart: React.FC<ICompareChart> = ({ color }) => {
             setPeriod={setPeriod}
             setDate={setDate}
           />
-
+          <EmployeeExcelExport
+            data={mutation.data?.data[0].avgList}
+            period={period}
+            employee={mutation.data?.data[0].worker}
+          />
           <Button
             onClick={() => {
               mutation.mutate({
