@@ -6,12 +6,14 @@ import {
   Button,
 } from "@material-tailwind/react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const DialogWin = ({ isOpen, handle, setIsOpen }) => {
+  const {t} = useTranslation()
   return (
     <Dialog open={isOpen} handler={setIsOpen}>
-      <DialogHeader>Delete Empolyee's</DialogHeader>
-      <DialogBody divider>Are you sure to Delete?</DialogBody>
+      <DialogHeader>{t("Delete Empolyee's")}</DialogHeader>
+      <DialogBody divider>{t("Are you sure to Delete?")}</DialogBody>
       <DialogFooter>
         <Button
           variant="text"
@@ -19,7 +21,7 @@ const DialogWin = ({ isOpen, handle, setIsOpen }) => {
           onClick={() => setIsOpen(false)}
           className="mr-1"
         >
-          <span>Cancel</span>
+          <span>{t("Cancel")}</span>
         </Button>
         <Button
           variant="gradient"
