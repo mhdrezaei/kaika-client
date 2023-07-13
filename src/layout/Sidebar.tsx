@@ -22,7 +22,11 @@ const Sidebar: React.FC<ISidebar> = ({ routes }) => {
   return (
     <aside
       className={` ${
-        sidebarState.isOpen ? "translate-x-0" : "-translate-x-80"
+        sidebarState.isOpen
+          ? "translate-x-0"
+          : i18n.language === "fa"
+          ? "translate-x-80"
+          : "-translate-x-80"
       } fixed  text-gray-100 bg-kaika-black z-50 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0`}
     >
       <div className="relative border-b border-blue-gray-50">

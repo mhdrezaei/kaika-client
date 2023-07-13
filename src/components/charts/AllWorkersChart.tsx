@@ -28,7 +28,7 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
   description,
   title,
 }) => {
-  const { i18n , t } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const [date, setDate] = useState({
     from: new Date().toDateString(),
@@ -74,8 +74,6 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
     mutation.mutateAsync(`from=${date.from}&to=${date.to}&period=${period}`);
   }, []);
 
-  console.log(mutation.data);
-
   return (
     <Card className="h-fit w-full bg-kaika-black">
       <CardHeader
@@ -96,7 +94,12 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
             {t(description)}
           </Typography>
         </div>
-        <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
+        <div
+          className={`${
+            i18n.language === "fa" ? "lg:mr-auto" : "lg:ml-auto"
+          } flex flex-wrap items-center  lg:justify-center justify-evenly gap-4`}
+        >
+          {" "}
           <div className="">
             {/* <DatePickerEn period={period} setDate={setDate} /> */}
             <FaEnDatePicker period={period} setDate={setDate} />
@@ -107,7 +110,6 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
             setDate={setDate}
           />
           <AllEmployeesExcelExport data={mutation.data?.data} period={period} />
-
           <Button
             onClick={() =>
               mutation.mutate(

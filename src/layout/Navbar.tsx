@@ -27,7 +27,7 @@ import LangSelector from "../components/common/LangSelector";
 import { useTranslation } from "react-i18next";
 
 const Navbar: React.FC<INavbar> = ({ routes }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
@@ -76,7 +76,10 @@ const Navbar: React.FC<INavbar> = ({ routes }) => {
             </Typography>
           )}
         </div>
-        <div className="flex items-center gap-3">
+        <div
+          className="flex items-center gap-3"
+          dir={i18n.language === "fa" ? "ltr" : "rtl"}
+        >
           <IconButton
             variant="text"
             color="blue-gray"
@@ -93,7 +96,6 @@ const Navbar: React.FC<INavbar> = ({ routes }) => {
             onClick={() => dispatch(userAction.setUser(null))}
             className="flex capitalize items-center p-1 font-bold text-kaika-black"
           >
-            {t("Logout")}
             <ArrowLeftOnRectangleIcon
               className="cursor-pointer w-7 "
               strokeWidth={5}

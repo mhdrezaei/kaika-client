@@ -27,7 +27,7 @@ import EmployeeExcelExport from "../excel/EmployeeExcelExport";
 
 const CompareChart: React.FC<ICompareChart> = ({ color }) => {
   const workersId = useLocation().state.selectedWorkers;
-  const { i18n , t } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const [date, setDate] = useState({
     from: new Date().toDateString(),
@@ -42,12 +42,7 @@ const CompareChart: React.FC<ICompareChart> = ({ color }) => {
     })
   );
   const [period, setPeriod] = useState("day");
-  // const dateRef = useRef<HTMLInputElement>();
-  // const handleInterviewDateClick = () => {
-  //   dateRef.current?.showPicker();
-  // };
-  // (dateRef.current)&&dateRef.current.datepicker({dateFormat: 'yy'})
-  // console.log(dateRef.current && dateRef.current.);
+
   const mutation = useMutation({
     mutationFn:
       i18n.language === "fa" && period === "year"
@@ -131,7 +126,11 @@ const CompareChart: React.FC<ICompareChart> = ({ color }) => {
             </Typography>
           </div>
         )}
-        <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
+        <div
+          className={`${
+            i18n.language === "fa" ? "lg:mr-auto" : "lg:ml-auto"
+          } flex flex-wrap items-center  lg:justify-center justify-evenly gap-4`}
+        >
           <div className="">
             {/* <CalendarDaysIcon
                   className="w-12 text-white"

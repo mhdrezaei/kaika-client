@@ -10,10 +10,12 @@ import { useQuery } from "react-query";
 import { userAction } from "../redux/slice/user-slice";
 import { getCurrentUser } from "../service/api";
 import { alertActive } from "../util/alertActive";
+import { useTranslation } from "react-i18next";
 
 const Layout: React.FC<PropsWithChildren<ILayout>> = ({ children, routes }) => {
   const dispatch = useAppDispatch();
   const sidebarState = useAppSelector((state) => state.sidebar);
+  const { i18n } = useTranslation();
 
   useQuery("user", getCurrentUser, {
     select: (data) => data.data,
@@ -42,7 +44,11 @@ const Layout: React.FC<PropsWithChildren<ILayout>> = ({ children, routes }) => {
         // onClick={() => dispatch(sidebarAction.close())}
       >
         <Sidebar routes={routes} />
-        <div className="xl:ml-[19rem] flex flex-col gap-10">
+        <div
+          className={`${
+            i18n.language === "fa" ? "xl:mr-[19rem]" : "xl:ml-[19rem]"
+          } flex flex-col gap-10`}
+        >
           <Navbar routes={routes} />
           <div className="lg:p-4 p-1">
             {children}

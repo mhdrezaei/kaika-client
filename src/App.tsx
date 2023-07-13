@@ -30,8 +30,7 @@ import AlertMessage from "./components/AlertMessage";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 function App() {
-  
-
+  const { i18n } = useTranslation();
   const userState = useAppSelector(selectUser);
 
   const router = createBrowserRouter(
@@ -98,7 +97,7 @@ function App() {
   );
 
   return (
-    <div className="h-screen">
+    <div className={`h-screen`} dir={i18n.language === "fa" ? "rtl" : "ltr"}>
       <RouterProvider router={router} />
       <AlertMessage />
     </div>

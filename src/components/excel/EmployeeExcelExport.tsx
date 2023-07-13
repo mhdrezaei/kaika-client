@@ -56,11 +56,9 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
   const {
     i18n: { language },
   } = useTranslation();
-  console.log(data, employee);
 
   const exportHandler = async () => {
     function getBase64Image(img) {
-      console.log(img.width, img.height);
       const canvas = document.createElement("canvas");
       canvas.width = img.naturalWidth;
       canvas.height = img.naturalHeight;
@@ -72,7 +70,6 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
     // const img=new Image()
 
     const base64 = getBase64Image(document.getElementById("imageid"));
-    console.log(base64);
     const wb = new ExcelJS.Workbook();
     const sheet = wb.addWorksheet(period);
     const imageId = wb.addImage({

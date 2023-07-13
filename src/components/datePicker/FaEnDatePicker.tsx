@@ -68,8 +68,6 @@ const FaEnDatePicker = ({ period, setDate }) => {
         break;
     }
 
-    console.log(from, to);
-
     setDate({ from, to });
   };
 

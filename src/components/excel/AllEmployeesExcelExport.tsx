@@ -53,7 +53,6 @@ const AllEmployeesExcelExport = ({ data, period }) => {
   const {
     i18n: { language },
   } = useTranslation();
-  console.log(data, period, language);
 
   const exportHandler = () => {
     const wb = new ExcelJS.Workbook();

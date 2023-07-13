@@ -212,7 +212,6 @@ export const last10Caution = async () => {
 };
 
 export const top10lowCaution = async (query: string) => {
-  console.log(query);
   return axios.get<ITop10LowCautios[]>("/chart/top10LowCautionOfUser?" + query);
 };
 

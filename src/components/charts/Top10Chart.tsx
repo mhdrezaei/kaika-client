@@ -22,7 +22,6 @@ import SelectPeriod from "../datePicker/SelectPeriod";
 import FaEnDatePicker from "../datePicker/FaEnDatePicker";
 import { useTranslation } from "react-i18next";
 
-
 const Top10Chart: React.FC<ITop10Chart> = ({
   requestFunc,
   color,
@@ -34,7 +33,7 @@ const Top10Chart: React.FC<ITop10Chart> = ({
     to: new Date(new Date().setDate(new Date().getDate() + 1)).toDateString(),
   });
 
-  const {t} = useTranslation()
+  const { t, i18n } = useTranslation();
 
   const [period, setPeriod] = useState("day");
 
@@ -53,9 +52,7 @@ const Top10Chart: React.FC<ITop10Chart> = ({
     data: mutation.data?.data,
     color,
   });
-
-  console.log(date);
-
+  console.log(mutation.data?.data);
   return (
     <Card className="h-fit w-full bg-kaika-black">
       <CardHeader
@@ -76,7 +73,11 @@ const Top10Chart: React.FC<ITop10Chart> = ({
             {t(description)}
           </Typography>
         </div>
-        <div className="lg:ml-auto flex flex-wrap items-center  lg:justify-center justify-evenly gap-4">
+        <div
+          className={`${
+            i18n.language === "fa" ? "lg:mr-auto" : "lg:ml-auto"
+          } flex flex-wrap items-center  lg:justify-center justify-evenly gap-4`}
+        >
           <div className="">
             {/* <DatePickerEn period={period} setDate={setDate} /> */}
             <FaEnDatePicker period={period} setDate={setDate} />

@@ -41,8 +41,8 @@ import AllWorkersRow from "../../components/table/all-workers/AllWorkersRow";
 import { useTranslation } from "react-i18next";
 
 const AllWorkers = () => {
-  const {t} = useTranslation()
-  const searchLabel = t("Search")
+  const { t, i18n } = useTranslation();
+  const searchLabel = t("Search");
   const [filter, setFilter] = useState<
     IAdminGetAllWorkerOfCurrentUserResponse[]
   >([]);
@@ -109,7 +109,9 @@ const AllWorkers = () => {
                 ].map((el) => (
                   <th
                     key={el.toString()}
-                    className="border-b border-blue-gray-50 py-3 px-5 text-left"
+                    className={`border-b border-blue-gray-50 py-3 px-5 ${
+                      i18n.language === "fa" ? "text-right" : "text-left"
+                    }`}
                   >
                     <Typography
                       variant="small"
@@ -157,7 +159,9 @@ const AllWorkers = () => {
               {isSearch && filter.length === 0 ? (
                 <tr className="absolute top-1/2 left-1/2 -translate-x-1/2 ">
                   <td>
-                    <p className="text-lg text-red-600">{t("No-Items-Founded")}</p>
+                    <p className="text-lg text-red-600">
+                      {t("No-Items-Founded")}
+                    </p>
                   </td>
                 </tr>
               ) : (
@@ -180,10 +184,16 @@ const AllWorkers = () => {
             />
             <MagnifyingGlassIcon
               color="white"
-              className="absolute right-4 top-3 w-5 h-5"
+              className={`absolute top-3 w-5 h-5 ${
+                i18n.language === "fa" ? "left-4" : "right-4"
+              }`}
             />
           </div>
-          <div className="flex gap-3 ml-auto mt-3 md:mt-0">
+          <div
+            className={`flex gap-3 mt-3 md:mt-0 ${
+              i18n.language === "fa" ? "mr-auto" : "ml-auto"
+            }`}
+          >
             <Button
               variant="gradient"
               onClick={() =>
@@ -202,7 +212,9 @@ const AllWorkers = () => {
               color="amber"
               onClick={() => setIsShowJustAlertEmployees((prev) => !prev)}
             >
-              {isShowJustAlertEmployees ? t("All Employees") : t("Low Alertness")}
+              {isShowJustAlertEmployees
+                ? t("All Employees")
+                : t("Low Alertness")}
             </Button>
             <Button
               variant="gradient"

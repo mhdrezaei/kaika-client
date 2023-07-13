@@ -157,3 +157,12 @@ body {
   filter: invert(1);
   /* color-scheme: dark; */
 }
+
+/* @layer utilities {
+  .rtl {
+    direction: rtl;
+  }
+  .ltr {
+    direction: ltr;
+  }
+} */
