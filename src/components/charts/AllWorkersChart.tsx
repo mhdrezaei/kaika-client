@@ -123,7 +123,7 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
                 <ClockLoader color="#fff" size={24} />
               </div>
             ) : (
-              "Apply"
+              t("Apply")
             )}
           </Button>
         </div>
