@@ -2,6 +2,7 @@ import React from "react";
 import ExcelJS from "exceljs";
 import { Button } from "@material-tailwind/react";
 import { useTranslation } from "react-i18next";
+import { t } from "i18next"
 const dayOfWeekEn = [
   "Sunday",
   "Monday",
@@ -359,7 +360,7 @@ const AllEmployeesExcelExport = ({ data, period }) => {
         onClick={exportHandler}
         color="green"
       >
-        Export
+        {t("Export")}
       </Button>
     </div>
   );
