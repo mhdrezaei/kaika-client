@@ -3,8 +3,6 @@ import { langs } from "../../data/enums";
 import i18next from "i18next";
 import { useState } from "react"
 import {GlobeAltIcon} from "@heroicons/react/24/outline"
-import FaFlag from '/assets/flags/fa.svg'
-import EnFlag from '/assets/flags/en.svg'
 
 
 function LangSelector() {
@@ -22,13 +20,14 @@ function LangSelector() {
   return (
     <>
     <div className="relative">
-   <Button onClick={dropDownHandler} size="sm"  className="text-center px-1 py-1 bg-blue-gray-500"><GlobeAltIcon className="w-6 h-6" color="white"/> </Button>
-   <ul  className={` ${isOpen ? "scale-100" : "scale-0"} absolute bg-white rounded-md text-gray-800 p-1 transition-all duration-75 ease-linear origin-top-left `}>
+   <Button variant="text"
+            color="blue-gray" onClick={dropDownHandler}  className="flex capitalize items-center p-1 font-bold text-kaika-black hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30 "><GlobeAltIcon className="cursor-pointer w-7"/> </Button>
+   <ul  className={` ${isOpen ? "scale-100" : "scale-0" } ${i18next.language === "en" ? "origin-top-right" : "origin-top-left"} absolute bg-white rounded-md text-gray-800 p-1 transition-all duration-75 ease-linear  `}>
     <li onClick={()=> langHandler(langs.en)}  className="cursor-pointer py-1 px-2 rounded-md hover:bg-blue-gray-500 hover:text-gray-300">
-   <span className="flex justify-center items-center gap-2 py-1 px-4"><img src={EnFlag} width={20} height={20} /> En </span>
+   <span className="flex justify-center items-center gap-2 py-1 px-4"> En </span>
       </li>
     <li onClick={()=> langHandler(langs.fa)} className="cursor-pointer py-1 px-2 rounded-md hover:bg-blue-gray-500 hover:text-gray-300">
-    <span className="flex justify-center items-center gap-2 py-1 px-4"><img src={FaFlag} width={20} height={20} /> Fa </span>
+    <span className="flex justify-center items-center gap-2 py-1 px-4"> Fa </span>
     </li>
    </ul>
     </div>
