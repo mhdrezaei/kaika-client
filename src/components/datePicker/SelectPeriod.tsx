@@ -3,9 +3,9 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 const SelectPeriod = ({ period, setPeriod, setDate }) => {
-  const {t} = useTranslation();
-  const label = t("Period")
-   return (
+  const { t } = useTranslation();
+  const label = t("Period");
+  return (
     <div className="[&>div]:min-w-[100px]">
       <Select
         className=""

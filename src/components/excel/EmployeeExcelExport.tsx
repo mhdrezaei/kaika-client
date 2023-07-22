@@ -1,10 +1,7 @@
-import React from "react";
 import ExcelJS from "exceljs";
 import { Button } from "@material-tailwind/react";
 import { useTranslation } from "react-i18next";
-import { readFileSync } from "fs";
-import api from "../../lib/axiso";
-import { baseUrl } from "../../data/constants";
+
 const dayOfWeekEn = [
   "Sunday",
   "Monday",
@@ -67,7 +64,6 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
       const dataURL = canvas.toDataURL("image/png");
       return dataURL;
     }
-    // const img=new Image()
 
     const base64 = getBase64Image(document.getElementById("imageid"));
     const wb = new ExcelJS.Workbook();
@@ -76,27 +72,27 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
       base64: base64,
       extension: "png",
     });
-    // const imageId = wb.addImage({
-    //   buffer: readFileSync("H:\\20180222_023038.jpg"),
-    //   extension: "jpeg",
-    // });
-    // filename: "H:\\20180222_023038.jpg",
-    // extension: "jpeg",
 
-    sheet.addImage(imageId, "A1:A1");
+    // sheet.addImage(imageId, "B2:B2");
+    sheet.addImage(imageId, {
+      tl: { col: 1, row: 1 },
+      ext: { height: 65, width: 65 },
+    });
 
     switch (period) {
       case "day": {
         sheet.addRows([
           [
             "",
-            `${employee.firstName} ${employee.lastName}\n (${employee.job})`,
-            `${new Date(data[0].date).toLocaleDateString(
-              language === "en" ? "fr" : "fa"
-            )} \n${(
+            `           ${employee.firstName} ${employee.lastName} (${employee.job})`,
+            `${(
               new Date().getFullYear() -
               new Date(employee.birthDate).getFullYear()
-            ).toLocaleString(language === "en" ? "en" : "fa")} years old`,
+            ).toLocaleString(
+              language === "en" ? "en" : "fa"
+            )} years old ${new Date(data[0].date).toLocaleDateString(
+              language === "en" ? "fr" : "fa"
+            )}`,
           ],
           ["", "Test Time", "Mental Alertness"],
           ...data.map((row) => [
@@ -123,9 +119,15 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
               alignment: { horizontal: "center", vertical: "middle" },
               border: {
                 top: { color: { argb: "000" }, style: "medium" },
-                left: { color: { argb: "000" }, style: "medium" },
+                left:
+                  rowNumber === 1 && cellNumber === 3
+                    ? undefined
+                    : { color: { argb: "000" }, style: "medium" },
                 bottom: { color: { argb: "000" }, style: "medium" },
-                right: { color: { argb: "000" }, style: "medium" },
+                right:
+                  rowNumber === 1 && cellNumber === 2
+                    ? undefined
+                    : { color: { argb: "000" }, style: "medium" },
               },
               fill: {
                 type: "pattern",
@@ -147,10 +149,10 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
           };
         });
 
-        sheet.getColumn(2).width = 30;
-        sheet.getColumn(3).width = 30;
+        sheet.getColumn(2).width = 50;
+        sheet.getColumn(3).width = 50;
 
-        sheet.insertRow(1, []);
+        sheet.insertRow(1, [], "");
         break;
       }
 
@@ -158,15 +160,17 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
         sheet.addRows([
           [
             "",
-            `${employee.firstName} ${employee.lastName}\n (${employee.job})`,
-            `${new Date(data[0].date).toLocaleDateString(
+            `           ${employee.firstName} ${employee.lastName} (${employee.job})`,
+            `${(
+              new Date().getFullYear() -
+              new Date(employee.birthDate).getFullYear()
+            ).toLocaleString(
+              language === "en" ? "en" : "fa"
+            )} years old ${new Date(data[0].date).toLocaleDateString(
               language === "en" ? "fr" : "fa"
             )} - ${new Date(data[data.length - 1].date).toLocaleDateString(
               language === "en" ? "fr" : "fa"
-            )} \n${(
-              new Date().getFullYear() -
-              new Date(employee.birthDate).getFullYear()
-            ).toLocaleString(language === "en" ? "en" : "fa")} years old`,
+            )}`,
           ],
           ["", "Test Date", "Mental Alertness"],
           ...data.map((row) => [
@@ -199,9 +203,15 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
               alignment: { horizontal: "center", vertical: "middle" },
               border: {
                 top: { color: { argb: "000" }, style: "medium" },
-                left: { color: { argb: "000" }, style: "medium" },
+                left:
+                  rowNumber === 1 && cellNumber === 3
+                    ? undefined
+                    : { color: { argb: "000" }, style: "medium" },
                 bottom: { color: { argb: "000" }, style: "medium" },
-                right: { color: { argb: "000" }, style: "medium" },
+                right:
+                  rowNumber === 1 && cellNumber === 2
+                    ? undefined
+                    : { color: { argb: "000" }, style: "medium" },
               },
               fill: {
                 type: "pattern",
@@ -211,6 +221,15 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
             };
           });
         });
+        // sheet.eachRow((row, rowNumber) => {
+        //   // row.eachCell((cell, cellNumber) => {
+        //   //   if (cellNumber === 2 && rowNumber >= 2) {
+        //   //     console.log(cell.address, row.getCell(cellNumber + 1).$col$row);
+        //   // cell.merge(row.getCell(cellNumber - 1));
+        //   sheet.mergeCells(rowNumber, 1, rowNumber, 2);
+        //   // }
+        //   // });
+        // });
 
         const header = sheet.getRow(1);
         header.eachCell((cell, cellNumber) => {
@@ -223,8 +242,8 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
           };
         });
 
-        sheet.getColumn(2).width = 30;
-        sheet.getColumn(3).width = 30;
+        sheet.getColumn(2).width = 50;
+        sheet.getColumn(3).width = 50;
 
         sheet.insertRow(1, []);
         break;
@@ -234,8 +253,11 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
         sheet.addRows([
           [
             "",
-            `${employee.firstName} ${employee.lastName} \n(${employee.job})`,
-            `${
+            `           ${employee.firstName} ${employee.lastName} (${employee.job})`,
+            `${(
+              new Date().getFullYear() -
+              new Date(employee.birthDate).getFullYear()
+            ).toLocaleString(language === "en" ? "en" : "fa")} years old ${
               language === "en"
                 ? monthOfYearEn[new Date(data[0].date).getMonth()]
                 : monthOfYearFa[
@@ -243,10 +265,7 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
                       .toLocaleDateString("fa-IR-u-nu-latn")
                       .split("/")[1] - 1
                   ]
-            } \n${(
-              new Date().getFullYear() -
-              new Date(employee.birthDate).getFullYear()
-            ).toLocaleString(language === "en" ? "en" : "fa")} years old`,
+            }`,
           ],
           ["", "Test Date", "Mental Alertness"],
           ...data.map((row) => [
@@ -275,9 +294,15 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
               alignment: { horizontal: "center", vertical: "middle" },
               border: {
                 top: { color: { argb: "000" }, style: "medium" },
-                left: { color: { argb: "000" }, style: "medium" },
+                left:
+                  rowNumber === 1 && cellNumber === 3
+                    ? undefined
+                    : { color: { argb: "000" }, style: "medium" },
                 bottom: { color: { argb: "000" }, style: "medium" },
-                right: { color: { argb: "000" }, style: "medium" },
+                right:
+                  rowNumber === 1 && cellNumber === 2
+                    ? undefined
+                    : { color: { argb: "000" }, style: "medium" },
               },
               fill: {
                 type: "pattern",
@@ -299,8 +324,8 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
           };
         });
 
-        sheet.getColumn(2).width = 30;
-        sheet.getColumn(3).width = 30;
+        sheet.getColumn(2).width = 50;
+        sheet.getColumn(3).width = 50;
 
         sheet.insertRow(1, []);
         break;
@@ -310,18 +335,18 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
         sheet.addRows([
           [
             "",
-            `${employee.firstName} ${employee.lastName}\n (${employee.job})`,
-            `${
+            `           ${employee.firstName} ${employee.lastName} (${employee.job})`,
+            `${(
+              new Date().getFullYear() -
+              new Date(employee.birthDate).getFullYear()
+            ).toLocaleString(language === "en" ? "en" : "fa")} years old ${
               language === "en"
                 ? new Date(data[0].date).getFullYear()
                 : (+data[0].date.split("-")[0])
                     .toLocaleString("fa")
                     .split("٬")
                     .join("")
-            } \n${(
-              new Date().getFullYear() -
-              new Date(employee.birthDate).getFullYear()
-            ).toLocaleString(language === "en" ? "en" : "fa")} years old`,
+            }`,
           ],
           ["", "Test Date", "Mental Alertness"],
           ...data.map((row) => [
@@ -350,9 +375,15 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
               alignment: { horizontal: "center", vertical: "middle" },
               border: {
                 top: { color: { argb: "000" }, style: "medium" },
-                left: { color: { argb: "000" }, style: "medium" },
+                left:
+                  rowNumber === 1 && cellNumber === 3
+                    ? undefined
+                    : { color: { argb: "000" }, style: "medium" },
                 bottom: { color: { argb: "000" }, style: "medium" },
-                right: { color: { argb: "000" }, style: "medium" },
+                right:
+                  rowNumber === 1 && cellNumber === 2
+                    ? undefined
+                    : { color: { argb: "000" }, style: "medium" },
               },
               fill: {
                 type: "pattern",
@@ -374,8 +405,8 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
           };
         });
 
-        sheet.getColumn(2).width = 30;
-        sheet.getColumn(3).width = 30;
+        sheet.getColumn(2).width = 50;
+        sheet.getColumn(3).width = 50;
 
         sheet.insertRow(1, []);
         break;
@@ -392,7 +423,8 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
       const url = window.URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = "download.xlsx";
+      anchor.download =
+        employee.firstName + "-" + employee.lastName + "-" + period + ".xlsx";
       anchor.click();
       window.URL.revokeObjectURL(url);
     });

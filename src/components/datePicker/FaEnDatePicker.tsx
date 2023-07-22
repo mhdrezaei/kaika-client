@@ -3,6 +3,8 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import DatePicker from "react-multi-date-picker";
 import { useTranslation } from "react-i18next";
+import { Input } from "@material-tailwind/react";
+import InputIcon from "react-multi-date-picker/components/input_icon";
 
 const FaEnDatePicker = ({ period, setDate }) => {
   const [value, setValue] = useState(new Date());
@@ -77,6 +79,7 @@ const FaEnDatePicker = ({ period, setDate }) => {
   return (
     <div>
       <DatePicker
+        render={<Input label="Date" className="text-white" />}
         placeholder="Choose Date"
         inputClass={className}
         onChange={datePickerHandler}
