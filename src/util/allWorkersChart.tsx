@@ -82,11 +82,16 @@ const createSeries = ({
               ? lang === "en"
                 ? dayOfWeekEn[new Date(dataPerDate.date).getDay()]
                 : dayOfWeekFa[new Date(dataPerDate.date).getDay()]
-              : period === "month" && lang === "fa"
-              ? new Date(dataPerDate.date)
-                  .toLocaleDateString("fa-IR-u-nu-latn")
-                  .split("/")
-                  .join("-")
+              : period === "month"
+              ? lang === "fa"
+                ? new Date(dataPerDate.date)
+                    .toLocaleDateString("fa-IR-u-nu-latn")
+                    .split("/")
+                    .join("-")
+                : new Date(dataPerDate.date)
+                    .toLocaleDateString("fr")
+                    .split("/")
+                    .join("-")
               : dataPerDate.date,
           y: dataPerDate.average,
         };

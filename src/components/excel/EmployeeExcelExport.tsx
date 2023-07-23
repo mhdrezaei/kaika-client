@@ -52,6 +52,7 @@ const monthOfYearFa = [
 const EmployeeExcelExport = ({ data, period, employee }) => {
   const {
     i18n: { language },
+    t,
   } = useTranslation();
 
   const exportHandler = async () => {
@@ -79,6 +80,10 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
       ext: { height: 65, width: 65 },
     });
 
+    const average = (
+      data.reduce((total, row) => total + parseInt(row.avg), 0) / data.length
+    ).toFixed(2);
+
     switch (period) {
       case "day": {
         sheet.addRows([
@@ -88,22 +93,23 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
             `${(
               new Date().getFullYear() -
               new Date(employee.birthDate).getFullYear()
-            ).toLocaleString(
-              language === "en" ? "en" : "fa"
-            )} years old ${new Date(data[0].date).toLocaleDateString(
+            ).toLocaleString(language === "en" ? "en" : "fa")} ${t(
+              "Age"
+            )} ${new Date(data[0].date).toLocaleDateString(
               language === "en" ? "fr" : "fa"
             )}`,
           ],
-          ["", "Test Time", "Mental Alertness"],
+          ["", t("Test Time"), t("Mental Alertness")],
           ...data.map((row) => [
             "",
             new Date(row.date).toLocaleTimeString(),
             row.avg,
           ]),
+          ["", t("Average"), average],
         ]);
 
         sheet.eachRow((row, rowNumber) => {
-          if (rowNumber === 1) row.height = 60;
+          if (rowNumber === 1) row.height = 50;
           else row.height = 30;
           row.eachCell((cell, cellNumber) => {
             if (cellNumber === 1) return;
@@ -129,6 +135,7 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
                     ? undefined
                     : { color: { argb: "000" }, style: "medium" },
               },
+              font: { bold: true },
               fill: {
                 type: "pattern",
                 pattern: "solid",
@@ -145,8 +152,9 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
           cell.fill = {
             type: "pattern",
             pattern: "solid",
-            fgColor: { argb: "909090" },
+            fgColor: { argb: "AEAAAA" },
           };
+          cell.alignment.readingOrder = language === "fa" ? "rtl" : "ltr";
         });
 
         sheet.getColumn(2).width = 50;
@@ -164,15 +172,15 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
             `${(
               new Date().getFullYear() -
               new Date(employee.birthDate).getFullYear()
-            ).toLocaleString(
-              language === "en" ? "en" : "fa"
-            )} years old ${new Date(data[0].date).toLocaleDateString(
+            ).toLocaleString(language === "en" ? "en" : "fa")} ${t(
+              "Age"
+            )} ${new Date(data[0].date).toLocaleDateString(
               language === "en" ? "fr" : "fa"
             )} - ${new Date(data[data.length - 1].date).toLocaleDateString(
               language === "en" ? "fr" : "fa"
             )}`,
           ],
-          ["", "Test Date", "Mental Alertness"],
+          ["", t("Test Date"), t("Mental Alertness")],
           ...data.map((row) => [
             "",
             (language === "en"
@@ -184,10 +192,11 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
               ),
             row.avg,
           ]),
+          ["", t("Average"), average],
         ]);
 
         sheet.eachRow((row, rowNumber) => {
-          if (rowNumber === 1) row.height = 60;
+          if (rowNumber === 1) row.height = 50;
           else row.height = 30;
           row.eachCell((cell, cellNumber) => {
             if (cellNumber === 1) return;
@@ -213,6 +222,7 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
                     ? undefined
                     : { color: { argb: "000" }, style: "medium" },
               },
+              font: { bold: true },
               fill: {
                 type: "pattern",
                 pattern: "solid",
@@ -238,8 +248,9 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
           cell.fill = {
             type: "pattern",
             pattern: "solid",
-            fgColor: { argb: "909090" },
+            fgColor: { argb: "AEAAAA" },
           };
+          cell.alignment.readingOrder = language === "fa" ? "rtl" : "ltr";
         });
 
         sheet.getColumn(2).width = 50;
@@ -257,7 +268,7 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
             `${(
               new Date().getFullYear() -
               new Date(employee.birthDate).getFullYear()
-            ).toLocaleString(language === "en" ? "en" : "fa")} years old ${
+            ).toLocaleString(language === "en" ? "en" : "fa")} ${t("Age")} ${
               language === "en"
                 ? monthOfYearEn[new Date(data[0].date).getMonth()]
                 : monthOfYearFa[
@@ -267,7 +278,7 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
                   ]
             }`,
           ],
-          ["", "Test Date", "Mental Alertness"],
+          ["", t("Test Date"), t("Mental Alertness")],
           ...data.map((row) => [
             "",
             new Date(row.date).toLocaleDateString(
@@ -275,10 +286,11 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
             ),
             row.avg,
           ]),
+          ["", t("Average"), average],
         ]);
 
         sheet.eachRow((row, rowNumber) => {
-          if (rowNumber === 1) row.height = 60;
+          if (rowNumber === 1) row.height = 50;
           else row.height = 30;
           row.eachCell((cell, cellNumber) => {
             if (cellNumber === 1) return;
@@ -304,6 +316,7 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
                     ? undefined
                     : { color: { argb: "000" }, style: "medium" },
               },
+              font: { bold: true },
               fill: {
                 type: "pattern",
                 pattern: "solid",
@@ -320,8 +333,9 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
           cell.fill = {
             type: "pattern",
             pattern: "solid",
-            fgColor: { argb: "909090" },
+            fgColor: { argb: "AEAAAA" },
           };
+          cell.alignment.readingOrder = language === "fa" ? "rtl" : "ltr";
         });
 
         sheet.getColumn(2).width = 50;
@@ -339,7 +353,7 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
             `${(
               new Date().getFullYear() -
               new Date(employee.birthDate).getFullYear()
-            ).toLocaleString(language === "en" ? "en" : "fa")} years old ${
+            ).toLocaleString(language === "en" ? "en" : "fa")} ${t("Age")} ${
               language === "en"
                 ? new Date(data[0].date).getFullYear()
                 : (+data[0].date.split("-")[0])
@@ -348,7 +362,7 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
                     .join("")
             }`,
           ],
-          ["", "Test Date", "Mental Alertness"],
+          ["", t("Test Date"), t("Mental Alertness")],
           ...data.map((row) => [
             "",
             language === "en"
@@ -356,10 +370,11 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
               : monthOfYearFa[+row.date.split("-")[1] - 1],
             row.avg,
           ]),
+          ["", t("Average"), average],
         ]);
 
         sheet.eachRow((row, rowNumber) => {
-          if (rowNumber === 1) row.height = 60;
+          if (rowNumber === 1) row.height = 50;
           else row.height = 30;
           row.eachCell((cell, cellNumber) => {
             if (cellNumber === 1) return;
@@ -385,6 +400,7 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
                     ? undefined
                     : { color: { argb: "000" }, style: "medium" },
               },
+              font: { bold: true },
               fill: {
                 type: "pattern",
                 pattern: "solid",
@@ -401,8 +417,9 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
           cell.fill = {
             type: "pattern",
             pattern: "solid",
-            fgColor: { argb: "909090" },
+            fgColor: { argb: "AEAAAA" },
           };
+          cell.alignment.readingOrder = language === "fa" ? "rtl" : "ltr";
         });
 
         sheet.getColumn(2).width = 50;
@@ -415,6 +432,8 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
       default:
         break;
     }
+
+    sheet.views = [{ showGridLines: false, rightToLeft: language === "fa" }];
 
     wb.xlsx.writeBuffer().then((data) => {
       const blob = new Blob([data], {
@@ -436,7 +455,7 @@ const EmployeeExcelExport = ({ data, period, employee }) => {
         onClick={exportHandler}
         color="green"
       >
-        Export
+        {t("Export")}
       </Button>
     </div>
   );

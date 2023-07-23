@@ -79,11 +79,16 @@ const createSeries = ({
               ? lang === "en"
                 ? dayOfWeekEn[new Date(avg.date).getDay()]
                 : dayOfWeekFa[new Date(avg.date).getDay()]
-              : period === "month" && lang === "fa"
-              ? new Date(avg.date)
-                  .toLocaleDateString("fa-IR-u-nu-latn")
-                  .split("/")
-                  .join("-")
+              : period === "month"
+              ? lang === "fa"
+                ? new Date(avg.date)
+                    .toLocaleDateString("fa-IR-u-nu-latn")
+                    .split("/")
+                    .join("-")
+                : new Date(avg.date)
+                    .toLocaleDateString("fr")
+                    .split("/")
+                    .join("-")
               : avg.date,
           y: avg.avg,
         };
@@ -95,13 +100,15 @@ const createSeries = ({
   time = data.map((workerData) =>
     workerData.avgList.map((avg) =>
       period === "year"
-        ? new Date(avg.date).getFullYear() + "-" + lang === "en"
-          ? monthOfYearEn[new Date(avg.date).getMonth()]
-          : monthOfYearFa[new Date(avg.date).getMonth()]
+        ? new Date(avg.date).getFullYear() +
+          "-" +
+          (lang === "en"
+            ? monthOfYearEn[new Date(avg.date).getMonth()]
+            : monthOfYearFa[new Date(avg.date).getMonth()])
         : period === "day"
         ? new Date(avg.date).toLocaleString(lang === "en" ? "fr" : "fa")
         : lang === "en"
-        ? avg.date
+        ? new Date(avg.date).toLocaleDateString("fr")
         : new Date(avg.date).toLocaleDateString("fa")
     )
   );
@@ -158,12 +165,12 @@ export const compareWorkersOptions = ({
         type: period === "day" ? "datetime" : "category",
 
         // type: period === "day" ? "datetime" : "category",
-        labels: {
-          style: {
-            colors: "#fff",
-            cssClass: className,
-          },
-        },
+        // labels: {
+        //   style: {
+        //     colors: "#fff",
+        //     cssClass: className,
+        //   },
+        // },
         tooltip: { enabled: false },
       },
       grid: {

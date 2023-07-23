@@ -82,7 +82,7 @@ const AllWorkersChart: React.FC<IAllWorkersChart> = ({
         className="h-[500px]"
       >
         {mutation.isSuccess && !mutation.isLoading && (
-          <Chart {...options.chart} />
+          <Chart {...options.chart} dir="ltr" />
         )}
       </CardHeader>
       <CardBody className="p-6 md:flex flex-col lg:flex-row">
