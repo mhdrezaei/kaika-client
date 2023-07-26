@@ -13,10 +13,11 @@ i18n
     fallbackLng: "en",
     detection: {
       order: ["cookie", "localStorage", "htmlTag"],
-      caches: ["cookie" ,"localStorage"],
+      caches: ["cookie", "localStorage"],
     },
     backend: {
-      loadPath:  window.location.protocol + "/src/i18next/languages/{{lng}}/translation.json",
+      loadPath:
+        window.location.protocol + "/assets/languages/{{lng}}/translation.json",
     },
     react: { useSuspense: false },
   });
