@@ -53,9 +53,12 @@ const UserInfo = () => {
   ) => {
     setImage(image);
   };
-  const removeImage = () => {
+  const removeImage = (event) => {
     setImage(undefined);
+    if(event){
+      event.target.value = null
   };
+}
 
   const {
     register,
@@ -180,6 +183,7 @@ const UserInfo = () => {
                       className="hidden"
                       disabled={isSubmitting}
                       onChange={imgFilehandler}
+                      onClick={removeImage}
                     />
                     {image ? (
                       <CropImage

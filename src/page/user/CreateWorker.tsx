@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { InputHTMLAttributes, useState } from "react";
 import InputBox from "../../components/common/InputBox";
 import { useForm } from "react-hook-form";
 import { string, z } from "zod";
@@ -28,7 +28,7 @@ type WorkerFormSchemaType = z.infer<typeof WorkerFormSchema>;
 const CreateWorker = () => {
   const {t} = useTranslation()
   const [image, setImage] = useState<File>();
-
+  
   const {
     register,
     handleSubmit,
@@ -41,6 +41,7 @@ const CreateWorker = () => {
   const imgFilehandler: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
+    
     if (event.target.files) {
       setImage(event.target.files[0]);
     }
@@ -50,9 +51,16 @@ const CreateWorker = () => {
   ) => {
     setImage(image);
   };
-  const removeImage = () => {
+  const removeImage = (event) => {
     setImage(undefined);
+    if(event){
+      event.target.value = null
+    }
+    
+    
+    
   };
+  
   const uploadImg = useMutation({
     mutationKey: "worker upload image",
     mutationFn: uploadImageWorker,
@@ -77,7 +85,6 @@ const CreateWorker = () => {
   const onSubmit = (values: IcreateWorkerCurrentUserRequest) => {
     mutate(values);
   };
-
   return (
     <div className="w-full flex justify-center items-center rounded-md">
       <div className="2-full md:w-3/4 mx-auto   ">
@@ -146,6 +153,7 @@ const CreateWorker = () => {
                       className="hidden"
                       disabled={isSubmitting}
                       onChange={imgFilehandler}
+                      onClick={removeImage}
                     />
                     {image ? (
                       <CropImage

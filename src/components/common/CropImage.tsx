@@ -88,7 +88,7 @@ const CropImage = (props) => {
                   
                   <Button
                 variant="gradient"
-                type="submit"
+                // type="submit"
                 color="red"
                 ripple={true}
                 size="md"
@@ -97,7 +97,7 @@ const CropImage = (props) => {
                 >{t("Close")}</Button>
                   <Button
                 variant="gradient"
-                type="submit"
+                // type="submit"
                 color="orange"
                 ripple={true}
                 size="md"

@@ -106,8 +106,11 @@ const WorkerInfo = () => {
   ) => {
     setImage(image);
   };
-  const removeImage = () => {
+  const removeImage = (event) => {
     setImage(undefined);
+    if(event){
+      event.target.value = null
+  };
   };
 
   const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -208,6 +211,7 @@ const WorkerInfo = () => {
                         className="hidden"
                         disabled={isSubmitting}
                         onChange={imgFilehandler}
+                        onClick={removeImage}
                       />
                       {image ? (
                         <CropImage
